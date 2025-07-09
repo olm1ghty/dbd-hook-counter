@@ -123,26 +123,6 @@ namespace DBDtimer
             this.Activated += MainForm_Activated;
         }
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-
-            var svg = SvgDocument.Open(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\both hooks.svg");
-            svg.Width = this.Width;
-            svg.Height = this.Height;
-
-            // Create a transparent bitmap
-            using (var bmp = new Bitmap(this.Width, this.Height, PixelFormat.Format32bppArgb))
-            using (var g = Graphics.FromImage(bmp))
-            {
-                g.Clear(Color.Transparent); // ensures real alpha
-                svg.Draw(g); // render directly to transparent surface
-
-                e.Graphics.CompositingMode = CompositingMode.SourceOver;
-                e.Graphics.DrawImage(bmp, 0, 0);
-            }
-        }
-
         private void StartHookDetection()
         {
             screenMonitorTimer = new System.Timers.Timer(checkIntervalMs);
@@ -625,26 +605,12 @@ namespace DBDtimer
             this.timer.Tick += Timer_Tick;
         }
 
-        protected override void OnPaintBackground(PaintEventArgs e)
-        {
-            // Clear with transparent color (ARGB: A=0)
-            e.Graphics.Clear(Color.FromArgb(0, 0, 0, 0));
-        }
-
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
 
             //Draw the timer text on the control
-            //e.Graphics.DrawString(seconds.ToString(), this.Font, new SolidBrush(this.ForeColor), Point.Empty);
-
-            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            e.Graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-
-            using (Brush textBrush = new SolidBrush(this.ForeColor))
-            {
-                e.Graphics.DrawString(seconds.ToString(), this.Font, textBrush, Point.Empty);
-            }
+            e.Graphics.DrawString(seconds.ToString(), this.Font, new SolidBrush(this.ForeColor), Point.Empty);
         }
 
 

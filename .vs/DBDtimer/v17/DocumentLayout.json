@@ -1,12 +1,54 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|c:\\users\\user\\desktop\\other development\\dbdtimer\\dbd-hook-counter\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|solutionrelative:mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|c:\\users\\user\\desktop\\other development\\dbdtimer\\dbd-hook-counter\\hookstagecounter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|solutionrelative:hookstagecounter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HookStageCounter.cs",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\HookStageCounter.cs",
+              "RelativeDocumentMoniker": "HookStageCounter.cs",
+              "ToolTip": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\HookStageCounter.cs",
+              "RelativeToolTip": "HookStageCounter.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAABUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T09:19:36.138Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainForm.cs",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\MainForm.cs",
+              "RelativeDocumentMoniker": "MainForm.cs",
+              "ToolTip": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\MainForm.cs",
+              "RelativeToolTip": "MainForm.cs",
+              "ViewState": "AQIAAE0AAAAAAAAAAAAAAGMCAAAwAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T09:17:43.881Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }
