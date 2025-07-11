@@ -65,14 +65,16 @@ namespace DBDtimer
 
         public MainForm()
         {
-            InitializeComponent();
+            FormBorderStyle = FormBorderStyle.None;
+            ShowInTaskbar = false;
+            TopMost = true;
+            Width = 300;
+            Height = 100;
+            StartPosition = FormStartPosition.CenterScreen;
 
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.AllowTransparency = true;
-            this.BackColor = Color.Magenta;            // Any unique color
-            this.TransparencyKey = Color.Magenta;      // Same as BackColor
-            this.TopMost = true;                       // Optional overlay behavior
-            this.DoubleBuffered = true;
+            // Use WS_EX_LAYERED to enable per-pixel alpha
+            int initialStyle = NativeMethods.GetWindowLong(Handle, NativeMethods.GWL_EXSTYLE);
+            NativeMethods.SetWindowLong(Handle, NativeMethods.GWL_EXSTYLE, initialStyle | NativeMethods.WS_EX_LAYERED | NativeMethods.WS_EX_TRANSPARENT);
 
             hookedTemplate = new Image<Bgr, byte>(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\States\Hooked.png");
             nextStageTemplate = new Image<Bgr, byte>(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\States\next_stage.png");
@@ -82,10 +84,10 @@ namespace DBDtimer
 
             survivors = new Survivor[]
             {
-                new Survivor(0, this),
-                new Survivor(1, this),
-                new Survivor(2, this),
-                new Survivor(3, this)
+                //new Survivor(0, this),
+                //new Survivor(1, this),
+                //new Survivor(2, this),
+                //new Survivor(3, this)
             };
 
             //LaunchDBD();
@@ -121,27 +123,60 @@ namespace DBDtimer
 
             // Handle the Activated event to ensure the form stays on top
             this.Activated += MainForm_Activated;
+            RenderToLayeredWindow();
         }
 
-        protected override void OnPaint(PaintEventArgs e)
+        protected override CreateParams CreateParams
         {
-            base.OnPaint(e);
-
-            var svg = SvgDocument.Open(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\both hooks.svg");
-            svg.Width = this.Width;
-            svg.Height = this.Height;
-
-            // Create a transparent bitmap
-            using (var bmp = new Bitmap(this.Width, this.Height, PixelFormat.Format32bppArgb))
-            using (var g = Graphics.FromImage(bmp))
+            get
             {
-                g.Clear(Color.Transparent); // ensures real alpha
-                svg.Draw(g); // render directly to transparent surface
-
-                e.Graphics.CompositingMode = CompositingMode.SourceOver;
-                e.Graphics.DrawImage(bmp, 0, 0);
+                var cp = base.CreateParams;
+                cp.ExStyle |= NativeMethods.WS_EX_LAYERED | NativeMethods.WS_EX_TRANSPARENT;
+                return cp;
             }
         }
+
+        private void RenderToLayeredWindow()
+        {
+            Bitmap bmp = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
+            using (Graphics g = Graphics.FromImage(bmp))
+            {
+                g.Clear(Color.Transparent);
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+
+                // --- draw all SVG hook icons ---
+                for (int i = 0; i < 4; i++)
+                {
+                    //var state = g.Save();
+                    //g.TranslateTransform(hookStageCounterStartX, hookStageCounterStartY + i * hookStageCounterOffset);
+                    var svg = SvgDocument.Open(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\both hooks.svg");
+                    svg.Width = new SvgUnit(SvgUnitType.Pixel, 40);
+                    svg.Height = new SvgUnit(SvgUnitType.Pixel, 40);
+                    svg.Draw(g);
+                    g.FillRectangle(Brushes.Red, 100, 100, 50, 50);
+                    //g.ResetTransform();  // Reset after drawing
+                    //g.Restore(state);
+                }
+
+                // --- draw every running timer ---
+                //for (int i = 0; i < 4; i++)
+                //{
+                //    if (timers[i].Count > 0)
+                //    {
+                //        string txt = timers[i][0].SecondsLeft.ToString();
+                //        using (Font f = new Font("Arial", 28, FontStyle.Bold))
+                //        using (Brush b = new SolidBrush(Color.Red))
+                //        {
+                //            g.DrawString(txt, f, b, 235, 635 + i * 120);
+                //        }
+                //    }
+                //}
+            }
+
+            NativeMethods.SetBitmapToForm(this, bmp);
+        }
+
 
         private void StartHookDetection()
         {
@@ -326,7 +361,7 @@ namespace DBDtimer
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing)
             {
                 // Your existing disposal code...
 
@@ -489,21 +524,21 @@ namespace DBDtimer
 
         private void AddTimer(int seconds, int survivorIndex = -1)
         {
-            TimerControl timer = new TimerControl(seconds);
-            timer.TimerCompleted += Timer_TimerCompleted;
+            //TimerControl timer = new TimerControl(seconds, this);
+            //timer.TimerCompleted += Timer_TimerCompleted;
 
-            if (survivorIndex == -1)
-            {
-                timers[0].Add(timer);
-            }
-            else
-            {
-                timers[survivorIndex].Add(timer);
-            }
+            //if (survivorIndex == -1)
+            //{
+            //    timers[0].Add(timer);
+            //}
+            //else
+            //{
+            //    timers[survivorIndex].Add(timer);
+            //}
 
-            ArrangeTimers();
-            this.Controls.Add(timer);
-            timer.Start();
+            //ArrangeTimers();
+            //this.Controls.Add(timer);
+            //timer.Start();
         }
 
         private void RemoveTimer(int survivorIndex = -1)
@@ -584,22 +619,19 @@ namespace DBDtimer
                 }
             }
         }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 
     public class TimerControl : Control
     {
+        TransparentOverlayForm form;
         private int seconds;
         private System.Windows.Forms.Timer timer;
 
         public event EventHandler TimerCompleted;
 
-        public TimerControl(int seconds)
+        public TimerControl(int seconds, TransparentOverlayForm form)
         {
+            this.form = form;
             this.seconds = seconds;
             this.AutoSize = true;
             this.Font = new Font("Arial", 12);
@@ -625,27 +657,39 @@ namespace DBDtimer
             this.timer.Tick += Timer_Tick;
         }
 
-        protected override void OnPaintBackground(PaintEventArgs e)
-        {
-            // Clear with transparent color (ARGB: A=0)
-            e.Graphics.Clear(Color.FromArgb(0, 0, 0, 0));
-        }
+        //protected override void OnPaintBackground(PaintEventArgs e)
+        //{
+        //    // Clear with transparent color (ARGB: A=0)
+        //    e.Graphics.Clear(Color.FromArgb(0, 0, 0, 0));
+        //}
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
+        //protected override void OnPaint(PaintEventArgs e)
+        //{
+        //    base.OnPaint(e);
 
-            //Draw the timer text on the control
-            //e.Graphics.DrawString(seconds.ToString(), this.Font, new SolidBrush(this.ForeColor), Point.Empty);
+        //    //Draw the timer text on the control
+        //    //e.Graphics.DrawString(seconds.ToString(), this.Font, new SolidBrush(this.ForeColor), Point.Empty);
 
-            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            e.Graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+        //    Bitmap bmp = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
+        //    using (Graphics g = Graphics.FromImage(bmp))
+        //    {
+        //        g.Clear(Color.Transparent);
+        //        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+        //        g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-            using (Brush textBrush = new SolidBrush(this.ForeColor))
-            {
-                e.Graphics.DrawString(seconds.ToString(), this.Font, textBrush, Point.Empty);
-            }
-        }
+        //        // Draw timer
+        //        using (Font font = new Font("Arial", 28, FontStyle.Bold))
+        //        using (Brush brush = new SolidBrush(Color.Red))
+        //        {
+        //            string timeText = seconds.ToString();
+        //            SizeF textSize = g.MeasureString(timeText, font);
+        //            PointF textPos = new PointF((Width - textSize.Width) / 2, (Height - textSize.Height) / 2);
+        //            g.DrawString(timeText, font, brush, textPos);
+        //        }
+        //    }
+
+        //    NativeMethods.SetBitmapToForm(form, bmp);
+        //}
 
 
         public void Start()

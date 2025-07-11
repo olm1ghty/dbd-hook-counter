@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace DBDtimer
 {
-    abstract class SurvivorStateBase
+    abstract public class SurvivorStateBase
     {
-        public abstract void Enter(int index);
-        public abstract void Update(int index, MainForm mainForm);
-        public abstract void Exit();
+        public abstract void Update(int index);
     }
 }

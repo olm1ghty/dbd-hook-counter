@@ -20,41 +20,11 @@ namespace DBDtimer
             }
         }
 
-        public HookStageCounter()
-        {
-            this.SetStyle(ControlStyles.SupportsTransparentBackColor |
-              ControlStyles.UserPaint |
-              ControlStyles.OptimizedDoubleBuffer |
-              ControlStyles.AllPaintingInWmPaint, true);
-
-            this.BackColor = Color.Transparent;
-
-        }
-
-        protected override void OnPaintBackground(PaintEventArgs e)
-        {
-            // Clear with transparent color (ARGB: A=0)
-            e.Graphics.Clear(Color.FromArgb(0, 0, 0, 0));
-        }
-
-
         //protected override void OnPaint(PaintEventArgs e)
         //{
         //    base.OnPaint(e);
 
-        //    //Graphics g = e.Graphics;
-        //    //int circleDiameter = 20;
-        //    //int spacing = 10;
-        //    //int startX = 10;
-
-        //    //for (int i = 0; i < hookStages; i++)
-        //    //{
-        //    //    int x = startX + i * (circleDiameter + spacing);
-        //    //    int y = (Height - circleDiameter) / 2; // Center vertically
-
-        //    //    g.FillEllipse(Brushes.Red, x, y, circleDiameter, circleDiameter);
-        //    //}
-        //    var svg = SvgDocument.Open(@"C:\Users\user\Desktop\Other development\DBDtimer\DBDtimer\resources\both hooks.svg");
+        //    var svg = SvgDocument.Open(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\both hooks.svg");
         //    svg.Width = this.Width;
         //    svg.Height = this.Height;
 
