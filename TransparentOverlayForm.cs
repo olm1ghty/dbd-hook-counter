@@ -7,7 +7,9 @@ using System.Drawing.Text;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using DBDtimer;
+using Emgu.CV.CvEnum;
 using Svg;
+using Svg.Transforms;
 using Timer = System.Windows.Forms.Timer;
 
 public class TransparentOverlayForm : Form
@@ -23,6 +25,10 @@ public class TransparentOverlayForm : Form
     private int hookStageCounterStartX = 295;
     private int hookStageCounterStartY = 640;
     private int hookStageCounterOffset = 120;
+
+    SvgDocument hookCounterSVG = SvgDocument.Open(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\both hooks.svg");
+    Graphics graphics;
+    Bitmap bmp;
 
     public TransparentOverlayForm()
     {
@@ -58,7 +64,16 @@ public class TransparentOverlayForm : Form
             new Survivor(3, this)
         };
 
-        RenderToLayeredWindow();
+        bmp = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
+        graphics = Graphics.FromImage(bmp);
+        graphics.Clear(Color.Transparent);
+        graphics.SmoothingMode = SmoothingMode.AntiAlias;
+        graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+
+        hookCounterSVG.Width = new SvgUnit(SvgUnitType.Pixel, 40);
+        hookCounterSVG.Height = new SvgUnit(SvgUnitType.Pixel, 40);
+        hookCounterSVG.FillOpacity = 0.5f;
+        DrawOverlay();
     }
 
     protected override CreateParams CreateParams
@@ -71,42 +86,54 @@ public class TransparentOverlayForm : Form
         }
     }
 
-    private void RenderToLayeredWindow()
+    public void DrawOverlay()
     {
-        Bitmap bmp = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
-        using (Graphics g = Graphics.FromImage(bmp))
-        {
-            g.Clear(Color.Transparent);
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+        // wipe everything that was drawn last time ⟵  IMPORTANT
+        graphics.Clear(Color.Transparent);
 
-            // --- draw all SVG hook icons ---
-            for (int i = 0; i < 4; i++)
+        // --- draw hook stages ---
+        for (int i = 0; i < survivors.Length; i++)
+        {
+            hookCounterSVG.Fill = new SvgColourServer(Color.Transparent);
+
+            switch (survivors[i].hookStages)
             {
-                var state = g.Save();
-                g.TranslateTransform(hookStageCounterStartX, hookStageCounterStartY + (i * hookStageCounterOffset));
-                var svg = SvgDocument.Open(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\both hooks.svg");
-                svg.Width = new SvgUnit(SvgUnitType.Pixel, 40);
-                svg.Height = new SvgUnit(SvgUnitType.Pixel, 40);
-                svg.Draw(g);
-                g.ResetTransform();  // Reset after drawing
-                g.Restore(state);
+                case 0:
+                    hookCounterSVG.Fill = new SvgColourServer(Color.Black);
+                    break;
+
+                case 1:
+                    SvgElement leftHook = hookCounterSVG.GetElementById("leftHook");
+                    SvgElement rightHook = hookCounterSVG.GetElementById("rightHook");
+
+                    leftHook.Fill = new SvgColourServer(Color.White);
+                    rightHook.Fill = new SvgColourServer(Color.Black);
+                    break;
+
+                case 2:
+                    hookCounterSVG.Fill = new SvgColourServer(Color.White);
+                    break;
             }
 
-            // --- draw every running timer ---
-            //for (int i = 0; i < 4; i++)
-            //{
-            //    if (timers[i].Count > 0)
-            //    {
-            //        string txt = timers[i][0].SecondsLeft.ToString();
-            //        using (Font f = new Font("Arial", 28, FontStyle.Bold))
-            //        using (Brush b = new SolidBrush(Color.Red))
-            //        {
-            //            g.DrawString(txt, f, b, 235, 635 + i * 120);
-            //        }
-            //    }
-            //}
+                var state = graphics.Save();
+            graphics.TranslateTransform(hookStageCounterStartX, hookStageCounterStartY + (i * hookStageCounterOffset));
+            hookCounterSVG.Draw(graphics);
+            graphics.Restore(state);
         }
+
+        // --- draw every running timer ---
+        //for (int i = 0; i < 4; i++)
+        //{
+        //    if (timers[i].Count > 0)
+        //    {
+        //        string txt = timers[i][0].SecondsLeft.ToString();
+        //        using (Font f = new Font("Arial", 28, FontStyle.Bold))
+        //        using (Brush b = new SolidBrush(Color.Red))
+        //        {
+        //            g.DrawString(txt, f, b, 235, 635 + i * 120);
+        //        }
+        //    }
+        //}
 
         NativeMethods.SetBitmapToForm(this, bmp);
     }
