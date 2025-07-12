@@ -18,13 +18,10 @@ public class TransparentOverlayForm : Form
     public TimerManager timerManager;
 
     public Survivor[] survivors = new Survivor[4];
-
-    //int seconds = 60;
-    //Timer timer;
     
-    private int hookStageCounterStartX = 295;
-    private int hookStageCounterStartY = 640;
-    private int hookStageCounterOffset = 120;
+    public int hookStageCounterStartX = 295;
+    public int hookStageCounterStartY = 640;
+    public int hookStageCounterOffset = 120;
 
     SvgDocument hookCounterSVG = SvgDocument.Open(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\both hooks.svg");
     Graphics graphics;
@@ -43,15 +40,6 @@ public class TransparentOverlayForm : Form
         // Use WS_EX_LAYERED to enable per-pixel alpha
         int initialStyle = NativeMethods.GetWindowLong(Handle, NativeMethods.GWL_EXSTYLE);
         NativeMethods.SetWindowLong(Handle, NativeMethods.GWL_EXSTYLE, initialStyle | NativeMethods.WS_EX_LAYERED | NativeMethods.WS_EX_TRANSPARENT);
-
-        //timer = new Timer { Interval = 1000 };
-        //timer.Tick += (s, e) =>
-        //{
-        //    seconds--;
-        //    if (seconds < 0) seconds = 30;
-        //    RenderToLayeredWindow();
-        //};
-        //timer.Start();
 
         hookManager = new(this);
         timerManager = new(this);
@@ -115,55 +103,29 @@ public class TransparentOverlayForm : Form
                     break;
             }
 
-                var state = graphics.Save();
+            var state = graphics.Save();
             graphics.TranslateTransform(hookStageCounterStartX, hookStageCounterStartY + (i * hookStageCounterOffset));
             hookCounterSVG.Draw(graphics);
             graphics.Restore(state);
         }
 
         // --- draw every running timer ---
-        //for (int i = 0; i < 4; i++)
-        //{
-        //    if (timers[i].Count > 0)
-        //    {
-        //        string txt = timers[i][0].SecondsLeft.ToString();
-        //        using (Font f = new Font("Arial", 28, FontStyle.Bold))
-        //        using (Brush b = new SolidBrush(Color.Red))
-        //        {
-        //            g.DrawString(txt, f, b, 235, 635 + i * 120);
-        //        }
-        //    }
-        //}
+        for (int i = 0; i < timerManager.timers.Length; i++)
+        {
+            if (timerManager.timers[i] != null)
+            {
+                foreach (var timer in  timerManager.timers[i])
+                {
+                    string txt = timer.seconds.ToString();
+                    using (Font f = new Font("Arial", 12, FontStyle.Bold))
+                    using (Brush b = new SolidBrush(Color.Red))
+                    {
+                        graphics.DrawString(txt, f, b, timer.Location.X, timer.Location.Y);
+                    }
+                }
+            }
+        }
 
         NativeMethods.SetBitmapToForm(this, bmp);
     }
-
-    //private void RenderToLayeredWindow()
-    //{
-    //    Bitmap bmp = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
-    //    using (Graphics g = Graphics.FromImage(bmp))
-    //    {
-    //        g.Clear(Color.Transparent);
-    //        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-    //        g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-
-    //        // Load SVG
-    //        var svgDoc = SvgDocument.Open(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\both hooks.svg");
-    //        svgDoc.Width = Width;
-    //        svgDoc.Height = Height;
-    //        svgDoc.Draw(g); // Render onto transparent Graphics
-
-    //        // Draw timer
-    //        using (Font font = new Font("Arial", 28, FontStyle.Bold))
-    //        using (Brush brush = new SolidBrush(Color.Red))
-    //        {
-    //            string timeText = seconds.ToString();
-    //            SizeF textSize = g.MeasureString(timeText, font);
-    //            PointF textPos = new PointF((Width - textSize.Width) / 2, (Height - textSize.Height) / 2);
-    //            g.DrawString(timeText, font, brush, textPos);
-    //        }
-    //    }
-
-    //    NativeMethods.SetBitmapToForm(this, bmp);
-    //}
 }
