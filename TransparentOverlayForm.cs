@@ -61,7 +61,6 @@ public class TransparentOverlayForm : Form
         hookCounterSVG.Width = new SvgUnit(SvgUnitType.Pixel, 40);
         hookCounterSVG.Height = new SvgUnit(SvgUnitType.Pixel, 40);
         hookCounterSVG.FillOpacity = 0.5f;
-        DrawOverlay();
     }
 
     protected override CreateParams CreateParams
@@ -118,23 +117,24 @@ public class TransparentOverlayForm : Form
                 graphics.Restore(state);
             }
 
-            // --- draw every running timer ---
-            for (int i = 0; i < timerManager.timers.Length; i++)
+            // clean up expired timers before drawing
+            timerManager.RemoveExpiredTimers();
+
+            // draw all active timers
+            foreach (var list in timerManager.timers)
             {
-                if (timerManager.timers[i] != null)
+                foreach (var timer in list)
                 {
-                    foreach (var timer in timerManager.timers[i])
+                    string txt = timer.SecondsRemaining.ToString();
+                    using (Font f = new Font("Arial", 12, FontStyle.Bold))
+                    using (Brush b = new SolidBrush(Color.Red))
                     {
-                        string txt = timer.seconds.ToString();
-                        using (Font f = new Font("Arial", 12, FontStyle.Bold))
-                        using (Brush b = new SolidBrush(Color.Red))
-                        {
-                            graphics.DrawString(txt, f, b, timer.Location.X, timer.Location.Y);
-                        }
+                        graphics.DrawString(txt, f, b, timer.Position);
                     }
                 }
             }
         }
+
         NativeMethods.SetBitmapToForm(this, bmp);
     }
 }

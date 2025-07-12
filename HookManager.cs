@@ -17,7 +17,7 @@ namespace DBDtimer
         TransparentOverlayForm form;
 
         private System.Timers.Timer screenMonitorTimer;
-        private const int checkIntervalMs = 1000;
+        private const int checkIntervalMs = 16;
         private Point safetyPixel1 = new Point(170, 1180);
         private Point safetyPixel2 = new Point(235, 1284);
         private Color safetyPixel1Color = Color.White;
@@ -71,40 +71,21 @@ namespace DBDtimer
                 g.CopyFromScreen(Point.Empty, Point.Empty, roi.Size);
             }
 
-            return bmp.ToMat();  // Convert Bitmap to Mat
+            return bmp.ToMat();
         }
 
         public void AddHookStage(int survivorIndex)
         {
             //Debug.WriteLine($"AddHookStage: {survivorIndex}");
 
-            Survivor survivor = form.survivors[survivorIndex];
-
-            if (survivor.hookStages < 2)
-            {
-                survivor.hookStages++;
-            }
-            else
-            {
-                survivor.hookStages = 0;
-            }
-
-            form.timerManager.RemoveTimer(survivorIndex);
+            form.survivors[survivorIndex].hookStages++;
         }
 
         public void HookSurvivor(int index)
         {
-            var survivor = form.survivors[index];
-
-            if (survivor.hookStages >= 2)
-            {
-                survivor.SwitchState(survivor.stateDead);
-            }
-            else
-            {
-                survivor.SwitchState(survivor.stateHooked);
-            }
+            form.survivors[index].GetHooked();
         }
+
         public void KillSurvivor(int index)
         {
             var survivor = form.survivors[index];
@@ -119,31 +100,21 @@ namespace DBDtimer
 
         private void StartHookDetection()
         {
-            screenMonitorTimer = new System.Timers.Timer(checkIntervalMs);
-            screenMonitorTimer.Elapsed += ScreenMonitorTimer_Elapsed;
-            screenMonitorTimer.Start();
-        }
-
-        private void ScreenMonitorTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            try
-            {
+            System.Windows.Forms.Timer screenMonitorTimer = new System.Windows.Forms.Timer();
+            screenMonitorTimer.Interval = checkIntervalMs;
+            screenMonitorTimer.Tick += (s, e) => {
                 if (UIenabled())
                 {
                     foreach (var survivor in form.survivors)
                     {
-                        form.Invoke(new Action(() =>
-                        {
-                            survivor.Update();
-                        }));
+                        survivor.Update(); // Already on UI thread
                     }
+
+                    form.DrawOverlay(); // Already on UI thread
                 }
-                form.Invoke(new Action(() =>
-                {
-                    form.DrawOverlay();
-                }));
-            }
-            catch { }
+            };
+            screenMonitorTimer.Start();
+
         }
 
         public bool UIenabled()

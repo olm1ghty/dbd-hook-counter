@@ -9,13 +9,10 @@ namespace DBDtimer
 {
     public class Survivor
     {
-        //Point hookPixel1 = new Point(173, 669);
-        //Point hookPixel2 = new Point(159, 693);
-        //Point hookPixel3 = new Point(256, 716);
-
         public SurvivorStateUnhooked stateUnhooked;
         public SurvivorStateHooked stateHooked;
         public SurvivorStateDead stateDead;
+        public SurvivorStateIntermediate stateIntermediate;
         SurvivorStateBase currentState;
 
         Rectangle hookSearchArea = new(123, 630, 90, 90);
@@ -23,7 +20,7 @@ namespace DBDtimer
 
         TransparentOverlayForm form;
 
-        int index = 0;
+        public int index = 0;
         public int hookStages = 0;
 
         public Survivor(int index, TransparentOverlayForm form)
@@ -32,15 +29,24 @@ namespace DBDtimer
             this.form = form;
 
             stateUnhooked = new(index, hookSearchArea, form);
-            stateHooked = new(index, hookSearchArea, nextStageSearchArea, form);
-            stateDead = new();
+            stateHooked = new(index, hookSearchArea, nextStageSearchArea, form, this);
+            stateDead = new(form, this);
+            stateIntermediate = new();
 
-            SwitchState(stateUnhooked);
+            SwitchStateFromIntermediate(stateUnhooked);
         }
 
         public void SwitchState(SurvivorStateBase newState)
         {
+            currentState = stateIntermediate;
+            currentState.Enter();
+            stateIntermediate.SwitchToNextState(newState, this);
+        }
+
+        public void SwitchStateFromIntermediate(SurvivorStateBase newState)
+        {
             currentState = newState;
+            currentState.Enter();
         }
 
         public void Update()
@@ -48,6 +54,26 @@ namespace DBDtimer
             currentState.Update(index);
             //Debug.WriteLine($"Survivor: {currentState}.Update({index}, mainForm)");
             //Debug.WriteLine($"Hook stages: {hookStages}");
+        }
+
+        public void GetHooked()
+        {
+            switch (hookStages)
+            {
+                case 0:
+                    SwitchState(stateHooked);
+                    hookStages = 1;
+                    break;
+
+                case 1:
+                    SwitchState(stateHooked);
+                    hookStages = 2;
+                    break;
+
+                case 2:
+                    SwitchState(stateDead);
+                    break;
+            }
         }
     }
 }
