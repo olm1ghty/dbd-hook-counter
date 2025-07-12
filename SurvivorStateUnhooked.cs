@@ -47,11 +47,11 @@ namespace DBDtimer
 
         public override void Update(int index)
         {
-            if (form.hookManager.MatchTemplate(form.hookManager.deadTemplate, searchArea))
+            if (form.hookManager.MatchTemplate(form.hookManager._deadTemplate, searchArea))
             {
                 form.hookManager.KillSurvivor(index);
             }
-            else if (form.hookManager.MatchTemplate(form.hookManager.hookedTemplate, searchArea))
+            else if (form.hookManager.MatchTemplate(form.hookManager._hookedTemplate, searchArea))
             {
                 form.hookManager.HookSurvivor(index);
                 form.hookManager.AddHookStage(index);

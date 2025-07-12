@@ -8,15 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Diagnostics;
+using System.Drawing.Imaging;
 
 namespace DBDtimer
 {
     public class HookManager
     {
-        public Image<Bgr, byte> hookedTemplate = new Image<Bgr, byte>(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\States\Hooked.png");
-        public Image<Bgr, byte> nextStageTemplate = new Image<Bgr, byte>(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\States\next_stage.png");
-        public Image<Bgr, byte> deadTemplate = new Image<Bgr, byte>(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\States\dead.png");
-
         TransparentOverlayForm form;
 
         private System.Timers.Timer screenMonitorTimer;
@@ -29,41 +26,57 @@ namespace DBDtimer
         private int safetyPixel2tolerance = 100;
         int whiteThreshold = 20;
 
+        // loaded once
+        public readonly Mat _hookedTemplate;
+        public readonly Mat _nextStageTemplate;
+        public readonly Mat _deadTemplate;
+
         public HookManager(TransparentOverlayForm form)
         {
             this.form = form;
+            _hookedTemplate = CvInvoke.Imread(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\States\Hooked.png", ImreadModes.ColorBgr);
+
+            _nextStageTemplate = CvInvoke.Imread(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\States\next_stage.png", ImreadModes.ColorBgr);
+
+            _deadTemplate = CvInvoke.Imread(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\States\dead.png", ImreadModes.ColorBgr);
             StartHookDetection();
         }
 
-        public bool MatchTemplate(Image<Bgr, byte> template, Rectangle region, double threshold = 0.9)
+        public bool MatchTemplate(Mat template, Rectangle region, double threshold = 0.90)
         {
-            Bitmap screen = CaptureScreen();
+            // 1. Grab the screen once, directly into a Mat
+            using Mat frame = CaptureScreenMat();
 
-            Image<Bgr, byte> image = screen.ToImage<Bgr, byte>();
-            var roi = image.GetSubRect(region);
-            using (var result = roi.MatchTemplate(template, TemplateMatchingType.CcoeffNormed))
-            {
-                result.MinMax(out _, out double[] maxVals, out _, out Point[] maxLocs);
-                return maxVals[0] >= threshold;
-            }
+            // 2. Crop to the region of interest (no extra copy)
+            using Mat roi = new Mat(frame, region);
+
+            // 3. Run template‑matching
+            using Mat result = new Mat();                  // result is (W−w+1)×(H−h+1)
+            CvInvoke.MatchTemplate(roi, template, result, TemplateMatchingType.CcoeffNormed);
+
+            // 4. Find the best match
+            double minVal = 0, maxVal = 0;
+            Point minLoc = Point.Empty, maxLoc = Point.Empty;
+            CvInvoke.MinMaxLoc(result, ref minVal, ref maxVal, ref minLoc, ref maxLoc);
+
+            return maxVal >= threshold;
         }
 
-        public static Bitmap CaptureScreen()
+        Mat CaptureScreenMat()
         {
-            Rectangle bounds = Screen.PrimaryScreen.Bounds;
-            Bitmap bitmap = new Bitmap(bounds.Width, bounds.Height);
-
-            using (Graphics g = Graphics.FromImage(bitmap))
+            Rectangle roi = Screen.PrimaryScreen.Bounds;
+            using Bitmap bmp = new Bitmap(roi.Width, roi.Height, PixelFormat.Format24bppRgb);
+            using (Graphics g = Graphics.FromImage(bmp))
             {
-                g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
+                g.CopyFromScreen(Point.Empty, Point.Empty, roi.Size);
             }
 
-            return bitmap;
+            return bmp.ToMat();  // Convert Bitmap to Mat
         }
 
         public void AddHookStage(int survivorIndex)
         {
-            Debug.WriteLine($"AddHookStage: {survivorIndex}");
+            //Debug.WriteLine($"AddHookStage: {survivorIndex}");
 
             Survivor survivor = form.survivors[survivorIndex];
 
@@ -96,6 +109,7 @@ namespace DBDtimer
         {
             var survivor = form.survivors[index];
             survivor.SwitchState(survivor.stateDead);
+            form.timerManager.RemoveTimer(index);
         }
 
         public void UnhookSurvivor(int index)
@@ -114,7 +128,7 @@ namespace DBDtimer
         {
             try
             {
-                //if (UIenabled())
+                if (UIenabled())
                 {
                     foreach (var survivor in form.survivors)
                     {
@@ -123,16 +137,16 @@ namespace DBDtimer
                             survivor.Update();
                         }));
                     }
-                    form.Invoke(new Action(() =>
-                    {;
-                        form.DrawOverlay();
-                    }));
                 }
+                form.Invoke(new Action(() =>
+                {
+                    form.DrawOverlay();
+                }));
             }
             catch { }
         }
 
-        private bool UIenabled()
+        public bool UIenabled()
         {
             bool enabled = false;
 

@@ -30,7 +30,7 @@ public class TransparentOverlayForm : Form
     public TransparentOverlayForm()
     {
         FormBorderStyle = FormBorderStyle.None;
-        ShowInTaskbar = false;
+        //ShowInTaskbar = false;
         TopMost = true;
         Rectangle screen = Screen.PrimaryScreen.Bounds;
         this.Bounds = screen;        // sets Location, Width, Height in one line
@@ -79,60 +79,62 @@ public class TransparentOverlayForm : Form
         // wipe everything that was drawn last time ⟵  IMPORTANT
         graphics.Clear(Color.Transparent);
 
-        // --- draw hook stages ---
-        for (int i = 0; i < survivors.Length; i++)
+        if (hookManager.UIenabled())
         {
-            hookCounterSVG.Fill = new SvgColourServer(Color.Transparent);
-
-            SvgElement leftHook = hookCounterSVG.GetElementById("leftHook");
-            leftHook.Fill = new SvgColourServer(Color.Transparent);
-
-            SvgElement rightHook = hookCounterSVG.GetElementById("rightHook");
-            rightHook.Fill = new SvgColourServer(Color.Transparent);
-
-            switch (survivors[i].hookStages)
+            // --- draw hook stages ---
+            for (int i = 0; i < survivors.Length; i++)
             {
-                case 0:
-                    leftHook.Fill = new SvgColourServer(Color.Black);
-                    rightHook.Fill = new SvgColourServer(Color.Black);
-                    break;
+                hookCounterSVG.Fill = new SvgColourServer(Color.Transparent);
 
-                case 1:
-                    leftHook.Fill = new SvgColourServer(Color.White);
-                    rightHook.Fill = new SvgColourServer(Color.Black);
-                    break;
+                SvgElement leftHook = hookCounterSVG.GetElementById("leftHook");
+                leftHook.Fill = new SvgColourServer(Color.Transparent);
 
-                case 2:
-                    leftHook.Fill = new SvgColourServer(Color.White);
-                    rightHook.Fill = new SvgColourServer(Color.White);
-                    break;
+                SvgElement rightHook = hookCounterSVG.GetElementById("rightHook");
+                rightHook.Fill = new SvgColourServer(Color.Transparent);
+
+                switch (survivors[i].hookStages)
+                {
+                    case 0:
+                        leftHook.Fill = new SvgColourServer(Color.Black);
+                        rightHook.Fill = new SvgColourServer(Color.Black);
+                        break;
+
+                    case 1:
+                        leftHook.Fill = new SvgColourServer(Color.White);
+                        rightHook.Fill = new SvgColourServer(Color.Black);
+                        break;
+
+                    case 2:
+                        leftHook.Fill = new SvgColourServer(Color.White);
+                        rightHook.Fill = new SvgColourServer(Color.White);
+                        break;
+                }
+
+                //Debug.WriteLine($"survivors[{i}].hookStages: {survivors[i].hookStages}");
+
+                var state = graphics.Save();
+                graphics.TranslateTransform(hookStageCounterStartX, hookStageCounterStartY + (i * hookStageCounterOffset));
+                hookCounterSVG.Draw(graphics);
+                graphics.Restore(state);
             }
 
-            Debug.WriteLine($"survivors[{i}].hookStages: {survivors[i].hookStages}");
-
-            var state = graphics.Save();
-            graphics.TranslateTransform(hookStageCounterStartX, hookStageCounterStartY + (i * hookStageCounterOffset));
-            hookCounterSVG.Draw(graphics);
-            graphics.Restore(state);
-        }
-
-        // --- draw every running timer ---
-        for (int i = 0; i < timerManager.timers.Length; i++)
-        {
-            if (timerManager.timers[i] != null)
+            // --- draw every running timer ---
+            for (int i = 0; i < timerManager.timers.Length; i++)
             {
-                foreach (var timer in  timerManager.timers[i])
+                if (timerManager.timers[i] != null)
                 {
-                    string txt = timer.seconds.ToString();
-                    using (Font f = new Font("Arial", 12, FontStyle.Bold))
-                    using (Brush b = new SolidBrush(Color.Red))
+                    foreach (var timer in timerManager.timers[i])
                     {
-                        graphics.DrawString(txt, f, b, timer.Location.X, timer.Location.Y);
+                        string txt = timer.seconds.ToString();
+                        using (Font f = new Font("Arial", 12, FontStyle.Bold))
+                        using (Brush b = new SolidBrush(Color.Red))
+                        {
+                            graphics.DrawString(txt, f, b, timer.Location.X, timer.Location.Y);
+                        }
                     }
                 }
             }
         }
-
         NativeMethods.SetBitmapToForm(this, bmp);
     }
 }
