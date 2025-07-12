@@ -8,63 +8,61 @@ using System.Threading.Tasks;
 
 namespace DBDtimer
 {
-    internal class SurvivorStateHooked : SurvivorStateBase
+    public class SurvivorStateHooked : SurvivorStateBase
     {
-        Color hookPixelColor1 = Color.FromArgb(255, 255, 255);
-        Color hookPixelColor2 = Color.FromArgb(255, 0, 0);
+        //Color hookPixelColor1 = Color.FromArgb(255, 255, 255);
+        //Color hookPixelColor2 = Color.FromArgb(255, 0, 0);
 
-        Point hookPixel1 = new();
-        Point hookPixel2 = new();
-        Point hookPixel3 = new();
+        //Point hookPixel1 = new();
+        //Point hookPixel2 = new();
+        //Point hookPixel3 = new();
 
-        int hookPixel1tolerance = 80;
+        //int hookPixel1tolerance = 80;
 
-        private int hookPixel2Rtolerance = 130;
-        private int hookPixel2Gtolerance = 75;
-        private int hookPixel2Btolerance = 75;
+        //private int hookPixel2Rtolerance = 130;
+        //private int hookPixel2Gtolerance = 75;
+        //private int hookPixel2Btolerance = 75;
 
-        private int hookPixel3Rtolerance = 150;
-        private int hookPixel3Gtolerance = 75;
-        private int hookPixel3Btolerance = 75;
+        //private int hookPixel3Rtolerance = 150;
+        //private int hookPixel3Gtolerance = 75;
+        //private int hookPixel3Btolerance = 75;
 
-        int whiteThreshold = 20;
-        int pixelYoffset = 120;
+        //int whiteThreshold = 20;
+        int yOffset = 120;
 
         Rectangle unhookSearchArea = new();
         Rectangle nextStageSearchArea = new();
 
-        public SurvivorStateHooked(int index, Point hookPixel1, Point hookPixel2, Point hookPixel3, Rectangle searchArea, Rectangle nextStageSearchArea)
+        TransparentOverlayForm form;
+
+        public SurvivorStateHooked(int index, Rectangle searchArea, Rectangle nextStageSearchArea, TransparentOverlayForm form)
         {
-            int yOffset = index * pixelYoffset;
-            this.hookPixel1 = new Point(hookPixel1.X, hookPixel1.Y + yOffset);
-            this.hookPixel2 = new Point(hookPixel2.X, hookPixel2.Y + yOffset);
-            this.hookPixel3 = new Point(hookPixel3.X, hookPixel3.Y + yOffset);
+            int yOffset = index * this.yOffset;
+            //this.hookPixel1 = new Point(hookPixel1.X, hookPixel1.Y + yOffset);
+            //this.hookPixel2 = new Point(hookPixel2.X, hookPixel2.Y + yOffset);
+            //this.hookPixel3 = new Point(hookPixel3.X, hookPixel3.Y + yOffset);
 
             this.unhookSearchArea = new Rectangle(searchArea.X, searchArea.Y + yOffset, searchArea.Width, searchArea.Height);
             this.nextStageSearchArea = new Rectangle(nextStageSearchArea.X, nextStageSearchArea.Y + yOffset, nextStageSearchArea.Width, nextStageSearchArea.Height);
+            this.form = form;
         }
 
-        public override void Enter(int index)
+        public override void Update(int index)
         {
-            //
-        }
-
-        public override void Update(int index, MainForm mainForm)
-        {
-            if (!mainForm.MatchTemplate(mainForm.hookedTemplate, unhookSearchArea, 0.7))
+            if (form.hookManager.MatchTemplate(form.hookManager._deadTemplate, unhookSearchArea, 0.5))
             {
-                mainForm.TriggerTimer(index);
-                mainForm.UnhookSurvivor(index);
+                form.hookManager.KillSurvivor(index);
             }
-            else if (mainForm.MatchTemplate(mainForm.nextStageTemplate, nextStageSearchArea, 0.5))
+            else if (!form.hookManager.MatchTemplate(form.hookManager._hookedTemplate, unhookSearchArea, 0.7))
             {
-                mainForm.AddHookStage(index);
+                form.timerManager.TriggerTimer(index);
+                form.hookManager.UnhookSurvivor(index);
             }
-        }
-
-        public override void Exit()
-        {
-            //
+            else if (form.hookManager.MatchTemplate(form.hookManager._nextStageTemplate, nextStageSearchArea, 0.4))
+            {
+                form.hookManager.HookSurvivor(index);
+                form.hookManager.AddHookStage(index);
+            }
         }
     }
 }

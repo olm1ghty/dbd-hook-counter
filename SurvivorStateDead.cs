@@ -6,19 +6,9 @@ using System.Threading.Tasks;
 
 namespace DBDtimer
 {
-    internal class SurvivorStateDead : SurvivorStateBase
+    public class SurvivorStateDead : SurvivorStateBase
     {
-        public override void Enter(int index)
-        {
-            //
-        }
-
-        public override void Update(int index, MainForm mainForm)
-        {
-            //
-        }
-
-        public override void Exit()
+        public override void Update(int index)
         {
             //
         }

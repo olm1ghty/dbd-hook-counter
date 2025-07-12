@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DBDtimer
 {
-    internal class Survivor
+    public class Survivor
     {
-        Point hookPixel1 = new Point(173, 669);
-        Point hookPixel2 = new Point(159, 693);
-        Point hookPixel3 = new Point(256, 716);
+        //Point hookPixel1 = new Point(173, 669);
+        //Point hookPixel2 = new Point(159, 693);
+        //Point hookPixel3 = new Point(256, 716);
 
         public SurvivorStateUnhooked stateUnhooked;
         public SurvivorStateHooked stateHooked;
@@ -20,18 +21,18 @@ namespace DBDtimer
         Rectangle hookSearchArea = new(123, 630, 90, 90);
         Rectangle nextStageSearchArea = new(187, 608, 100, 70);
 
-        MainForm mainForm;
+        TransparentOverlayForm form;
 
         int index = 0;
         public int hookStages = 0;
 
-        public Survivor(int index, MainForm mainForm)
+        public Survivor(int index, TransparentOverlayForm form)
         {
             this.index = index;
-            this.mainForm = mainForm;
+            this.form = form;
 
-            stateUnhooked = new(index, hookPixel1, hookPixel2, hookPixel3, hookSearchArea);
-            stateHooked = new(index, hookPixel1, hookPixel2, hookPixel3, hookSearchArea, nextStageSearchArea);
+            stateUnhooked = new(index, hookSearchArea, form);
+            stateHooked = new(index, hookSearchArea, nextStageSearchArea, form);
             stateDead = new();
 
             SwitchState(stateUnhooked);
@@ -39,19 +40,14 @@ namespace DBDtimer
 
         public void SwitchState(SurvivorStateBase newState)
         {
-            if (currentState != null)
-            {
-                currentState.Exit();
-            }
-            
             currentState = newState;
-            newState.Enter(index);
         }
 
         public void Update()
         {
-            currentState.Update(index, mainForm);
-            //Console.WriteLine($"Survivor: {currentState}.Update({index}, mainForm)");
+            currentState.Update(index);
+            //Debug.WriteLine($"Survivor: {currentState}.Update({index}, mainForm)");
+            //Debug.WriteLine($"Hook stages: {hookStages}");
         }
     }
 }

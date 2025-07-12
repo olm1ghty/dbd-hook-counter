@@ -111,7 +111,10 @@ C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\bin\Debug\net8
 C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\bin\Debug\net8.0-windows\runtimes\win\lib\net8.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\bin\Debug\net8.0-windows\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
 C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\obj\Debug\net8.0-windows\DBDtimer.csproj.AssemblyReference.cache
+<<<<<<< HEAD
 C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\obj\Debug\net8.0-windows\DBDtimer.MainForm.resources
+=======
+>>>>>>> in-progress
 C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\obj\Debug\net8.0-windows\PixelOverlayForm.resources
 C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\obj\Debug\net8.0-windows\DBDtimer.csproj.GenerateResource.cache
 C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\obj\Debug\net8.0-windows\DBDtimer.GeneratedMSBuildEditorConfig.editorconfig
