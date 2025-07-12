@@ -17,7 +17,7 @@ namespace DBDtimer
         TransparentOverlayForm form;
 
         private System.Timers.Timer screenMonitorTimer;
-        private const int checkIntervalMs = 1000;
+        private const int checkIntervalMs = 200;
         private Point safetyPixel1 = new Point(170, 1180);
         private Point safetyPixel2 = new Point(235, 1284);
         private Color safetyPixel1Color = Color.White;

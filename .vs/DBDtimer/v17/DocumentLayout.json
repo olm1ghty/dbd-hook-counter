@@ -3,6 +3,13 @@
   "WorkspaceRootPath": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Msbuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|c:\\users\\user\\desktop\\other development\\dbdtimer\\dbd-hook-counter\\hookmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|solutionrelative:hookmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|c:\\users\\user\\desktop\\other development\\dbdtimer\\dbd-hook-counter\\hookstagecounter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|solutionrelative:hookstagecounter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -19,12 +26,38 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Microsoft.Common.CurrentVersion.targets",
+              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Msbuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Msbuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Msbuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Msbuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "ViewState": "AQIAAIYUAAAAAAAAAAAvwI4UAAA1AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
+              "WhenOpened": "2025-07-12T11:17:28.204Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HookManager.cs",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\HookManager.cs",
+              "RelativeDocumentMoniker": "HookManager.cs",
+              "ToolTip": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\HookManager.cs",
+              "RelativeToolTip": "HookManager.cs",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAxwBMAAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-12T11:16:48.538Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "HookStageCounter.cs",
               "DocumentMoniker": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\HookStageCounter.cs",
               "RelativeDocumentMoniker": "HookStageCounter.cs",
               "ToolTip": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\HookStageCounter.cs",
               "RelativeToolTip": "HookStageCounter.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAJAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-09T09:19:36.138Z",
               "EditorCaption": ""
