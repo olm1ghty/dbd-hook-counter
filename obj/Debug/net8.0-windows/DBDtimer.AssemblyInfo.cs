@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DBDtimer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d4a55f2e9230284a7f88cc8c04ec9f159ea5d0e0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6a48f75d2b617f6ce92c143a6d1def798612d4df")]
 [assembly: System.Reflection.AssemblyProductAttribute("DBDtimer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DBDtimer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

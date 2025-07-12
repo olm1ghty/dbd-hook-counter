@@ -56,6 +56,7 @@ namespace DBDtimer
             }
             else if (form.hookManager.MatchTemplate(form.hookManager.nextStageTemplate, nextStageSearchArea, 0.5))
             {
+                form.hookManager.HookSurvivor(index);
                 form.hookManager.AddHookStage(index);
             }
         }

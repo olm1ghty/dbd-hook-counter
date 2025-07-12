@@ -78,7 +78,16 @@ namespace DBDtimer
 
         public void HookSurvivor(int index)
         {
-            form.survivors[index].SwitchState(form.survivors[index].stateHooked);
+            var survivor = form.survivors[index];
+
+            if ( survivor.hookStages >= 2)
+            {
+                survivor.SwitchState(survivor.stateDead);
+            }
+            else
+            {
+                survivor.SwitchState(survivor.stateHooked);
+            }
         }
 
         public void UnhookSurvivor(int index)

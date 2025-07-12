@@ -83,6 +83,8 @@ public class TransparentOverlayForm : Form
         for (int i = 0; i < survivors.Length; i++)
         {
             hookCounterSVG.Fill = new SvgColourServer(Color.Transparent);
+            SvgElement leftHook = hookCounterSVG.GetElementById("leftHook");
+            SvgElement rightHook = hookCounterSVG.GetElementById("rightHook");
 
             switch (survivors[i].hookStages)
             {
@@ -91,15 +93,14 @@ public class TransparentOverlayForm : Form
                     break;
 
                 case 1:
-                    SvgElement leftHook = hookCounterSVG.GetElementById("leftHook");
-                    SvgElement rightHook = hookCounterSVG.GetElementById("rightHook");
 
                     leftHook.Fill = new SvgColourServer(Color.White);
                     rightHook.Fill = new SvgColourServer(Color.Black);
                     break;
 
                 case 2:
-                    hookCounterSVG.Fill = new SvgColourServer(Color.White);
+                    leftHook.Fill = new SvgColourServer(Color.White);
+                    rightHook.Fill = new SvgColourServer(Color.White);
                     break;
             }
 
