@@ -49,15 +49,19 @@ namespace DBDtimer
 
         public override void Update(int index)
         {
-            if (!form.hookManager.MatchTemplate(form.hookManager.hookedTemplate, unhookSearchArea, 0.7))
+            if (form.hookManager.MatchTemplate(form.hookManager.deadTemplate, unhookSearchArea))
             {
-                form.timerManager.TriggerTimer(index);
-                form.hookManager.UnhookSurvivor(index);
+                form.hookManager.KillSurvivor(index);
             }
             else if (form.hookManager.MatchTemplate(form.hookManager.nextStageTemplate, nextStageSearchArea, 0.5))
             {
                 form.hookManager.HookSurvivor(index);
                 form.hookManager.AddHookStage(index);
+            }
+            else if (!form.hookManager.MatchTemplate(form.hookManager.hookedTemplate, unhookSearchArea, 0.7))
+            {
+                form.timerManager.TriggerTimer(index);
+                form.hookManager.UnhookSurvivor(index);
             }
         }
     }

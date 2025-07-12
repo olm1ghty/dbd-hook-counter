@@ -8,7 +8,6 @@ namespace DBDtimer
 {
     public class SurvivorStateDead : SurvivorStateBase
     {
-
         public override void Update(int index)
         {
             //

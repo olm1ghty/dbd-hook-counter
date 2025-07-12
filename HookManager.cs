@@ -15,6 +15,7 @@ namespace DBDtimer
     {
         public Image<Bgr, byte> hookedTemplate = new Image<Bgr, byte>(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\States\Hooked.png");
         public Image<Bgr, byte> nextStageTemplate = new Image<Bgr, byte>(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\States\next_stage.png");
+        public Image<Bgr, byte> deadTemplate = new Image<Bgr, byte>(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\States\dead.png");
 
         TransparentOverlayForm form;
 
@@ -62,6 +63,8 @@ namespace DBDtimer
 
         public void AddHookStage(int survivorIndex)
         {
+            Debug.WriteLine($"AddHookStage: {survivorIndex}");
+
             Survivor survivor = form.survivors[survivorIndex];
 
             if (survivor.hookStages < 2)
@@ -80,7 +83,7 @@ namespace DBDtimer
         {
             var survivor = form.survivors[index];
 
-            if ( survivor.hookStages >= 2)
+            if (survivor.hookStages >= 2)
             {
                 survivor.SwitchState(survivor.stateDead);
             }
@@ -88,6 +91,11 @@ namespace DBDtimer
             {
                 survivor.SwitchState(survivor.stateHooked);
             }
+        }
+        public void KillSurvivor(int index)
+        {
+            var survivor = form.survivors[index];
+            survivor.SwitchState(survivor.stateDead);
         }
 
         public void UnhookSurvivor(int index)
@@ -113,9 +121,12 @@ namespace DBDtimer
                         form.Invoke(new Action(() =>
                         {
                             survivor.Update();
-                            form.DrawOverlay();
                         }));
                     }
+                    form.Invoke(new Action(() =>
+                    {;
+                        form.DrawOverlay();
+                    }));
                 }
             }
             catch { }

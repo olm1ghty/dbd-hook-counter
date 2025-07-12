@@ -83,17 +83,21 @@ public class TransparentOverlayForm : Form
         for (int i = 0; i < survivors.Length; i++)
         {
             hookCounterSVG.Fill = new SvgColourServer(Color.Transparent);
+
             SvgElement leftHook = hookCounterSVG.GetElementById("leftHook");
+            leftHook.Fill = new SvgColourServer(Color.Transparent);
+
             SvgElement rightHook = hookCounterSVG.GetElementById("rightHook");
+            rightHook.Fill = new SvgColourServer(Color.Transparent);
 
             switch (survivors[i].hookStages)
             {
                 case 0:
-                    hookCounterSVG.Fill = new SvgColourServer(Color.Black);
+                    leftHook.Fill = new SvgColourServer(Color.Black);
+                    rightHook.Fill = new SvgColourServer(Color.Black);
                     break;
 
                 case 1:
-
                     leftHook.Fill = new SvgColourServer(Color.White);
                     rightHook.Fill = new SvgColourServer(Color.Black);
                     break;
@@ -103,6 +107,8 @@ public class TransparentOverlayForm : Form
                     rightHook.Fill = new SvgColourServer(Color.White);
                     break;
             }
+
+            Debug.WriteLine($"survivors[{i}].hookStages: {survivors[i].hookStages}");
 
             var state = graphics.Save();
             graphics.TranslateTransform(hookStageCounterStartX, hookStageCounterStartY + (i * hookStageCounterOffset));

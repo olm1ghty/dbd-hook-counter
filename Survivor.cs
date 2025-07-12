@@ -46,7 +46,8 @@ namespace DBDtimer
         public void Update()
         {
             currentState.Update(index);
-            //Debug.WriteLine($"Survivor: {currentState}.Update({index}, mainForm)");
+            Debug.WriteLine($"Survivor: {currentState}.Update({index}, mainForm)");
+            Debug.WriteLine($"Hook stages: {hookStages}");
         }
     }
 }
