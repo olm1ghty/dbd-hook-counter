@@ -8,6 +8,7 @@ namespace DBDtimer
 {
     abstract public class SurvivorStateBase
     {
+        public abstract void Enter();
         public abstract void Update(int index);
     }
 }
