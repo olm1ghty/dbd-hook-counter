@@ -3,52 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\",
   "Documents": [
     {
-<<<<<<< HEAD
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Msbuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|c:\\users\\user\\desktop\\other development\\dbdtimer\\dbd-hook-counter\\hookmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|solutionrelative:hookmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-=======
-      "AbsoluteMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|c:\\users\\user\\desktop\\other development\\dbdtimer\\dbd-hook-counter\\survivor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|solutionrelative:survivor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|c:\\users\\user\\desktop\\other development\\dbdtimer\\dbd-hook-counter\\survivorstatehooked.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|solutionrelative:survivorstatehooked.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|c:\\users\\user\\desktop\\other development\\dbdtimer\\dbd-hook-counter\\survivorstatedead.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|solutionrelative:survivorstatedead.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|c:\\users\\user\\desktop\\other development\\dbdtimer\\dbd-hook-counter\\survivorstatebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|solutionrelative:survivorstatebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|c:\\users\\user\\desktop\\other development\\dbdtimer\\dbd-hook-counter\\survivorstateintermediate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|solutionrelative:survivorstateintermediate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|c:\\users\\user\\desktop\\other development\\dbdtimer\\dbd-hook-counter\\survivorstateunhooked.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|solutionrelative:survivorstateunhooked.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|c:\\users\\user\\desktop\\other development\\dbdtimer\\dbd-hook-counter\\hookmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|solutionrelative:hookmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|c:\\users\\user\\desktop\\other development\\dbdtimer\\dbd-hook-counter\\transparentoverlayform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|solutionrelative:transparentoverlayform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|c:\\users\\user\\desktop\\other development\\dbdtimer\\dbd-hook-counter\\timermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|solutionrelative:timermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
->>>>>>> in-progress
       "AbsoluteMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|c:\\users\\user\\desktop\\other development\\dbdtimer\\dbd-hook-counter\\hookstagecounter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0AAE802E-5495-4BC5-8788-A806E8C0A324}|DBDtimer.csproj|solutionrelative:hookstagecounter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -65,150 +23,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-<<<<<<< HEAD
-              "Title": "Microsoft.Common.CurrentVersion.targets",
-              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Msbuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Msbuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Msbuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Msbuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "ViewState": "AQIAAIYUAAAAAAAAAAAvwI4UAAA1AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
-              "WhenOpened": "2025-07-12T11:17:28.204Z",
-=======
-              "Title": "Survivor.cs",
-              "DocumentMoniker": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\Survivor.cs",
-              "RelativeDocumentMoniker": "Survivor.cs",
-              "ToolTip": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\Survivor.cs",
-              "RelativeToolTip": "Survivor.cs",
-              "ViewState": "AQIAABMAAAAAAAAAAAAswCIAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-11T11:31:47.425Z",
->>>>>>> in-progress
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-<<<<<<< HEAD
-              "DocumentIndex": 1,
               "Title": "HookManager.cs",
               "DocumentMoniker": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\HookManager.cs",
               "RelativeDocumentMoniker": "HookManager.cs",
               "ToolTip": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\HookManager.cs",
               "RelativeToolTip": "HookManager.cs",
-              "ViewState": "AQIAAA4AAAAAAAAAAAAxwBMAAAAvAAAA",
+              "ViewState": "AQIAABoAAAAAAAAAAAAYwBMAAAAvAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-12T11:16:48.538Z",
-=======
-              "DocumentIndex": 2,
-              "Title": "SurvivorStateDead.cs",
-              "DocumentMoniker": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\SurvivorStateDead.cs",
-              "RelativeDocumentMoniker": "SurvivorStateDead.cs",
-              "ToolTip": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\SurvivorStateDead.cs",
-              "RelativeToolTip": "SurvivorStateDead.cs",
-              "ViewState": "AQIAAAcAAAAAAAAAAAAiwBQAAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-12T16:59:50.562Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "SurvivorStateBase.cs",
-              "DocumentMoniker": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\SurvivorStateBase.cs",
-              "RelativeDocumentMoniker": "SurvivorStateBase.cs",
-              "ToolTip": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\SurvivorStateBase.cs",
-              "RelativeToolTip": "SurvivorStateBase.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAlAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-12T16:59:07.896Z",
->>>>>>> in-progress
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-<<<<<<< HEAD
-              "DocumentIndex": 2,
-=======
-              "DocumentIndex": 4,
-              "Title": "SurvivorStateIntermediate.cs",
-              "DocumentMoniker": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\SurvivorStateIntermediate.cs",
-              "RelativeDocumentMoniker": "SurvivorStateIntermediate.cs",
-              "ToolTip": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\SurvivorStateIntermediate.cs",
-              "RelativeToolTip": "SurvivorStateIntermediate.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAOAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-12T16:24:08.716Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "SurvivorStateHooked.cs",
-              "DocumentMoniker": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\SurvivorStateHooked.cs",
-              "RelativeDocumentMoniker": "SurvivorStateHooked.cs",
-              "ToolTip": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\SurvivorStateHooked.cs",
-              "RelativeToolTip": "SurvivorStateHooked.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAABoAAAAdAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-11T11:33:15.541Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "TransparentOverlayForm.cs",
-              "DocumentMoniker": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\TransparentOverlayForm.cs",
-              "RelativeDocumentMoniker": "TransparentOverlayForm.cs",
-              "ToolTip": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\TransparentOverlayForm.cs",
-              "RelativeToolTip": "TransparentOverlayForm.cs",
-              "ViewState": "AQIAAA4AAAAAAAAAAAAxwIoAAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-11T09:47:36.129Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "SurvivorStateUnhooked.cs",
-              "DocumentMoniker": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\SurvivorStateUnhooked.cs",
-              "RelativeDocumentMoniker": "SurvivorStateUnhooked.cs",
-              "ToolTip": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\SurvivorStateUnhooked.cs",
-              "RelativeToolTip": "SurvivorStateUnhooked.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAABoAAAAOAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-11T11:34:34.175Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "HookManager.cs",
-              "DocumentMoniker": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\HookManager.cs",
-              "RelativeDocumentMoniker": "HookManager.cs",
-              "ToolTip": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\HookManager.cs",
-              "RelativeToolTip": "HookManager.cs",
-              "ViewState": "AQIAAEkAAAAAAAAAAADgv1sAAAAgAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-11T11:40:43.048Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "TimerManager.cs",
-              "DocumentMoniker": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\TimerManager.cs",
-              "RelativeDocumentMoniker": "TimerManager.cs",
-              "ToolTip": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\TimerManager.cs",
-              "RelativeToolTip": "TimerManager.cs",
-              "ViewState": "AQIAADcAAAAAAAAAAAAuwBIAAAArAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-11T12:38:55.162Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
->>>>>>> in-progress
               "Title": "HookStageCounter.cs",
               "DocumentMoniker": "C:\\Users\\user\\Desktop\\Other development\\DBDtimer\\dbd-hook-counter\\HookStageCounter.cs",
               "RelativeDocumentMoniker": "HookStageCounter.cs",
@@ -216,12 +43,7 @@
               "RelativeToolTip": "HookStageCounter.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-<<<<<<< HEAD
-              "WhenOpened": "2025-07-09T09:19:36.138Z",
-              "EditorCaption": ""
-=======
-              "WhenOpened": "2025-07-09T09:34:57.008Z"
->>>>>>> in-progress
+              "WhenOpened": "2025-07-09T09:19:36.138Z"
             }
           ]
         }

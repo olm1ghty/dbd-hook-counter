@@ -14,11 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DBDtimer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-<<<<<<< HEAD
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+27c6c8d549ab6378c60fdc10a2321f1772550a0b")]
-=======
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4ee97d26f05ed946ae4310b247c60d5d2205c0c1")]
->>>>>>> in-progress
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+33ae1b3dc07807ae783744f8e160c1e652a95457")]
 [assembly: System.Reflection.AssemblyProductAttribute("DBDtimer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DBDtimer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
