@@ -20,12 +20,13 @@ namespace DBDtimer
 
         // loaded once
         public readonly Mat _hookedTemplate;
-        public readonly Mat _nextStageTemplate;
+        public readonly Mat _statusChangeTemplate;
         public readonly Mat _deadTemplate;
         public readonly Mat _moriedTemplate;
         public readonly Mat _continueTemplate;
         public readonly Mat _uiHookTemplate;
         public readonly Mat _uiMoriTemplate;
+        public readonly Mat _stbTemplate;
 
         Rectangle uiSearchArea = new(151, 1158, 33, 50);
 
@@ -33,13 +34,14 @@ namespace DBDtimer
         {
             this.form = form;
             _hookedTemplate = Resources.hooked.ToMat();
-            _nextStageTemplate = Resources.next_stage.ToMat();
+            _statusChangeTemplate = Resources.status_change.ToMat();
             _deadTemplate = Resources.dead.ToMat();
             _moriedTemplate = Resources.moried.ToMat();
             _continueTemplate = Resources.continue_button.ToMat();
             _uiHookTemplate = Resources.ui_hook.ToMat();
             _uiMoriTemplate = Resources.ui_mori.ToMat();
-    }
+            _stbTemplate = Resources.stb.ToMat();
+        }
 
         public bool MatchTemplate(Mat template, Rectangle region, double threshold = 0.90)
         {

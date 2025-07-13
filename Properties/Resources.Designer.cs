@@ -123,9 +123,19 @@ namespace DBDtimer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap next_stage {
+        internal static System.Drawing.Bitmap status_change {
             get {
-                object obj = ResourceManager.GetObject("next_stage", resourceCulture);
+                object obj = ResourceManager.GetObject("status_change", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap stb {
+            get {
+                object obj = ResourceManager.GetObject("stb", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

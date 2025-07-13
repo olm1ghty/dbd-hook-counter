@@ -17,14 +17,16 @@ public class TransparentOverlayForm : Form
 
     public Survivor[] survivors = new Survivor[4];
 
-    public int hookStageCounterStartX = 295;
-    public int hookStageCounterStartY = 640;
+    public int hookStageCounterStartX = 234;
+    public int hookStageCounterStartY = 650;
     public int hookStageCounterOffset = 120;
 
     SvgDocument hookCounterSVG;
     Graphics graphics;
     Bitmap bmp;
 
+    float hookSVGscaleX;
+    float hookSVGscaleY;
 
     public TransparentOverlayForm()
     {
@@ -64,8 +66,15 @@ public class TransparentOverlayForm : Form
         graphics.SmoothingMode = SmoothingMode.AntiAlias;
         graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
 
-        hookCounterSVG.Width = new SvgUnit(SvgUnitType.Pixel, 40);
-        hookCounterSVG.Height = new SvgUnit(SvgUnitType.Pixel, 40);
+        //hookCounterSVG.Height = new SvgUnit(SvgUnitType.Pixel, 30);
+
+        float desiredWidth = 30;
+        float desiredHeight = 38;
+        float svgWidth = hookCounterSVG.Bounds.Width;
+        float svgHeight = hookCounterSVG.Bounds.Height;
+        hookSVGscaleX = desiredWidth / svgWidth;
+        hookSVGscaleY = desiredHeight / svgHeight;
+
         hookCounterSVG.FillOpacity = 0.5f;
     }
 
@@ -82,7 +91,6 @@ public class TransparentOverlayForm : Form
             return cp;
         }
     }
-
 
     public void DrawOverlay()
     {
@@ -110,18 +118,25 @@ public class TransparentOverlayForm : Form
                         break;
 
                     case 1:
-                        leftHook.Fill = new SvgColourServer(Color.White);
+                        if (!survivors[i].usedSTB)
+                        {
+                            leftHook.Fill = new SvgColourServer(Color.White);
+                        }
                         rightHook.Fill = new SvgColourServer(Color.Black);
                         break;
 
                     case 2:
-                        leftHook.Fill = new SvgColourServer(Color.White);
+                        if (!survivors[i].usedSTB)
+                        {
+                            leftHook.Fill = new SvgColourServer(Color.White);
+                        }
                         rightHook.Fill = new SvgColourServer(Color.White);
                         break;
                 }
 
                 var state = graphics.Save();
                 graphics.TranslateTransform(hookStageCounterStartX, hookStageCounterStartY + (i * hookStageCounterOffset));
+                graphics.ScaleTransform(hookSVGscaleX, hookSVGscaleY);
                 hookCounterSVG.Draw(graphics);
                 graphics.Restore(state);
             }

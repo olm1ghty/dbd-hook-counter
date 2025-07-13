@@ -15,8 +15,8 @@ namespace DBDtimer
         private int hook = 11;
         private int ds = 61;
 
-        public int timerStartXoffset = 235;
-        public int timerStartYoffset = -30;
+        public int timerStartXoffset = 185;
+        public int timerStartYoffset = -20;
         public int timerDistanceYoffset = 20;
 
         public TimerManager(TransparentOverlayForm form)
