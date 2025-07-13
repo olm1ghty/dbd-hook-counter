@@ -1,48 +1,72 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using DBDtimer;
-using Emgu.CV.CvEnum;
 using Svg;
-using Svg.Transforms;
-using Timer = System.Windows.Forms.Timer;
+using Properties = DBDtimer.Properties;
+using Color = System.Drawing.Color;
 
 public class TransparentOverlayForm : Form
 {
-    public HookManager hookManager;
+    public ScreenChecker screenChecker;
     public TimerManager timerManager;
+    public GameStateManager gameManager;
+    public SurvivorManager survivorManager;
 
     public Survivor[] survivors = new Survivor[4];
-    
-    public int hookStageCounterStartX = 295;
-    public int hookStageCounterStartY = 640;
+
+    public int hookStageCounterStartX = 234;
+    public int hookStageCounterStartY = 650;
     public int hookStageCounterOffset = 120;
 
-    SvgDocument hookCounterSVG = SvgDocument.Open(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\both hooks.svg");
+    SvgDocument hookCounterSVG;
     Graphics graphics;
     Bitmap bmp;
+
+    float hookSVGscaleX;
+    float hookSVGscaleY;
+
+    List<string> resolutions = new() { "1920 x 1080" };
+    List<string> aspectRatios = new() { "16 x 9", "16 x 10" };
+    string resolution;
+    string aspectRatio = "16 x 9";
+
+    public float aspectRatioMod = 1;
+    public int blackBorderMod = 0;
 
     public TransparentOverlayForm()
     {
         FormBorderStyle = FormBorderStyle.None;
-        //ShowInTaskbar = false;
         TopMost = true;
         Rectangle screen = Screen.PrimaryScreen.Bounds;
-        this.Bounds = screen;        // sets Location, Width, Height in one line
-
+        this.Bounds = screen;
+        this.Text = "DBD Hook Counter";
+        this.Icon = Properties.Resources.dbd;
         StartPosition = FormStartPosition.CenterScreen;
+
+        switch (aspectRatio)
+        {
+            case "16 x 9":
+                aspectRatioMod = 0.75f;
+                blackBorderMod = -80;
+                break;
+
+            case "16 x 10":
+                aspectRatioMod = 1;
+                blackBorderMod = 0;
+                break;
+        }
+
+        using (var svgStream = new MemoryStream(Properties.Resources.hooks))
+        {
+            hookCounterSVG = SvgDocument.Open<SvgDocument>(svgStream);
+        }
 
         // Use WS_EX_LAYERED to enable per-pixel alpha
         int initialStyle = NativeMethods.GetWindowLong(Handle, NativeMethods.GWL_EXSTYLE);
         NativeMethods.SetWindowLong(Handle, NativeMethods.GWL_EXSTYLE, initialStyle | NativeMethods.WS_EX_LAYERED | NativeMethods.WS_EX_TRANSPARENT);
-
-        hookManager = new(this);
-        timerManager = new(this);
 
         survivors = new Survivor[]
         {
@@ -52,23 +76,39 @@ public class TransparentOverlayForm : Form
             new Survivor(3, this)
         };
 
+        screenChecker = new(this);
+        timerManager = new(this);
+        gameManager = new(this);
+        survivorManager = new(this);
+
         bmp = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
         graphics = Graphics.FromImage(bmp);
         graphics.Clear(Color.Transparent);
         graphics.SmoothingMode = SmoothingMode.AntiAlias;
         graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
 
-        hookCounterSVG.Width = new SvgUnit(SvgUnitType.Pixel, 40);
-        hookCounterSVG.Height = new SvgUnit(SvgUnitType.Pixel, 40);
+        //hookCounterSVG.Height = new SvgUnit(SvgUnitType.Pixel, 30);
+
+        float desiredWidth = 30;
+        float desiredHeight = 38;
+        float svgWidth = hookCounterSVG.Bounds.Width;
+        float svgHeight = hookCounterSVG.Bounds.Height;
+        hookSVGscaleX = desiredWidth / svgWidth;
+        hookSVGscaleY = desiredHeight / svgHeight;
+
         hookCounterSVG.FillOpacity = 0.5f;
     }
+
+    protected override bool ShowWithoutActivation => true;   // prevents focus when shown
 
     protected override CreateParams CreateParams
     {
         get
         {
             var cp = base.CreateParams;
-            cp.ExStyle |= NativeMethods.WS_EX_LAYERED | NativeMethods.WS_EX_TRANSPARENT;
+            cp.ExStyle |= NativeMethods.WS_EX_LAYERED      // stays
+                       | NativeMethods.WS_EX_TRANSPARENT  // stays
+                       | NativeMethods.WS_EX_NOACTIVATE;  // new: never takes focus
             return cp;
         }
     }
@@ -78,7 +118,7 @@ public class TransparentOverlayForm : Form
         // wipe everything that was drawn last time ⟵  IMPORTANT
         graphics.Clear(Color.Transparent);
 
-        if (hookManager.UIenabled())
+        if (screenChecker.UIenabled())
         {
             // --- draw hook stages ---
             for (int i = 0; i < survivors.Length; i++)
@@ -99,20 +139,26 @@ public class TransparentOverlayForm : Form
                         break;
 
                     case 1:
-                        leftHook.Fill = new SvgColourServer(Color.White);
+                        if (!survivors[i].usedSTB)
+                        {
+                            leftHook.Fill = new SvgColourServer(Color.White);
+                        }
                         rightHook.Fill = new SvgColourServer(Color.Black);
                         break;
 
                     case 2:
-                        leftHook.Fill = new SvgColourServer(Color.White);
+                        if (!survivors[i].usedSTB)
+                        {
+                            leftHook.Fill = new SvgColourServer(Color.White);
+                        }
                         rightHook.Fill = new SvgColourServer(Color.White);
                         break;
                 }
 
-                //Debug.WriteLine($"survivors[{i}].hookStages: {survivors[i].hookStages}");
-
                 var state = graphics.Save();
-                graphics.TranslateTransform(hookStageCounterStartX, hookStageCounterStartY + (i * hookStageCounterOffset));
+                graphics.TranslateTransform(hookStageCounterStartX * aspectRatioMod,
+                    (hookStageCounterStartY + blackBorderMod + (i * hookStageCounterOffset)) * aspectRatioMod);
+                graphics.ScaleTransform(hookSVGscaleX, hookSVGscaleY);
                 hookCounterSVG.Draw(graphics);
                 graphics.Restore(state);
             }
@@ -126,7 +172,7 @@ public class TransparentOverlayForm : Form
                 foreach (var timer in list)
                 {
                     string txt = timer.SecondsRemaining.ToString();
-                    using (Font f = new Font("Arial", 12, FontStyle.Bold))
+                    using (Font f = new Font("Arial", 12, System.Drawing.FontStyle.Bold))
                     using (Brush b = new SolidBrush(Color.Red))
                     {
                         graphics.DrawString(txt, f, b, timer.Position);
@@ -136,5 +182,15 @@ public class TransparentOverlayForm : Form
         }
 
         NativeMethods.SetBitmapToForm(this, bmp);
+    }
+
+    public void ClearOverlay()
+    {
+        if (graphics != null
+            && bmp != null)
+        {
+            graphics.Clear(Color.Transparent);
+            NativeMethods.SetBitmapToForm(this, bmp);
+        }
     }
 }

@@ -20,6 +20,7 @@ namespace DBDtimer
         public override void Enter()
         {
             form.timerManager.RemoveTimer(survivor.index);
+            survivor.hookStages = 2;
         }
 
         public override void Update(int index)

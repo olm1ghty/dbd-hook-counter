@@ -13,23 +13,26 @@ namespace DBDtimer
         public SurvivorStateHooked stateHooked;
         public SurvivorStateDead stateDead;
         public SurvivorStateIntermediate stateIntermediate;
-        SurvivorStateBase currentState;
+        public SurvivorStateBase currentState;
 
-        Rectangle hookSearchArea = new(123, 630, 90, 90);
-        Rectangle nextStageSearchArea = new(187, 608, 100, 70);
+        Rectangle statusSearchArea = new(123, 630, 90, 90);
+        Rectangle statusChangeSearchArea = new(187, 608, 100, 70);
+        Rectangle stbSearchArea = new(299, 653, 10, 28);
 
         TransparentOverlayForm form;
 
         public int index = 0;
         public int hookStages = 0;
 
+        public bool usedSTB = false;
+
         public Survivor(int index, TransparentOverlayForm form)
         {
             this.index = index;
             this.form = form;
 
-            stateUnhooked = new(index, hookSearchArea, form);
-            stateHooked = new(index, hookSearchArea, nextStageSearchArea, form, this);
+            stateUnhooked = new(index, statusSearchArea, form);
+            stateHooked = new(index, statusSearchArea, statusChangeSearchArea, stbSearchArea, form, this);
             stateDead = new(form, this);
             stateIntermediate = new();
 

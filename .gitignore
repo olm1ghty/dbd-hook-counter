@@ -1,3 +1,7 @@
+# Visual Studio / MSBuild junk
 .vs/
+*.user
+*.suo
+# build outputs
 bin/
 obj/
