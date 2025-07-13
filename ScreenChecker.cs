@@ -10,38 +10,36 @@ using System.Timers;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using DBDtimer.Properties;
+using Emgu.CV.Flann;
 
 namespace DBDtimer
 {
-    public class HookManager
+    public class ScreenChecker
     {
         TransparentOverlayForm form;
-
-        private System.Timers.Timer screenMonitorTimer;
-        private const int checkIntervalMs = 1000;
-        private Point safetyPixel1 = new Point(169, 1180);
-        private Point safetyPixel2 = new Point(235, 1284);
-        private Color safetyPixel1Color = Color.White;
-        private Color safetyPixel2Color = Color.Black;
-        private int safetyPixel1tolerance = 150;
-        private int safetyPixel2tolerance = 100;
-        int whiteThreshold = 20;
 
         // loaded once
         public readonly Mat _hookedTemplate;
         public readonly Mat _nextStageTemplate;
         public readonly Mat _deadTemplate;
         public readonly Mat _moriedTemplate;
+        public readonly Mat _continueTemplate;
+        public readonly Mat _uiHookTemplate;
+        public readonly Mat _uiMoriTemplate;
 
-        public HookManager(TransparentOverlayForm form)
+        Rectangle uiSearchArea = new(151, 1158, 33, 50);
+
+        public ScreenChecker(TransparentOverlayForm form)
         {
             this.form = form;
             _hookedTemplate = Resources.hooked.ToMat();
             _nextStageTemplate = Resources.next_stage.ToMat();
             _deadTemplate = Resources.dead.ToMat();
             _moriedTemplate = Resources.moried.ToMat();
-            StartHookDetection();
-        }
+            _continueTemplate = Resources.continue_button.ToMat();
+            _uiHookTemplate = Resources.ui_hook.ToMat();
+            _uiMoriTemplate = Resources.ui_mori.ToMat();
+    }
 
         public bool MatchTemplate(Mat template, Rectangle region, double threshold = 0.90)
         {
@@ -99,52 +97,18 @@ namespace DBDtimer
             form.survivors[index].SwitchState(form.survivors[index].stateUnhooked);
         }
 
-        private void StartHookDetection()
-        {
-            System.Windows.Forms.Timer screenMonitorTimer = new System.Windows.Forms.Timer();
-            screenMonitorTimer.Interval = checkIntervalMs;
-            screenMonitorTimer.Tick += (s, e) => {
-                if (UIenabled())
-                {
-                    foreach (var survivor in form.survivors)
-                    {
-                        survivor.Update(); // Already on UI thread
-                    }
-
-                    form.DrawOverlay(); // Already on UI thread
-                }
-            };
-            screenMonitorTimer.Start();
-
-        }
-
         public bool UIenabled()
         {
             bool enabled = false;
 
-            Color currentColor1 = GetColorAt(safetyPixel1);
-            Color currentColor2 = GetColorAt(safetyPixel2);
-
-            int diff1 = Math.Abs(currentColor1.R - currentColor1.G);
-            int diff2 = Math.Abs(currentColor1.R - currentColor1.B);
-
-            if (diff1 <= whiteThreshold
-                && diff2 <= whiteThreshold
-
-                && currentColor1.R >= 255 - safetyPixel1tolerance
-                && currentColor1.G >= 255 - safetyPixel1tolerance
-                && currentColor1.B >= 255 - safetyPixel1tolerance
-
-                && currentColor2.R <= 0 + safetyPixel2tolerance
-                && currentColor2.G <= 0 + safetyPixel2tolerance
-                && currentColor2.B <= 0 + safetyPixel2tolerance)
+            if (MatchTemplate(_uiHookTemplate, uiSearchArea, 0.5)
+                ||
+                MatchTemplate(_uiMoriTemplate, uiSearchArea, 0.5))
             {
                 enabled = true;
             }
 
-            //Debug.WriteLine($"uiCheck currentColor1 = {currentColor1}");
-            //Debug.WriteLine($"uiCheck currentColor2 = {currentColor2}");
-            Debug.WriteLine($"uiCheck passed? = {enabled}");
+            //Debug.WriteLine($"uiCheck passed? = {enabled}");
 
             return enabled;
         }

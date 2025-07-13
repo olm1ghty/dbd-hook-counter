@@ -61,6 +61,16 @@ namespace DBDtimer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap continue_button {
+            get {
+                object obj = ResourceManager.GetObject("continue_button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon dbd {
@@ -116,6 +126,26 @@ namespace DBDtimer.Properties {
         internal static System.Drawing.Bitmap next_stage {
             get {
                 object obj = ResourceManager.GetObject("next_stage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ui_hook {
+            get {
+                object obj = ResourceManager.GetObject("ui_hook", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ui_mori {
+            get {
+                object obj = ResourceManager.GetObject("ui_mori", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -29,13 +29,13 @@ namespace DBDtimer
 
         public override void Update(int index)
         {
-            if (form.hookManager.MatchTemplate(form.hookManager._hookedTemplate, searchArea))
+            if (form.screenChecker.MatchTemplate(form.screenChecker._hookedTemplate, searchArea))
             {
-                form.hookManager.HookSurvivor(index);
+                form.screenChecker.HookSurvivor(index);
             }
-            else if (form.hookManager.MatchTemplate(form.hookManager._moriedTemplate, searchArea, 0.55))
+            else if (form.screenChecker.MatchTemplate(form.screenChecker._moriedTemplate, searchArea, 0.55))
             {
-                form.hookManager.KillSurvivor(index);
+                form.screenChecker.KillSurvivor(index);
             }
         }
     }

@@ -19,8 +19,9 @@ using Color = System.Drawing.Color;
 
 public class TransparentOverlayForm : Form
 {
-    public HookManager hookManager;
+    public ScreenChecker screenChecker;
     public TimerManager timerManager;
+    public GameStateManager gameManager;
 
     public Survivor[] survivors = new Survivor[4];
 
@@ -51,9 +52,6 @@ public class TransparentOverlayForm : Form
         int initialStyle = NativeMethods.GetWindowLong(Handle, NativeMethods.GWL_EXSTYLE);
         NativeMethods.SetWindowLong(Handle, NativeMethods.GWL_EXSTYLE, initialStyle | NativeMethods.WS_EX_LAYERED | NativeMethods.WS_EX_TRANSPARENT);
 
-        hookManager = new(this);
-        timerManager = new(this);
-
         survivors = new Survivor[]
         {
             new Survivor(0, this),
@@ -61,6 +59,10 @@ public class TransparentOverlayForm : Form
             new Survivor(2, this),
             new Survivor(3, this)
         };
+
+        screenChecker = new(this);
+        timerManager = new(this);
+        gameManager = new(this);
 
         bmp = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
         graphics = Graphics.FromImage(bmp);
@@ -88,7 +90,7 @@ public class TransparentOverlayForm : Form
         // wipe everything that was drawn last time ⟵  IMPORTANT
         graphics.Clear(Color.Transparent);
 
-        if (hookManager.UIenabled())
+        if (screenChecker.UIenabled())
         {
             // --- draw hook stages ---
             for (int i = 0; i < survivors.Length; i++)
@@ -146,5 +148,15 @@ public class TransparentOverlayForm : Form
         }
 
         NativeMethods.SetBitmapToForm(this, bmp);
+    }
+
+    public void ClearOverlay()
+    {
+        if (graphics != null
+            && bmp != null)
+        {
+            graphics.Clear(Color.Transparent);
+            NativeMethods.SetBitmapToForm(this, bmp);
+        }
     }
 }
