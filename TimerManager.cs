@@ -96,30 +96,10 @@ namespace DBDtimer
             return exists;
         }
 
-        //public void Timer_TimerCompleted(object sender, EventArgs e)
-        //{
-        //    TimerData timer = (TimerData)sender;
-        //    timer.TimerCompleted -= Timer_TimerCompleted;
-        //    for (int i = 0; i < 4; i++)
-        //    {
-        //        if (timers[i].Remove(timer))
-        //        {
-        //            break;
-        //        }
-        //    }
-        //    //form.Controls.Remove(timer);
-        //    ArrangeTimers();
-        //}
-
         public void ClearAllTimers()
         {
             foreach (var timerList in timers)
             {
-                //foreach (var timer in timerList)
-                //{
-                //    timer.Stop();
-                //    //form.Controls.Remove(timer);
-                //}
                 timerList.Clear();
             }
         }
@@ -160,82 +140,6 @@ namespace DBDtimer
             RemoveTimer(index);
             AddTimer(ds, index);
             AddTimer(hook, index);
-        }
-
-        //public class TimerData : Control
-        //{
-        //    TransparentOverlayForm form;
-        //    public int seconds;
-        //    private System.Windows.Forms.Timer timer;
-
-        //    public event EventHandler TimerCompleted;
-
-        //    public TimerData(int seconds, TransparentOverlayForm form)
-        //    {
-        //        this.form = form;
-        //        this.seconds = seconds;
-        //        this.AutoSize = true;
-
-        //        this.SetStyle(ControlStyles.SupportsTransparentBackColor |
-        //          ControlStyles.UserPaint |
-        //          ControlStyles.OptimizedDoubleBuffer |
-        //          ControlStyles.AllPaintingInWmPaint, true);
-
-        //        this.BackColor = Color.Transparent;
-
-
-        //        // Set the size of the control based on the text size
-        //        using (Graphics g = this.CreateGraphics())
-        //        {
-        //            SizeF textSize = g.MeasureString(seconds.ToString(), this.Font);
-        //            this.Size = new Size((int)textSize.Width, (int)textSize.Height);
-        //        }
-
-        //        this.timer = new System.Windows.Forms.Timer();
-        //        this.timer.Interval = 1000; // Timer interval set to 1 second
-        //        this.timer.Tick += Timer_Tick;
-        //    }
-
-        //    public void Start()
-        //    {
-        //        timer.Start();
-        //    }
-
-        //    public void Stop()
-        //    {
-        //        timer.Stop();
-        //    }
-
-        //    private void Timer_Tick(object sender, EventArgs e)
-        //    {
-        //        seconds--;
-
-        //        if (seconds <= 0)
-        //        {
-        //            timer.Stop();
-        //            TimerCompleted?.Invoke(this, EventArgs.Empty);
-        //        }
-        //    }
-        //}
-
-        public class TimerData
-        {
-            public DateTime StartedAt { get; }
-            public int DurationSeconds { get; }
-
-            public Point Position { get; set; }
-
-            public int SecondsRemaining =>
-                Math.Max(0, DurationSeconds - (int)(DateTime.UtcNow - StartedAt).TotalSeconds);
-
-            public bool IsExpired => SecondsRemaining <= 0;
-
-            public TimerData(int duration, Point pos)
-            {
-                StartedAt = DateTime.UtcNow;
-                DurationSeconds = duration;
-                Position = pos;
-            }
         }
     }
 }
