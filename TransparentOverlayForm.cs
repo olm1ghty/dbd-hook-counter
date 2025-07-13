@@ -11,6 +11,11 @@ using Emgu.CV.CvEnum;
 using Svg;
 using Svg.Transforms;
 using Timer = System.Windows.Forms.Timer;
+using System.IO;
+using ExCSS;
+using System.Text;
+using Properties = DBDtimer.Properties;
+using Color = System.Drawing.Color;
 
 public class TransparentOverlayForm : Form
 {
@@ -18,12 +23,12 @@ public class TransparentOverlayForm : Form
     public TimerManager timerManager;
 
     public Survivor[] survivors = new Survivor[4];
-    
+
     public int hookStageCounterStartX = 295;
     public int hookStageCounterStartY = 640;
     public int hookStageCounterOffset = 120;
 
-    SvgDocument hookCounterSVG = SvgDocument.Open(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\both hooks.svg");
+    SvgDocument hookCounterSVG;
     Graphics graphics;
     Bitmap bmp;
 
@@ -33,9 +38,15 @@ public class TransparentOverlayForm : Form
         //ShowInTaskbar = false;
         TopMost = true;
         Rectangle screen = Screen.PrimaryScreen.Bounds;
-        this.Bounds = screen;        // sets Location, Width, Height in one line
-
+        this.Bounds = screen;
+        this.Text = "DBD Hook Counter";
+        this.Icon = Properties.Resources.dbd;
         StartPosition = FormStartPosition.CenterScreen;
+
+        using (var svgStream = new MemoryStream(Properties.Resources.hooks))
+        {
+            hookCounterSVG = SvgDocument.Open<SvgDocument>(svgStream);
+        }
 
         // Use WS_EX_LAYERED to enable per-pixel alpha
         int initialStyle = NativeMethods.GetWindowLong(Handle, NativeMethods.GWL_EXSTYLE);
@@ -126,7 +137,7 @@ public class TransparentOverlayForm : Form
                 foreach (var timer in list)
                 {
                     string txt = timer.SecondsRemaining.ToString();
-                    using (Font f = new Font("Arial", 12, FontStyle.Bold))
+                    using (Font f = new Font("Arial", 12, System.Drawing.FontStyle.Bold))
                     using (Brush b = new SolidBrush(Color.Red))
                     {
                         graphics.DrawString(txt, f, b, timer.Position);

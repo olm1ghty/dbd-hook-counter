@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Diagnostics;
 using System.Drawing.Imaging;
+using DBDtimer.Properties;
 
 namespace DBDtimer
 {
@@ -34,11 +35,9 @@ namespace DBDtimer
         public HookManager(TransparentOverlayForm form)
         {
             this.form = form;
-            _hookedTemplate = CvInvoke.Imread(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\States\Hooked.png", ImreadModes.ColorBgr);
-
-            _nextStageTemplate = CvInvoke.Imread(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\States\next_stage.png", ImreadModes.ColorBgr);
-
-            _deadTemplate = CvInvoke.Imread(@"C:\Users\user\Desktop\Other development\DBDtimer\dbd-hook-counter\resources\States\dead.png", ImreadModes.ColorBgr);
+            _hookedTemplate = Resources.hooked.ToMat();
+            _nextStageTemplate = Resources.next_stage.ToMat();
+            _deadTemplate = Resources.dead.ToMat();
             StartHookDetection();
         }
 
@@ -51,7 +50,7 @@ namespace DBDtimer
             using Mat roi = new Mat(frame, region);
 
             // 3. Run template‑matching
-            using Mat result = new Mat();                  // result is (W−w+1)×(H−h+1)
+            using Mat result = new Mat();
             CvInvoke.MatchTemplate(roi, template, result, TemplateMatchingType.CcoeffNormed);
 
             // 4. Find the best match
