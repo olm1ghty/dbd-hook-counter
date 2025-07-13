@@ -37,16 +37,16 @@ namespace DBDtimer
         {
             if (form.screenChecker.MatchTemplate(form.screenChecker._deadTemplate, unhookSearchArea, 0.5))
             {
-                form.screenChecker.KillSurvivor(index);
+                form.survivorManager.KillSurvivor(index);
             }
             else if (!form.screenChecker.MatchTemplate(form.screenChecker._hookedTemplate, unhookSearchArea, 0.7))
             {
                 form.timerManager.TriggerTimer(index);
-                form.screenChecker.UnhookSurvivor(index);
+                form.survivorManager.UnhookSurvivor(index);
             }
             else if (form.screenChecker.MatchTemplate(form.screenChecker._nextStageTemplate, nextStageSearchArea, 0.4))
             {
-                form.screenChecker.HookSurvivor(index);
+                form.survivorManager.HookSurvivor(index);
             }
         }
     }

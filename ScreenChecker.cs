@@ -73,30 +73,6 @@ namespace DBDtimer
             return bmp.ToMat();
         }
 
-        public void AddHookStage(int survivorIndex)
-        {
-            //Debug.WriteLine($"AddHookStage: {survivorIndex}");
-
-            form.survivors[survivorIndex].hookStages++;
-        }
-
-        public void HookSurvivor(int index)
-        {
-            form.survivors[index].GetHooked();
-        }
-
-        public void KillSurvivor(int index)
-        {
-            var survivor = form.survivors[index];
-            survivor.SwitchState(survivor.stateDead);
-            form.timerManager.RemoveTimer(index);
-        }
-
-        public void UnhookSurvivor(int index)
-        {
-            form.survivors[index].SwitchState(form.survivors[index].stateUnhooked);
-        }
-
         public bool UIenabled()
         {
             bool enabled = false;

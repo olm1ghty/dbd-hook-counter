@@ -1,19 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using DBDtimer;
-using Emgu.CV.CvEnum;
 using Svg;
-using Svg.Transforms;
-using Timer = System.Windows.Forms.Timer;
-using System.IO;
-using ExCSS;
-using System.Text;
 using Properties = DBDtimer.Properties;
 using Color = System.Drawing.Color;
 
@@ -22,6 +13,7 @@ public class TransparentOverlayForm : Form
     public ScreenChecker screenChecker;
     public TimerManager timerManager;
     public GameStateManager gameManager;
+    public SurvivorManager survivorManager;
 
     public Survivor[] survivors = new Survivor[4];
 
@@ -32,6 +24,7 @@ public class TransparentOverlayForm : Form
     SvgDocument hookCounterSVG;
     Graphics graphics;
     Bitmap bmp;
+
 
     public TransparentOverlayForm()
     {
@@ -63,6 +56,7 @@ public class TransparentOverlayForm : Form
         screenChecker = new(this);
         timerManager = new(this);
         gameManager = new(this);
+        survivorManager = new(this);
 
         bmp = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
         graphics = Graphics.FromImage(bmp);
@@ -75,15 +69,20 @@ public class TransparentOverlayForm : Form
         hookCounterSVG.FillOpacity = 0.5f;
     }
 
+    protected override bool ShowWithoutActivation => true;   // prevents focus when shown
+
     protected override CreateParams CreateParams
     {
         get
         {
             var cp = base.CreateParams;
-            cp.ExStyle |= NativeMethods.WS_EX_LAYERED | NativeMethods.WS_EX_TRANSPARENT;
+            cp.ExStyle |= NativeMethods.WS_EX_LAYERED      // stays
+                       | NativeMethods.WS_EX_TRANSPARENT  // stays
+                       | NativeMethods.WS_EX_NOACTIVATE;  // new: never takes focus
             return cp;
         }
     }
+
 
     public void DrawOverlay()
     {
@@ -120,8 +119,6 @@ public class TransparentOverlayForm : Form
                         rightHook.Fill = new SvgColourServer(Color.White);
                         break;
                 }
-
-                //Debug.WriteLine($"survivors[{i}].hookStages: {survivors[i].hookStages}");
 
                 var state = graphics.Save();
                 graphics.TranslateTransform(hookStageCounterStartX, hookStageCounterStartY + (i * hookStageCounterOffset));

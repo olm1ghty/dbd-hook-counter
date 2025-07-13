@@ -31,11 +31,11 @@ namespace DBDtimer
         {
             if (form.screenChecker.MatchTemplate(form.screenChecker._hookedTemplate, searchArea))
             {
-                form.screenChecker.HookSurvivor(index);
+                form.survivorManager.HookSurvivor(index);
             }
             else if (form.screenChecker.MatchTemplate(form.screenChecker._moriedTemplate, searchArea, 0.55))
             {
-                form.screenChecker.KillSurvivor(index);
+                form.survivorManager.KillSurvivor(index);
             }
         }
     }

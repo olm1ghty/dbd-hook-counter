@@ -6,6 +6,7 @@ using System.Windows.Forms;
 
 public static class NativeMethods
 {
+    public const int WS_EX_NOACTIVATE = 0x08000000;
     public const int WS_EX_LAYERED = 0x80000;
     public const int WS_EX_TRANSPARENT = 0x20;
     public const int ULW_ALPHA = 0x02;
