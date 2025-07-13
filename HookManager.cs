@@ -18,8 +18,8 @@ namespace DBDtimer
         TransparentOverlayForm form;
 
         private System.Timers.Timer screenMonitorTimer;
-        private const int checkIntervalMs = 16;
-        private Point safetyPixel1 = new Point(170, 1180);
+        private const int checkIntervalMs = 1000;
+        private Point safetyPixel1 = new Point(169, 1180);
         private Point safetyPixel2 = new Point(235, 1284);
         private Color safetyPixel1Color = Color.White;
         private Color safetyPixel2Color = Color.Black;
@@ -31,6 +31,7 @@ namespace DBDtimer
         public readonly Mat _hookedTemplate;
         public readonly Mat _nextStageTemplate;
         public readonly Mat _deadTemplate;
+        public readonly Mat _moriedTemplate;
 
         public HookManager(TransparentOverlayForm form)
         {
@@ -38,6 +39,7 @@ namespace DBDtimer
             _hookedTemplate = Resources.hooked.ToMat();
             _nextStageTemplate = Resources.next_stage.ToMat();
             _deadTemplate = Resources.dead.ToMat();
+            _moriedTemplate = Resources.moried.ToMat();
             StartHookDetection();
         }
 
@@ -142,7 +144,7 @@ namespace DBDtimer
 
             //Debug.WriteLine($"uiCheck currentColor1 = {currentColor1}");
             //Debug.WriteLine($"uiCheck currentColor2 = {currentColor2}");
-            //Debug.WriteLine($"uiCheck passed? = {enabled}");
+            Debug.WriteLine($"uiCheck passed? = {enabled}");
 
             return enabled;
         }
