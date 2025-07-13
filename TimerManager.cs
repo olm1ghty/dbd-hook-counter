@@ -36,8 +36,8 @@ namespace DBDtimer
 
         Point CalculatePosition(int survivorIndex = -1)
         {
-            int x = form.hookStageCounterStartX - timerStartXoffset;
-            int y = form.hookStageCounterStartY + (form.hookStageCounterOffset * survivorIndex) - timerStartYoffset;
+            int x = (int)((form.hookStageCounterStartX - timerStartXoffset) * form.aspectRatioMod);
+            int y = (int)((form.hookStageCounterStartY + form.blackBorderMod + (form.hookStageCounterOffset * survivorIndex) - timerStartYoffset + form.blackBorderMod) * form.aspectRatioMod);
 
             if (survivorIndex == -1)
             {
@@ -110,8 +110,8 @@ namespace DBDtimer
             {
                 foreach (var timer in timers[i])
                 {
-                    int x = form.hookStageCounterStartX - timerStartXoffset;
-                    int y = form.hookStageCounterStartY + (form.hookStageCounterOffset * i) - timerStartYoffset;
+                    int x = (int)((form.hookStageCounterStartX - timerStartXoffset) * form.aspectRatioMod);
+                    int y = (int)((form.hookStageCounterStartY + form.blackBorderMod + (form.hookStageCounterOffset * i) - timerStartYoffset) * form.aspectRatioMod);
 
                     if (i == -1)
                     {

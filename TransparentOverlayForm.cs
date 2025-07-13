@@ -28,6 +28,14 @@ public class TransparentOverlayForm : Form
     float hookSVGscaleX;
     float hookSVGscaleY;
 
+    List<string> resolutions = new() { "1920 x 1080" };
+    List<string> aspectRatios = new() { "16 x 9", "16 x 10" };
+    string resolution;
+    string aspectRatio = "16 x 9";
+
+    public float aspectRatioMod = 1;
+    public int blackBorderMod = 0;
+
     public TransparentOverlayForm()
     {
         FormBorderStyle = FormBorderStyle.None;
@@ -37,6 +45,19 @@ public class TransparentOverlayForm : Form
         this.Text = "DBD Hook Counter";
         this.Icon = Properties.Resources.dbd;
         StartPosition = FormStartPosition.CenterScreen;
+
+        switch (aspectRatio)
+        {
+            case "16 x 9":
+                aspectRatioMod = 0.75f;
+                blackBorderMod = -80;
+                break;
+
+            case "16 x 10":
+                aspectRatioMod = 1;
+                blackBorderMod = 0;
+                break;
+        }
 
         using (var svgStream = new MemoryStream(Properties.Resources.hooks))
         {
@@ -135,7 +156,8 @@ public class TransparentOverlayForm : Form
                 }
 
                 var state = graphics.Save();
-                graphics.TranslateTransform(hookStageCounterStartX, hookStageCounterStartY + (i * hookStageCounterOffset));
+                graphics.TranslateTransform(hookStageCounterStartX * aspectRatioMod,
+                    (hookStageCounterStartY + blackBorderMod + (i * hookStageCounterOffset)) * aspectRatioMod);
                 graphics.ScaleTransform(hookSVGscaleX, hookSVGscaleY);
                 hookCounterSVG.Draw(graphics);
                 graphics.Restore(state);
