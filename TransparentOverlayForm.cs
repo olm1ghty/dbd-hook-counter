@@ -35,7 +35,6 @@ public class TransparentOverlayForm : Form
     public TransparentOverlayForm()
     {
         FormBorderStyle = FormBorderStyle.None;
-        //ShowInTaskbar = false;
         TopMost = true;
         Rectangle screen = Screen.PrimaryScreen.Bounds;
         this.Bounds = screen;
