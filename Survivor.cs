@@ -31,6 +31,10 @@ namespace DBDtimer
             this.index = index;
             this.form = form;
 
+            statusSearchArea = form.scaler.Scale(statusSearchArea);
+            statusChangeSearchArea = form.scaler.Scale(statusChangeSearchArea);
+            stbSearchArea = form.scaler.Scale(stbSearchArea);
+
             stateUnhooked = new(index, statusSearchArea, form);
             stateHooked = new(index, statusSearchArea, statusChangeSearchArea, stbSearchArea, form, this);
             stateDead = new(form, this);

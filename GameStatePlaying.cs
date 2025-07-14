@@ -18,6 +18,8 @@ namespace DBDtimer
         {
             this.stateManager = stateManager;
             this.form = form;
+
+            continueSearchArea = form.scaler.ScaleMenu(continueSearchArea);
         }
 
         public override void Enter()
@@ -27,6 +29,7 @@ namespace DBDtimer
 
         public override void Update()
         {
+            Debug.Write(continueSearchArea);
             if (form.screenChecker.MatchTemplate(form.screenChecker._continueTemplate, continueSearchArea))
             {
                 stateManager.SwitchState(stateManager.stateLobby);
