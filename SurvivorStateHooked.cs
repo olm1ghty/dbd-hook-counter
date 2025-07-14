@@ -55,8 +55,6 @@ namespace DBDtimer
                             && form.screenChecker.MatchTemplate(form.screenChecker._statusChangeTemplate, survivor.stateHooked.statusChangeSearchArea, 0.4))
                         {
                             this.survivor.hookStages--;
-                            survivor.hookStages++;
-                            survivor.usedSTB = true;
                         }
                     }
                 }

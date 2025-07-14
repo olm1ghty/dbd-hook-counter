@@ -7,6 +7,7 @@ using DBDtimer;
 using Svg;
 using Properties = DBDtimer.Properties;
 using Color = System.Drawing.Color;
+using System.Runtime.InteropServices;
 
 public class TransparentOverlayForm : Form
 {
@@ -18,7 +19,7 @@ public class TransparentOverlayForm : Form
 
     public Survivor[] survivors = new Survivor[4];
 
-    public int hookStageCounterStartX = 234;
+    public int hookStageCounterStartX = 264;
     public int hookStageCounterStartY = 650;
     public int hookStageCounterOffset = 120;
 
@@ -28,6 +29,23 @@ public class TransparentOverlayForm : Form
 
     float hookSVGscaleX;
     float hookSVGscaleY;
+
+    private OverlayMenuForm menuForm;
+    private const int HOTKEY_ID = 1;          // choose key id as before
+
+    private const int WM_HOTKEY = 0x0312;
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+
+    private const uint MOD_CONTROL = 0x0002;
+    private const uint MOD_SHIFT = 0x0004;
+    private const uint VK_M = 0x4D;  // virtual‑key code for ‘M’
+
+
 
     public TransparentOverlayForm()
     {
@@ -75,14 +93,14 @@ public class TransparentOverlayForm : Form
 
         //hookCounterSVG.Height = new SvgUnit(SvgUnitType.Pixel, 30);
 
-        float desiredWidth = 30;
+        float desiredWidth = 20;
         float desiredHeight = 38;
         float svgWidth = hookCounterSVG.Bounds.Width;
         float svgHeight = hookCounterSVG.Bounds.Height;
         hookSVGscaleX = desiredWidth / svgWidth;
         hookSVGscaleY = desiredHeight / svgHeight;
 
-        hookCounterSVG.FillOpacity = 0.5f;
+        hookCounterSVG.FillOpacity = 0.75f;
     }
 
     protected override bool ShowWithoutActivation => true;   // prevents focus when shown
@@ -125,18 +143,12 @@ public class TransparentOverlayForm : Form
                         break;
 
                     case 1:
-                        if (!survivors[i].usedSTB)
-                        {
-                            leftHook.Fill = new SvgColourServer(Color.White);
-                        }
+                        leftHook.Fill = new SvgColourServer(Color.White);
                         rightHook.Fill = new SvgColourServer(Color.Black);
                         break;
 
                     case 2:
-                        if (!survivors[i].usedSTB)
-                        {
-                            leftHook.Fill = new SvgColourServer(Color.White);
-                        }
+                        leftHook.Fill = new SvgColourServer(Color.White);
                         rightHook.Fill = new SvgColourServer(Color.White);
                         break;
                 }
@@ -178,4 +190,57 @@ public class TransparentOverlayForm : Form
             NativeMethods.SetBitmapToForm(this, bmp);
         }
     }
+
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+        RegisterHotKey(this.Handle, HOTKEY_ID, MOD_CONTROL | MOD_SHIFT, VK_M);
+    }
+    protected override void OnHandleDestroyed(EventArgs e)
+    {
+        UnregisterHotKey(this.Handle, HOTKEY_ID);
+        base.OnHandleDestroyed(e);
+    }
+
+
+    private void ShowMenus()
+    {
+        EnableInput(true);                    // overlay becomes clickable
+
+        if (menuForm == null || menuForm.IsDisposed)
+        {
+            menuForm = new OverlayMenuForm(this);
+
+            menuForm.FormClosed += (_, __) => {
+                EnableInput(false);           // restore click‑through
+            };
+        }
+
+        // position near mouse cursor
+        Point p = Cursor.Position;
+        menuForm.Location = p;
+        menuForm.Show();
+        menuForm.BringToFront();
+    }
+
+    private void EnableInput(bool enable)
+    {
+        int style = NativeMethods.GetWindowLong(Handle, NativeMethods.GWL_EXSTYLE);
+        if (enable)
+            NativeMethods.SetWindowLong(Handle, NativeMethods.GWL_EXSTYLE, style & ~NativeMethods.WS_EX_TRANSPARENT);
+        else
+            NativeMethods.SetWindowLong(Handle, NativeMethods.GWL_EXSTYLE, style | NativeMethods.WS_EX_TRANSPARENT);
+    }
+
+    protected override void WndProc(ref Message m)
+    {
+        if (m.Msg == WM_HOTKEY && m.WParam.ToInt32() == HOTKEY_ID)
+        {
+            ShowMenus();                     // open all dropdowns at once
+            return;
+        }
+        base.WndProc(ref m);
+    }
+
+
 }

@@ -1,16 +1,16 @@
 ﻿using Emgu.CV.CvEnum;
 using Emgu.CV;
 using System.Windows.Forms;
+using System.Diagnostics;
+using Properties = DBDtimer.Properties;
 
 public class Scaler
 {
-    List<string> resolutions = new() { "1920 x 1080" };
-    List<string> aspectRatios = new() { "16 x 9", "16 x 10" };
-    List<int> HUDscales = new() { 100, 95, 90, 85, 80, 75, 70 };
-    List<int> MenuScales = new() { 100, 95, 90, 85, 80, 75, 70 };
+    public List<string> aspectRatios = new() { "16:9", "16:10" };
+    public List<int> HUDscales = new() { 100, 95, 90, 85, 80, 75, 70 };
+    public List<int> MenuScales = new() { 100, 95, 90, 85, 80, 75, 70 };
 
-    string resolution;
-    string aspectRatio = "16 x 10";
+    public string aspectRatio = "16:10";
 
     int blackBorderHeight = 80;
     int screenHeight;
@@ -18,22 +18,26 @@ public class Scaler
     public float aspectRatioMod;
     public int blackBorderMod;
     public int blackBorderModHUD;
-    float HUDScale = 0.75f;
-    float MenuScale = 0.85f;
+    public float HUDScale = 1f;
+    public float MenuScale = 1f;
 
     public Scaler()
     {
+        aspectRatio = Properties.Settings.Default.AspectRatio;
+        MenuScale = Properties.Settings.Default.MenuScale;
+        HUDScale = Properties.Settings.Default.HUDScale;
+
         screenHeight = Screen.PrimaryScreen.Bounds.Height;
 
         switch (aspectRatio)
         {
-            case "16 x 9":
+            case "16:9":
                 aspectRatioMod = 0.75f;
                 blackBorderMod = -blackBorderHeight;
                 blackBorderModHUD = 0;
                 break;
 
-            case "16 x 10":
+            case "16:10":
                 aspectRatioMod = 1;
                 blackBorderMod = 0;
                 blackBorderModHUD = -blackBorderHeight;

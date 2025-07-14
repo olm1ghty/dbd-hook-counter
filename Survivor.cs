@@ -24,8 +24,6 @@ namespace DBDtimer
         public int index = 0;
         public int hookStages = 0;
 
-        public bool usedSTB = false;
-
         public Survivor(int index, TransparentOverlayForm form)
         {
             this.index = index;
@@ -65,6 +63,8 @@ namespace DBDtimer
 
         public void GetHooked()
         {
+            form.timerManager.RemoveTimer(index);
+
             switch (hookStages)
             {
                 case 0:
