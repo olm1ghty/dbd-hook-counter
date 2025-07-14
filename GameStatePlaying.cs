@@ -29,7 +29,7 @@ namespace DBDtimer
 
         public override void Update()
         {
-            Debug.Write(continueSearchArea);
+            //Debug.WriteLine(continueSearchArea);
             if (form.screenChecker.MatchTemplate(form.screenChecker._continueTemplate, continueSearchArea))
             {
                 stateManager.SwitchState(stateManager.stateLobby);

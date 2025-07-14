@@ -34,28 +34,16 @@ namespace DBDtimer
         {
             this.form = form;
 
-            _hookedTemplate = LoadTemplate(Resources.hooked);
-            _statusChangeTemplate = LoadTemplate(Resources.status_change);
-            _deadTemplate = LoadTemplate(Resources.dead);
-            _moriedTemplate = LoadTemplate(Resources.moried);
-            _continueTemplate = LoadTemplate(Resources.continue_button);
-            _uiHookTemplate = LoadTemplate(Resources.ui_hook);
-            _uiMoriTemplate = LoadTemplate(Resources.ui_mori);
-            _stbTemplate = LoadTemplate(Resources.stb);
+            _hookedTemplate = form.scaler.LoadScaledTemplate(Resources.hooked);
+            _statusChangeTemplate = form.scaler.LoadScaledTemplate(Resources.status_change);
+            _deadTemplate = form.scaler.LoadScaledTemplate(Resources.dead);
+            _moriedTemplate = form.scaler.LoadScaledTemplate(Resources.moried);
+            _continueTemplate = form.scaler.LoadScaledTemplateMenu(Resources.continue_button);
+            _uiHookTemplate = form.scaler.LoadScaledTemplate(Resources.ui_hook);
+            _uiMoriTemplate = form.scaler.LoadScaledTemplate(Resources.ui_mori);
+            _stbTemplate = form.scaler.LoadScaledTemplate(Resources.stb);
 
             uiSearchArea = form.scaler.Scale(uiSearchArea);
-        }
-
-        Mat LoadTemplate(Bitmap bmp)
-        {
-            Mat full = bmp.ToMat();                        // original size
-            if (Math.Abs(form.scaler.aspectRatioMod - 1.0) < 0.0001) return full;
-
-            Mat small = new Mat();
-            CvInvoke.Resize(full, small, Size.Empty,       // Size.Empty → use fx/fy
-                            form.scaler.aspectRatioMod, form.scaler.aspectRatioMod, Inter.Area);
-            full.Dispose();                                // if you don't need it
-            return small;
         }
 
         public bool MatchTemplate(Mat template, Rectangle region, double threshold = 0.90)

@@ -14,7 +14,7 @@ public class TransparentOverlayForm : Form
     public TimerManager timerManager;
     public GameStateManager gameManager;
     public SurvivorManager survivorManager;
-    public UIScaler scaler;
+    public Scaler scaler;
 
     public Survivor[] survivors = new Survivor[4];
 
