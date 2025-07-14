@@ -18,8 +18,8 @@ public class Scaler
     public float aspectRatioMod;
     public int blackBorderMod;
     public int blackBorderModHUD;
-    float HUDScale = 0.85f;
-    float MenuScale = 1;
+    float HUDScale = 0.75f;
+    float MenuScale = 0.85f;
 
     public Scaler()
     {
@@ -75,14 +75,14 @@ public class Scaler
             (int)(rect.Width * aspectRatioMod * HUDScale),
             (int)(heightBeforeHUDScale * HUDScale));
 
-        newRect.Y = ScaleYforRectHUD(heightBeforeHUDScale, newRect);
+        newRect.Y = ScaleYforRect(heightBeforeHUDScale, newRect);
 
         return newRect;
     }
 
-    int ScaleYforRectHUD(int heightBeforeHUDScale, Rectangle rect)
+    int ScaleYforRect(int heightBeforeScale, Rectangle rect)
     {
-        int distance = screenHeight + blackBorderModHUD - rect.Y - heightBeforeHUDScale;
+        int distance = screenHeight + blackBorderModHUD - rect.Y - heightBeforeScale;
         distance = (int)(distance * HUDScale);
 
         return (screenHeight + blackBorderModHUD - rect.Height - distance);
@@ -117,10 +117,16 @@ public class Scaler
 
     public Rectangle ScaleMenu(Rectangle rect)
     {
-        return new Rectangle(
-            (int)(rect.X * aspectRatioMod * MenuScale),
+        int heightBeforeMenuScale = (int)(rect.Height * aspectRatioMod);
+
+        Rectangle newRect = new(
+            (int)(rect.X * aspectRatioMod),
             (int)((rect.Y + 2 * blackBorderMod) * aspectRatioMod * MenuScale),
             (int)(rect.Width * aspectRatioMod * MenuScale),
-            (int)(rect.Height * aspectRatioMod * MenuScale));
+            (int)(heightBeforeMenuScale * MenuScale));
+
+        newRect.Y = ScaleYforRect(heightBeforeMenuScale, newRect);
+
+        return newRect;
     }
 }
