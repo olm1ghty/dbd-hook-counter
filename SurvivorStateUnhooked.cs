@@ -16,6 +16,7 @@ namespace DBDtimer
 
         public SurvivorStateUnhooked(int index, Rectangle searchArea, TransparentOverlayForm form)
         {
+            this.yOffset = form.scaler.Scale(this.yOffset);
             int yOffset = index * this.yOffset;
 
             this.searchArea = new Rectangle(searchArea.X, searchArea.Y + yOffset, searchArea.Width, searchArea.Height);

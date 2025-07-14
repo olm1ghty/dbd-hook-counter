@@ -31,6 +31,8 @@ namespace DBDtimer
 
         public override void Update()
         {
+            //Debug.WriteLine("LOBBY");
+
             if (form.screenChecker.UIenabled())
             {
                 stateManager.SwitchState(stateManager.statePlaying);

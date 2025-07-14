@@ -34,32 +34,16 @@ namespace DBDtimer
         {
             this.form = form;
 
-            _hookedTemplate = LoadTemplate(Resources.hooked, form.aspectRatioMod);
-            _statusChangeTemplate = LoadTemplate(Resources.status_change, form.aspectRatioMod);
-            _deadTemplate = LoadTemplate(Resources.dead, form.aspectRatioMod);
-            _moriedTemplate = LoadTemplate(Resources.moried, form.aspectRatioMod);
-            _continueTemplate = LoadTemplate(Resources.continue_button, form.aspectRatioMod);
-            _uiHookTemplate = LoadTemplate(Resources.ui_hook, form.aspectRatioMod);
-            _uiMoriTemplate = LoadTemplate(Resources.ui_mori, form.aspectRatioMod);
-            _stbTemplate = LoadTemplate(Resources.stb, form.aspectRatioMod);
+            _hookedTemplate = form.scaler.LoadScaledTemplate(Resources.hooked);
+            _statusChangeTemplate = form.scaler.LoadScaledTemplate(Resources.status_change);
+            _deadTemplate = form.scaler.LoadScaledTemplate(Resources.dead);
+            _moriedTemplate = form.scaler.LoadScaledTemplate(Resources.moried);
+            _continueTemplate = form.scaler.LoadScaledTemplateMenu(Resources.continue_button);
+            _uiHookTemplate = form.scaler.LoadScaledTemplate(Resources.ui_hook);
+            _uiMoriTemplate = form.scaler.LoadScaledTemplate(Resources.ui_mori);
+            _stbTemplate = form.scaler.LoadScaledTemplate(Resources.stb);
 
-            uiSearchArea = new(
-                (int)(uiSearchArea.X * form.aspectRatioMod),
-                (int)((uiSearchArea.Y + form.blackBorderMod) * form.aspectRatioMod),
-                (int)(uiSearchArea.Width * form.aspectRatioMod),
-                (int)(uiSearchArea.Height * form.aspectRatioMod));
-        }
-
-        Mat LoadTemplate(Bitmap bmp, double scale)
-        {
-            Mat full = bmp.ToMat();                        // original size
-            if (Math.Abs(scale - 1.0) < 0.0001) return full;
-
-            Mat small = new Mat();
-            CvInvoke.Resize(full, small, Size.Empty,       // Size.Empty → use fx/fy
-                            scale, scale, Inter.Area);     // good for shrinking
-            full.Dispose();                                // if you don't need it
-            return small;
+            uiSearchArea = form.scaler.Scale(uiSearchArea);
         }
 
         public bool MatchTemplate(Mat template, Rectangle region, double threshold = 0.90)

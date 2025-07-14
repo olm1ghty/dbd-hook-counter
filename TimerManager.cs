@@ -15,13 +15,17 @@ namespace DBDtimer
         private int hook = 11;
         private int ds = 61;
 
-        public int timerStartXoffset = 185;
+        public int timerStartXoffset = 215;
         public int timerStartYoffset = -20;
         public int timerDistanceYoffset = 20;
 
         public TimerManager(TransparentOverlayForm form)
         {
             this.form = form;
+
+            timerStartXoffset = form.scaler.Scale(timerStartXoffset);
+            timerStartYoffset = form.scaler.Scale(timerStartYoffset);
+            timerDistanceYoffset = form.scaler.Scale(timerDistanceYoffset);
 
             for (int i = 0; i < 4; i++)
             {
@@ -36,8 +40,8 @@ namespace DBDtimer
 
         Point CalculatePosition(int survivorIndex = -1)
         {
-            int x = (int)((form.hookStageCounterStartX - timerStartXoffset) * form.aspectRatioMod);
-            int y = (int)((form.hookStageCounterStartY + form.blackBorderMod + (form.hookStageCounterOffset * survivorIndex) - timerStartYoffset + form.blackBorderMod) * form.aspectRatioMod);
+            int x = (int)(form.hookStageCounterStartX - timerStartXoffset);
+            int y = (int)(form.hookStageCounterStartY + (form.hookStageCounterOffset * survivorIndex) - timerStartYoffset);
 
             if (survivorIndex == -1)
             {
@@ -110,8 +114,8 @@ namespace DBDtimer
             {
                 foreach (var timer in timers[i])
                 {
-                    int x = (int)((form.hookStageCounterStartX - timerStartXoffset) * form.aspectRatioMod);
-                    int y = (int)((form.hookStageCounterStartY + form.blackBorderMod + (form.hookStageCounterOffset * i) - timerStartYoffset) * form.aspectRatioMod);
+                    int x = (int)(form.hookStageCounterStartX - timerStartXoffset);
+                    int y = (int)(form.hookStageCounterStartY + (form.hookStageCounterOffset * i) - timerStartYoffset);
 
                     if (i == -1)
                     {

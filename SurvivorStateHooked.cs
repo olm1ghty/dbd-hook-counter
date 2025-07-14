@@ -21,6 +21,7 @@ namespace DBDtimer
 
         public SurvivorStateHooked(int index, Rectangle searchArea, Rectangle nextStageSearchArea, Rectangle stbSearchArea, TransparentOverlayForm form, Survivor survivor)
         {
+            this.yOffset = form.scaler.Scale(this.yOffset);
             int yOffset = index * this.yOffset;
 
             this.statusSearchArea = new Rectangle(searchArea.X, searchArea.Y + yOffset, searchArea.Width, searchArea.Height);
@@ -54,8 +55,6 @@ namespace DBDtimer
                             && form.screenChecker.MatchTemplate(form.screenChecker._statusChangeTemplate, survivor.stateHooked.statusChangeSearchArea, 0.4))
                         {
                             this.survivor.hookStages--;
-                            survivor.hookStages++;
-                            survivor.usedSTB = true;
                         }
                     }
                 }

@@ -24,12 +24,14 @@ namespace DBDtimer
         public int index = 0;
         public int hookStages = 0;
 
-        public bool usedSTB = false;
-
         public Survivor(int index, TransparentOverlayForm form)
         {
             this.index = index;
             this.form = form;
+
+            statusSearchArea = form.scaler.Scale(statusSearchArea);
+            statusChangeSearchArea = form.scaler.Scale(statusChangeSearchArea);
+            stbSearchArea = form.scaler.Scale(stbSearchArea);
 
             stateUnhooked = new(index, statusSearchArea, form);
             stateHooked = new(index, statusSearchArea, statusChangeSearchArea, stbSearchArea, form, this);
@@ -61,6 +63,8 @@ namespace DBDtimer
 
         public void GetHooked()
         {
+            form.timerManager.RemoveTimer(index);
+
             switch (hookStages)
             {
                 case 0:
