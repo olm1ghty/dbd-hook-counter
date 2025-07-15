@@ -94,5 +94,29 @@ namespace DBDtimer.Properties {
                 this["DropdownHUD"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool dsTimerEnabled {
+            get {
+                return ((bool)(this["dsTimerEnabled"]));
+            }
+            set {
+                this["dsTimerEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool enduranceTimerEnabled {
+            get {
+                return ((bool)(this["enduranceTimerEnabled"]));
+            }
+            set {
+                this["enduranceTimerEnabled"] = value;
+            }
+        }
     }
 }

@@ -41,11 +41,8 @@ public class TransparentOverlayForm : Form
     [DllImport("user32.dll", SetLastError = true)]
     private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
-    private const uint MOD_CONTROL = 0x0002;
     private const uint MOD_SHIFT = 0x0004;
     private const uint VK_M = 0x4D;  // virtual‑key code for ‘M’
-
-
 
     public TransparentOverlayForm()
     {
@@ -194,14 +191,14 @@ public class TransparentOverlayForm : Form
     protected override void OnHandleCreated(EventArgs e)
     {
         base.OnHandleCreated(e);
-        RegisterHotKey(this.Handle, HOTKEY_ID, MOD_CONTROL | MOD_SHIFT, VK_M);
+        RegisterHotKey(this.Handle, HOTKEY_ID, MOD_SHIFT, VK_M);
     }
+    
     protected override void OnHandleDestroyed(EventArgs e)
     {
         UnregisterHotKey(this.Handle, HOTKEY_ID);
         base.OnHandleDestroyed(e);
     }
-
 
     private void ShowMenus()
     {

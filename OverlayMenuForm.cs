@@ -16,7 +16,7 @@ public class OverlayMenuForm : Form
         TopMost = true;
         AutoSize = true;
         AutoSizeMode = AutoSizeMode.GrowAndShrink;
-        Padding = new Padding(8);
+        Text = "Settings";
 
         // --- Aspect ratio dropdown -----------------
         var arLabel = new Label { Text = "Aspect ratio:", AutoSize = true };
@@ -51,7 +51,35 @@ public class OverlayMenuForm : Form
             form.scaler.HUDScale = value;
         };
 
-        // --- Button ----------------
+        // --- DS checkbox ----------------
+        var dsCheckBox = new CheckBox
+        {
+            Text = "DS timer",
+            AutoSize = true,
+            Margin = new Padding(0, 12, 0, 0),
+            Checked = form.timerManager.dsTimerEnabled
+        };
+        dsCheckBox.CheckedChanged += (_, __) =>
+        {
+            form.timerManager.dsTimerEnabled = dsCheckBox.Checked;
+            Properties.Settings.Default.dsTimerEnabled = dsCheckBox.Checked;
+        };
+
+        // --- Endurance checkbox ----------------
+        var enduranceCheckBox = new CheckBox
+        {
+            Text = "Off-hook endurance timer",
+            AutoSize = true,
+            Margin = new Padding(0, 12, 0, 0),
+            Checked = form.timerManager.enduranceTimerEnabled
+        };
+        enduranceCheckBox.CheckedChanged += (_, __) =>
+        {
+            form.timerManager.enduranceTimerEnabled = enduranceCheckBox.Checked;
+            Properties.Settings.Default.enduranceTimerEnabled = enduranceCheckBox.Checked;
+        };
+
+        // --- Close button ----------------
         var closeBtn = new Button
         {
             Text = "Save and restart the overlay",
@@ -69,6 +97,9 @@ public class OverlayMenuForm : Form
             Properties.Settings.Default.DropdownUI = uiBox.SelectedIndex;
             Properties.Settings.Default.DropdownHUD = hudBox.SelectedIndex;
 
+            Properties.Settings.Default.dsTimerEnabled = dsCheckBox.Checked;
+            Properties.Settings.Default.enduranceTimerEnabled = enduranceCheckBox.Checked;
+
             Properties.Settings.Default.Save();
 
             // Restart app
@@ -78,12 +109,20 @@ public class OverlayMenuForm : Form
 
 
         // --- Layout ------------------------
-        var layout = new FlowLayoutPanel { AutoSize = true, FlowDirection = FlowDirection.TopDown };
+        var layout = new FlowLayoutPanel
+        { 
+            AutoSize = true, 
+            FlowDirection = FlowDirection.TopDown,
+            Padding = new Padding(12, 8, 12, 8),
+            Margin = new Padding(12)
+        };
         layout.Controls.AddRange(new Control[] {
             arLabel,  arBox,
             uiLabel, uiBox,
             hudLabel, hudBox,
-            closeBtn
+            dsCheckBox,
+            enduranceCheckBox,
+            closeBtn,
         });
         Controls.Add(layout);
     }
