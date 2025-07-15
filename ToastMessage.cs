@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-class ToastMessage
+public class ToastMessage
 {
     public string Text { get; }
     public Point Position { get; }

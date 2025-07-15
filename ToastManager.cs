@@ -9,9 +9,11 @@ namespace DBDtimer
     public class ToastManager
     {
         TransparentOverlayForm mainForm;
+        public readonly List<ToastMessage> toasts;
 
         public ToastManager(TransparentOverlayForm mainForm)
         {
+            toasts = new();
             this.mainForm = mainForm;
         }
 
