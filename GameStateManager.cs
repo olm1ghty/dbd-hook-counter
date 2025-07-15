@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace DBDtimer
         public GameStateLobby stateLobby;
         public GameStatePlaying statePlaying;
 
+        public System.Windows.Forms.Timer screenMonitorTimer;
         int timerIntervalMs = 16;
 
         public GameStateManager(TransparentOverlayForm form)
@@ -27,7 +29,7 @@ namespace DBDtimer
 
         private void ScreenMonitoring()
         {
-            System.Windows.Forms.Timer screenMonitorTimer = new();
+            screenMonitorTimer = new();
             screenMonitorTimer.Interval = timerIntervalMs;
             screenMonitorTimer.Tick += (s, e) =>
             {

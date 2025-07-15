@@ -8,6 +8,8 @@ using Svg;
 using Properties = DBDtimer.Properties;
 using Color = System.Drawing.Color;
 using System.Runtime.InteropServices;
+using System.Reflection.Metadata;
+using System.Globalization;
 
 public class TransparentOverlayForm : Form
 {
@@ -42,10 +44,21 @@ public class TransparentOverlayForm : Form
     private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
     private const uint MOD_SHIFT = 0x0004;
-    private const uint VK_M = 0x4D;  // virtual‑key code for ‘M’
+    private readonly List<HotKey> hotKeys;
+    private bool overlayVisible = false;
+
+    // A compact record that holds everything we need
+    record HotKey(int Id, uint Mod, uint Vk, Action Action);
 
     public TransparentOverlayForm()
     {
+        hotKeys = new List<HotKey>
+        {
+            new HotKey(1, MOD_SHIFT, (uint)Keys.M, ShowMenu), // method group
+            new HotKey(2, MOD_SHIFT, (uint)Keys.K, Exit),
+            new HotKey(3, MOD_SHIFT, (uint)Keys.P, TriggerPause)
+        };
+
         FormBorderStyle = FormBorderStyle.None;
         TopMost = true;
         Rectangle screen = Screen.PrimaryScreen.Bounds;
@@ -63,7 +76,8 @@ public class TransparentOverlayForm : Form
         int initialStyle = NativeMethods.GetWindowLong(Handle, NativeMethods.GWL_EXSTYLE);
         NativeMethods.SetWindowLong(Handle, NativeMethods.GWL_EXSTYLE, initialStyle | NativeMethods.WS_EX_LAYERED | NativeMethods.WS_EX_TRANSPARENT);
 
-        scaler = new();
+
+        scaler = new ();
 
         hookStageCounterStartX = scaler.Scale(hookStageCounterStartX);
         hookStageCounterStartY = scaler.ScaleY(hookStageCounterStartY);
@@ -191,16 +205,61 @@ public class TransparentOverlayForm : Form
     protected override void OnHandleCreated(EventArgs e)
     {
         base.OnHandleCreated(e);
-        RegisterHotKey(this.Handle, HOTKEY_ID, MOD_SHIFT, VK_M);
+
+        foreach (var hk in hotKeys)
+                RegisterHotKey(Handle, hk.Id, hk.Mod, hk.Vk);
     }
     
     protected override void OnHandleDestroyed(EventArgs e)
     {
-        UnregisterHotKey(this.Handle, HOTKEY_ID);
+        foreach (var hk in hotKeys)
+            UnregisterHotKey(Handle, hk.Id);
+
         base.OnHandleDestroyed(e);
     }
 
-    private void ShowMenus()
+    protected override void WndProc(ref Message m)
+    {
+        if (m.Msg == WM_HOTKEY)
+        {
+            int id = m.WParam.ToInt32();
+            var hk = hotKeys.FirstOrDefault(h => h.Id == id);
+            hk?.Action();                // run the mapped action
+            return;                      // eat the message
+        }
+        base.WndProc(ref m);
+    }
+
+    void TriggerPause()
+    {
+        if (gameManager.screenMonitorTimer.Enabled)
+        {
+            gameManager.screenMonitorTimer.Stop();
+            ClearOverlay();
+        }
+        else
+        {
+            gameManager.screenMonitorTimer.Start();
+        }
+    }
+
+    void Exit()
+    {
+        Application.Exit();
+    }
+
+    private void ToggleOverlay()
+    {
+        overlayVisible = !overlayVisible;
+        this.Visible = overlayVisible;
+    }
+
+    private void TakeScreenshot()
+    {
+        // your capture logic here
+    }
+
+    private void ShowMenu()
     {
         EnableInput(true);                    // overlay becomes clickable
 
@@ -228,16 +287,4 @@ public class TransparentOverlayForm : Form
         else
             NativeMethods.SetWindowLong(Handle, NativeMethods.GWL_EXSTYLE, style | NativeMethods.WS_EX_TRANSPARENT);
     }
-
-    protected override void WndProc(ref Message m)
-    {
-        if (m.Msg == WM_HOTKEY && m.WParam.ToInt32() == HOTKEY_ID)
-        {
-            ShowMenus();                     // open all dropdowns at once
-            return;
-        }
-        base.WndProc(ref m);
-    }
-
-
 }
