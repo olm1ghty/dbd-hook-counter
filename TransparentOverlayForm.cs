@@ -50,6 +50,8 @@ public class TransparentOverlayForm : Form
     // A compact record that holds everything we need
     record HotKey(int Id, uint Mod, uint Vk, Action Action);
 
+    private readonly List<ToastMessage> toasts = new();
+
     public TransparentOverlayForm()
     {
         hotKeys = new List<HotKey>
@@ -128,12 +130,22 @@ public class TransparentOverlayForm : Form
         }
     }
 
+    public void ShowToast(string text)
+    {
+        // example position: centered, 50 px from top of the primary screen
+        Rectangle scr = Screen.PrimaryScreen.Bounds;
+        Point pos = new Point(scr.X + (scr.Width - 300) / 2, scr.Y + 50);
+
+        var toast = new ToastForm(text, pos);
+        toast.Show();            // <-- this makes the form appear
+    }
+
     public void DrawOverlay()
     {
         // wipe everything that was drawn last time ⟵  IMPORTANT
         graphics.Clear(Color.Transparent);
 
-        if (screenChecker.UIenabled())
+        //if (screenChecker.UIenabled())
         {
             // --- draw hook stages ---
             for (int i = 0; i < survivors.Length; i++)
@@ -189,6 +201,17 @@ public class TransparentOverlayForm : Form
             }
         }
 
+        // ----- draw toasts -----
+        toasts.RemoveAll(t => !t.IsAlive);          // drop finished ones
+
+        foreach (var toast in toasts)
+        {
+            using var f = new Font("Arial", 16, FontStyle.Bold);
+            int a = toast.CurrentAlpha;
+            using var b = new SolidBrush(Color.FromArgb(a, Color.Yellow));
+            graphics.DrawString(toast.Text, f, b, toast.Position);
+        }
+
         NativeMethods.SetBitmapToForm(this, bmp);
     }
 
@@ -235,10 +258,11 @@ public class TransparentOverlayForm : Form
         if (gameManager.screenMonitorTimer.Enabled)
         {
             gameManager.screenMonitorTimer.Stop();
-            ClearOverlay();
+            ShowToast("App paused");
         }
         else
         {
+            ShowToast("App unpaused");
             gameManager.screenMonitorTimer.Start();
         }
     }
