@@ -18,6 +18,7 @@ public class TransparentOverlayForm : Form
     public GameStateManager gameManager;
     public SurvivorManager survivorManager;
     public Scaler scaler;
+    public ToastManager toastManager;
 
     public Survivor[] survivors = new Survivor[4];
 
@@ -97,6 +98,7 @@ public class TransparentOverlayForm : Form
         timerManager = new(this);
         gameManager = new(this);
         survivorManager = new(this);
+        toastManager = new(this);
 
         bmp = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
         graphics = Graphics.FromImage(bmp);
@@ -130,15 +132,6 @@ public class TransparentOverlayForm : Form
         }
     }
 
-    public void ShowToast(string text)
-    {
-        // example position: centered, 50 px from top of the primary screen
-        Rectangle scr = Screen.PrimaryScreen.Bounds;
-        Point pos = new Point(scr.X + (scr.Width - 300) / 2, scr.Y + 50);
-
-        var toast = new ToastForm(text, pos);
-        toast.Show();            // <-- this makes the form appear
-    }
 
     public void DrawOverlay()
     {
@@ -258,11 +251,12 @@ public class TransparentOverlayForm : Form
         if (gameManager.screenMonitorTimer.Enabled)
         {
             gameManager.screenMonitorTimer.Stop();
-            ShowToast("App paused");
+            ClearOverlay();
+            toastManager.ShowToast("App paused");
         }
         else
         {
-            ShowToast("App unpaused");
+            toastManager.ShowToast("App unpaused");
             gameManager.screenMonitorTimer.Start();
         }
     }
