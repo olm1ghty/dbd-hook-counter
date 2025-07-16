@@ -44,7 +44,7 @@ namespace DBDtimer
                 form.survivorManager.KillSurvivor(index);
             }
             else if (!form.gameManager.pauseInProgress &&
-                !form.screenChecker.MatchTemplateReverse(form.screenChecker._hookedTemplate, statusSearchArea, 0.65, debug: false))
+                !form.screenChecker.MatchTemplate(form.screenChecker._hookedTemplate, statusSearchArea, 0.5, debug: false))
             {
                 //Debug.WriteLine("UNHOOKING");
 

@@ -56,27 +56,6 @@ namespace DBDtimer
             pauseMenuSearchArea = form.scaler.ScaleMenu(pauseMenuSearchArea);
         }
 
-        //public bool MatchTemplate(Mat template, Rectangle region, double threshold = 0.90)
-        //{
-        //    // 1. Grab the screen once, directly into a Mat
-        //    using Mat frame = CaptureScreenMat();
-        //    frame.Save("C:\\Users\\user\\Desktop\\debug_falsepositive.png");
-
-        //    // 2. Crop to the region of interest (no extra copy)
-        //    using Mat roi = new Mat(frame, region);
-
-        //    // 3. Run template‑matching
-        //    using Mat result = new Mat();
-        //    CvInvoke.MatchTemplate(roi, template, result, TemplateMatchingType.CcoeffNormed);
-
-        //    // 4. Find the best match
-        //    double minVal = 0, maxVal = 0;
-        //    Point minLoc = Point.Empty, maxLoc = Point.Empty;
-        //    CvInvoke.MinMaxLoc(result, ref minVal, ref maxVal, ref minLoc, ref maxLoc);
-
-        //    return maxVal >= threshold;
-        //}
-
         public bool MatchTemplate(Mat template,
                           Rectangle region,
                           double threshold = 0.90,
@@ -115,44 +94,6 @@ namespace DBDtimer
             return match;
         }
 
-        public bool MatchTemplateReverse(Mat template,
-                          Rectangle region,
-                          double threshold = 0.90,
-                          bool debug = false)
-        {
-            using Mat frame = CaptureScreenMat();        // fresh frame each call
-            using Mat roi = new Mat(frame, region);
-            using Mat result = new Mat();
-
-            CvInvoke.MatchTemplate(roi, template, result,
-                                   TemplateMatchingType.CcoeffNormed);
-
-            double minVal = 0, maxVal = 0;
-            Point minLoc = Point.Empty, maxLoc = Point.Empty;
-            CvInvoke.MinMaxLoc(result, ref minVal, ref maxVal,
-                               ref minLoc, ref maxLoc);   // ← unchanged
-
-            bool match = maxVal >= threshold;
-
-            // ---------- NEW: save only the matching frame ----------
-            if (debug && !match)
-            {
-                string folder = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                    "DebugCaptures");
-                Directory.CreateDirectory(folder);
-
-                string file = Path.Combine(
-                    folder,
-                    $"UNHOOK_{DateTime.Now:HH_mm_ss_fff}.png");
-
-                frame.Save(file);
-            }
-            // --------------------------------------------------------
-
-            return match;
-        }
-
         Mat CaptureScreenMat()
         {
             Rectangle roi = Screen.PrimaryScreen.Bounds;
@@ -164,24 +105,6 @@ namespace DBDtimer
 
             return bmp.ToMat();
         }
-
-        //public bool UIenabled()
-        //{
-        //    if (MatchTemplate(_pauseMenuTemplate, pauseMenuSearchArea, 0.8))
-        //        return false;
-
-        //    if (MatchTemplate(_uiHookTemplate, uiSearchArea, 0.5)
-        //        || MatchTemplate(_uiMoriTemplate, uiSearchArea, 0.5))
-        //    {
-        //        uiMissingCounter = 0;
-        //    }
-        //    else
-        //    {
-        //        uiMissingCounter++;
-        //    }
-
-        //    return (uiMissingCounter <= uiMissingThreshold);
-        //}
 
         public bool UIenabled(bool debug = false)
         {
@@ -208,7 +131,7 @@ namespace DBDtimer
             Debug.WriteLine($"uiMissingCounter: {uiMissingCounter}");
             Debug.WriteLine($"uiSeenStreak: {uiSeenStreak}");
             bool hudPresent = uiMissingCounter < uiMissingThreshold
-                           && uiSeenStreak >= uiSeenThreshold;  
+                           /*&& uiSeenStreak >= uiSeenThreshold*/;  
 
             return hudPresent;
         }

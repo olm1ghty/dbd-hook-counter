@@ -178,7 +178,7 @@ public class TransparentOverlayForm : Form
                 {
                     string txt = timer.SecondsRemaining.ToString();
                     using (Font f = new Font("Arial", 12, System.Drawing.FontStyle.Bold))
-                    using (Brush b = new SolidBrush(Color.Red))
+                    using (Brush b = new SolidBrush(timer.color))
                     {
                         graphics.DrawString(txt, f, b, timer.Position);
                     }

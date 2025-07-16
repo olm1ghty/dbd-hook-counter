@@ -40,9 +40,9 @@ namespace DBDtimer
             enduranceTimerEnabled = Properties.Settings.Default.enduranceTimerEnabled;
         }
 
-        public void AddTimer(int seconds, int survivorIndex = -1)
+        public void AddTimer(int seconds, Color color, int survivorIndex = -1)
         {
-            timers[survivorIndex].Add(new TimerData(seconds, CalculatePosition(survivorIndex)));
+            timers[survivorIndex].Add(new TimerData(seconds, CalculatePosition(survivorIndex), color));
         }
 
         Point CalculatePosition(int survivorIndex = -1)
@@ -152,11 +152,11 @@ namespace DBDtimer
 
             if (dsTimerEnabled)
             {
-                AddTimer(ds, index);
+                AddTimer(ds, Color.Red, index);
             }
             if (enduranceTimerEnabled)
             {
-                AddTimer(hook, index);
+                AddTimer(hook, Color.White, index);
             }
         }
     }
