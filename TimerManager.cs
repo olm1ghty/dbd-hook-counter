@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Properties = DBDtimer.Properties;
 
 namespace DBDtimer
 {
@@ -19,6 +20,9 @@ namespace DBDtimer
         public int timerStartYoffset = -20;
         public int timerDistanceYoffset = 20;
 
+        public bool dsTimerEnabled;
+        public bool enduranceTimerEnabled;
+
         public TimerManager(TransparentOverlayForm form)
         {
             this.form = form;
@@ -31,6 +35,9 @@ namespace DBDtimer
             {
                 timers[i] = new List<TimerData>();
             }
+
+            dsTimerEnabled = Properties.Settings.Default.dsTimerEnabled;
+            enduranceTimerEnabled = Properties.Settings.Default.enduranceTimerEnabled;
         }
 
         public void AddTimer(int seconds, int survivorIndex = -1)
@@ -142,8 +149,15 @@ namespace DBDtimer
         public void TriggerTimer(int index)
         {
             RemoveTimer(index);
-            AddTimer(ds, index);
-            AddTimer(hook, index);
+
+            if (dsTimerEnabled)
+            {
+                AddTimer(ds, index);
+            }
+            if (enduranceTimerEnabled)
+            {
+                AddTimer(hook, index);
+            }
         }
     }
 }

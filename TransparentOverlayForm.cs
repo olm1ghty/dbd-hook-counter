@@ -8,6 +8,9 @@ using Svg;
 using Properties = DBDtimer.Properties;
 using Color = System.Drawing.Color;
 using System.Runtime.InteropServices;
+using System.Reflection.Metadata;
+using System.Globalization;
+using static HotKeyManager;
 
 public class TransparentOverlayForm : Form
 {
@@ -16,6 +19,8 @@ public class TransparentOverlayForm : Form
     public GameStateManager gameManager;
     public SurvivorManager survivorManager;
     public Scaler scaler;
+    public ToastManager toastManager;
+    public readonly HotKeyManager hotkeyManager;
 
     public Survivor[] survivors = new Survivor[4];
 
@@ -31,24 +36,20 @@ public class TransparentOverlayForm : Form
     float hookSVGscaleY;
 
     private OverlayMenuForm menuForm;
-    private const int HOTKEY_ID = 1;          // choose key id as before
 
-    private const int WM_HOTKEY = 0x0312;
-
-    [DllImport("user32.dll", SetLastError = true)]
-    private static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
-
-    [DllImport("user32.dll", SetLastError = true)]
-    private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
-
-    private const uint MOD_CONTROL = 0x0002;
-    private const uint MOD_SHIFT = 0x0004;
-    private const uint VK_M = 0x4D;  // virtual‑key code for ‘M’
-
-
+    private readonly KeyboardWatcher kbWatcher;
 
     public TransparentOverlayForm()
     {
+        hotkeyManager = new HotKeyManager(this);
+
+        // Add hot‑keys (Ctrl+Shift versions shown here)
+        hotkeyManager.Add(HotKeyManager.MOD_SHIFT, (uint)Keys.M, ShowSettings);
+        hotkeyManager.Add(HotKeyManager.MOD_SHIFT, (uint)Keys.K, Exit);
+        hotkeyManager.Add(HotKeyManager.MOD_SHIFT, (uint)Keys.P, TriggerPause);
+        //hotkeyManager.Add(0, (uint)Keys.Escape, TemporaryPause);
+
+
         FormBorderStyle = FormBorderStyle.None;
         TopMost = true;
         Rectangle screen = Screen.PrimaryScreen.Bounds;
@@ -66,7 +67,8 @@ public class TransparentOverlayForm : Form
         int initialStyle = NativeMethods.GetWindowLong(Handle, NativeMethods.GWL_EXSTYLE);
         NativeMethods.SetWindowLong(Handle, NativeMethods.GWL_EXSTYLE, initialStyle | NativeMethods.WS_EX_LAYERED | NativeMethods.WS_EX_TRANSPARENT);
 
-        scaler = new();
+
+        scaler = new ();
 
         hookStageCounterStartX = scaler.Scale(hookStageCounterStartX);
         hookStageCounterStartY = scaler.ScaleY(hookStageCounterStartY);
@@ -84,6 +86,11 @@ public class TransparentOverlayForm : Form
         timerManager = new(this);
         gameManager = new(this);
         survivorManager = new(this);
+        toastManager = new(this);
+
+        kbWatcher = new KeyboardWatcher();
+        kbWatcher.AltTabPressed += () => gameManager.TemporaryPause();
+        kbWatcher.EscPressed += () => gameManager.TemporaryPause();
 
         bmp = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
         graphics = Graphics.FromImage(bmp);
@@ -103,7 +110,7 @@ public class TransparentOverlayForm : Form
         hookCounterSVG.FillOpacity = 0.75f;
     }
 
-    protected override bool ShowWithoutActivation => true;   // prevents focus when shown
+    protected override bool ShowWithoutActivation => true;
 
     protected override CreateParams CreateParams
     {
@@ -117,12 +124,13 @@ public class TransparentOverlayForm : Form
         }
     }
 
+
     public void DrawOverlay()
     {
         // wipe everything that was drawn last time ⟵  IMPORTANT
         graphics.Clear(Color.Transparent);
 
-        if (screenChecker.UIenabled())
+        //if (screenChecker.UIenabled())
         {
             // --- draw hook stages ---
             for (int i = 0; i < survivors.Length; i++)
@@ -178,6 +186,17 @@ public class TransparentOverlayForm : Form
             }
         }
 
+        // ----- draw toasts -----
+        toastManager.toasts.RemoveAll(t => !t.IsAlive);          // drop finished ones
+
+        foreach (var toast in toastManager.toasts)
+        {
+            using var f = new Font("Arial", 16, FontStyle.Bold);
+            int a = toast.CurrentAlpha;
+            using var b = new SolidBrush(Color.FromArgb(a, Color.Yellow));
+            graphics.DrawString(toast.Text, f, b, toast.Position);
+        }
+
         NativeMethods.SetBitmapToForm(this, bmp);
     }
 
@@ -191,19 +210,32 @@ public class TransparentOverlayForm : Form
         }
     }
 
-    protected override void OnHandleCreated(EventArgs e)
+    void TriggerPause()
     {
-        base.OnHandleCreated(e);
-        RegisterHotKey(this.Handle, HOTKEY_ID, MOD_CONTROL | MOD_SHIFT, VK_M);
-    }
-    protected override void OnHandleDestroyed(EventArgs e)
-    {
-        UnregisterHotKey(this.Handle, HOTKEY_ID);
-        base.OnHandleDestroyed(e);
+        if (gameManager.screenMonitorTimer.Enabled)
+        {
+            gameManager.screenMonitorTimer.Stop();
+            ClearOverlay();
+            toastManager.ShowToast("App paused");
+        }
+        else
+        {
+            toastManager.ShowToast("App unpaused");
+            gameManager.screenMonitorTimer.Start();
+        }
     }
 
+    void TemporaryPause()
+    {
+        gameManager.TemporaryPause();
+    }
 
-    private void ShowMenus()
+    void Exit()
+    {
+        Application.Exit();
+    }
+
+    private void ShowSettings()
     {
         EnableInput(true);                    // overlay becomes clickable
 
@@ -232,15 +264,9 @@ public class TransparentOverlayForm : Form
             NativeMethods.SetWindowLong(Handle, NativeMethods.GWL_EXSTYLE, style | NativeMethods.WS_EX_TRANSPARENT);
     }
 
-    protected override void WndProc(ref Message m)
+    protected override void OnFormClosed(FormClosedEventArgs e)
     {
-        if (m.Msg == WM_HOTKEY && m.WParam.ToInt32() == HOTKEY_ID)
-        {
-            ShowMenus();                     // open all dropdowns at once
-            return;
-        }
-        base.WndProc(ref m);
+        kbWatcher.Dispose();   // stop background thread
+        base.OnFormClosed(e);
     }
-
-
 }

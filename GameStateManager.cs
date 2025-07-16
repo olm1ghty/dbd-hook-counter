@@ -1,8 +1,12 @@
-﻿using System;
+﻿using ExCSS;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
+using System.Windows.Forms;
 
 namespace DBDtimer
 {
@@ -14,7 +18,14 @@ namespace DBDtimer
         public GameStateLobby stateLobby;
         public GameStatePlaying statePlaying;
 
+        public System.Windows.Forms.Timer screenMonitorTimer = new();
         int timerIntervalMs = 16;
+
+        System.Timers.Timer temporaryPauseTimer = new();
+        int temporaryPauseDuration = 1000;
+
+        // global flag
+        public volatile bool pauseInProgress = false;
 
         public GameStateManager(TransparentOverlayForm form)
         {
@@ -22,12 +33,40 @@ namespace DBDtimer
             stateLobby = new(this, form);
             statePlaying = new(this, form);
             SwitchState(stateLobby);
-            ScreenMonitoring();
+            InitializeScreenMonitoring();
         }
 
-        private void ScreenMonitoring()
+        public void TemporaryPause()
         {
-            System.Windows.Forms.Timer screenMonitorTimer = new();
+            temporaryPauseTimer.Stop();
+            temporaryPauseTimer.Dispose();
+            pauseInProgress = true;
+            //Debug.WriteLine("PAUSED");
+            form.Invoke((Action)(() =>
+            {
+                screenMonitorTimer.Stop();
+                form.ClearOverlay();
+            }));
+            form.screenChecker.uiMissingCounter = form.screenChecker.uiMissingThreshold;
+
+            temporaryPauseTimer = new();
+            temporaryPauseTimer.Interval = temporaryPauseDuration;
+            temporaryPauseTimer.Elapsed += (s, e) =>
+            {
+                form.BeginInvoke(() =>
+                {
+                    //Debug.WriteLine("CONTINUED");
+                    screenMonitorTimer.Start();
+                    pauseInProgress = false;
+                });
+                temporaryPauseTimer.Stop();
+            };
+            temporaryPauseTimer.Start();
+        }
+
+        private void InitializeScreenMonitoring()
+        {
+            screenMonitorTimer = new();
             screenMonitorTimer.Interval = timerIntervalMs;
             screenMonitorTimer.Tick += (s, e) =>
             {

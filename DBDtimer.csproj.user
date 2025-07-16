@@ -4,6 +4,9 @@
     <Compile Update="OverlayMenuForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="ToastForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="TransparentOverlayForm.cs">
       <SubType>Form</SubType>
     </Compile>
