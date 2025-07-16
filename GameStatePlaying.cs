@@ -29,14 +29,12 @@ namespace DBDtimer
 
         public override void Update()
         {
-            //Debug.WriteLine(continueSearchArea);
-            //Debug.WriteLine("PLAYING");
-
             if (form.screenChecker.MatchTemplate(form.screenChecker._continueTemplate, continueSearchArea, 0.8))
             {
                 stateManager.SwitchState(stateManager.stateLobby);
             }
-            else if (form.screenChecker.UIenabled())
+            //else if (form.screenChecker.UIenabled())
+            else if (form.screenChecker.UIenabled(debug: false))
             {
                 foreach (var survivor in form.survivors)
                 {
@@ -44,6 +42,10 @@ namespace DBDtimer
                 }
 
                 form.DrawOverlay();
+            }
+            else
+            {
+                form.ClearOverlay();
             }
         }
     }

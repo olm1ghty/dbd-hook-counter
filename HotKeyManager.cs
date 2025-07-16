@@ -11,19 +11,12 @@ public sealed class HotKeyManager : IDisposable
     private readonly List<HotKey> list = new();
     private int nextId = 1;                       // unique id per key
 
-    public HotKeyManager(Form host,
-                         Action showMenu,
-                         Action exit,
-                         Action pause)
+    private const int VK_ESCAPE = 0x1B;
+
+
+    public HotKeyManager(Form host)
     {
         this.host = host ?? throw new ArgumentNullException(nameof(host));
-
-        // ---------- DEFINE ALL HOT‑KEYS HERE ----------
-        list.Add(new HotKey(MOD_SHIFT, (uint)Keys.M, showMenu)); // Shift+M
-        list.Add(new HotKey(MOD_SHIFT, (uint)Keys.K, exit));     // Shift+K
-        list.Add(new HotKey(MOD_SHIFT, (uint)Keys.P, pause));    // Shift+P
-        // add more here…
-        // ---------------------------------------------
 
         host.HandleCreated += (_, __) => RegisterAll();
         host.HandleDestroyed += (_, __) => UnregisterAll();
@@ -70,12 +63,21 @@ public sealed class HotKeyManager : IDisposable
         }
     }
 
+    public bool IsEscPressedThisFrame()
+    {
+        // 0x8000 bit = key is currently down
+        return (GetAsyncKeyState(VK_ESCAPE) & 0x8000) != 0;
+    }
+
     // -------------- Win32 --------------
     [DllImport("user32.dll", SetLastError = true)]
     private static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
 
     [DllImport("user32.dll", SetLastError = true)]
     private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+
+    [DllImport("user32.dll")]
+    private static extern short GetAsyncKeyState(int vKey);
 
     // modifier flags
     public const uint MOD_ALT = 0x0001;

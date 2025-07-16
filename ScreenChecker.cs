@@ -24,11 +24,19 @@ namespace DBDtimer
         public readonly Mat _deadTemplate;
         public readonly Mat _moriedTemplate;
         public readonly Mat _continueTemplate;
+        public readonly Mat _pauseMenuTemplate;
         public readonly Mat _uiHookTemplate;
         public readonly Mat _uiMoriTemplate;
         public readonly Mat _stbTemplate;
 
         Rectangle uiSearchArea = new(151, 1158, 33, 50);
+        Rectangle pauseMenuSearchArea = new(116, 1478, 119, 57);
+
+        public int uiMissingCounter = 0;
+        public int uiMissingThreshold = 5;
+
+        private int uiSeenStreak = 0;
+        private int uiSeenThreshold = 5;
 
         public ScreenChecker(TransparentOverlayForm form)
         {
@@ -39,31 +47,110 @@ namespace DBDtimer
             _deadTemplate = form.scaler.LoadScaledTemplate(Resources.dead);
             _moriedTemplate = form.scaler.LoadScaledTemplate(Resources.moried);
             _continueTemplate = form.scaler.LoadScaledTemplateMenu(Resources.continue_button);
+            _pauseMenuTemplate = form.scaler.LoadScaledTemplateMenu(Resources.back_button);
             _uiHookTemplate = form.scaler.LoadScaledTemplate(Resources.ui_hook);
             _uiMoriTemplate = form.scaler.LoadScaledTemplate(Resources.ui_mori);
             _stbTemplate = form.scaler.LoadScaledTemplate(Resources.stb);
 
             uiSearchArea = form.scaler.Scale(uiSearchArea);
+            pauseMenuSearchArea = form.scaler.ScaleMenu(pauseMenuSearchArea);
         }
 
-        public bool MatchTemplate(Mat template, Rectangle region, double threshold = 0.90)
+        //public bool MatchTemplate(Mat template, Rectangle region, double threshold = 0.90)
+        //{
+        //    // 1. Grab the screen once, directly into a Mat
+        //    using Mat frame = CaptureScreenMat();
+        //    frame.Save("C:\\Users\\user\\Desktop\\debug_falsepositive.png");
+
+        //    // 2. Crop to the region of interest (no extra copy)
+        //    using Mat roi = new Mat(frame, region);
+
+        //    // 3. Run template‑matching
+        //    using Mat result = new Mat();
+        //    CvInvoke.MatchTemplate(roi, template, result, TemplateMatchingType.CcoeffNormed);
+
+        //    // 4. Find the best match
+        //    double minVal = 0, maxVal = 0;
+        //    Point minLoc = Point.Empty, maxLoc = Point.Empty;
+        //    CvInvoke.MinMaxLoc(result, ref minVal, ref maxVal, ref minLoc, ref maxLoc);
+
+        //    return maxVal >= threshold;
+        //}
+
+        public bool MatchTemplate(Mat template,
+                          Rectangle region,
+                          double threshold = 0.90,
+                          bool debug = false)
         {
-            // 1. Grab the screen once, directly into a Mat
-            using Mat frame = CaptureScreenMat();
-
-            // 2. Crop to the region of interest (no extra copy)
+            using Mat frame = CaptureScreenMat();        // fresh frame each call
             using Mat roi = new Mat(frame, region);
-
-            // 3. Run template‑matching
             using Mat result = new Mat();
-            CvInvoke.MatchTemplate(roi, template, result, TemplateMatchingType.CcoeffNormed);
 
-            // 4. Find the best match
+            CvInvoke.MatchTemplate(roi, template, result,
+                                   TemplateMatchingType.CcoeffNormed);
+
             double minVal = 0, maxVal = 0;
             Point minLoc = Point.Empty, maxLoc = Point.Empty;
-            CvInvoke.MinMaxLoc(result, ref minVal, ref maxVal, ref minLoc, ref maxLoc);
+            CvInvoke.MinMaxLoc(result, ref minVal, ref maxVal,
+                               ref minLoc, ref maxLoc);   // ← unchanged
 
-            return maxVal >= threshold;
+            bool match = maxVal >= threshold;
+
+            // ---------- NEW: save only the matching frame ----------
+            if (debug && match)
+            {
+                string folder = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                    "DebugCaptures");
+                Directory.CreateDirectory(folder);
+
+                string file = Path.Combine(
+                    folder,
+                    $"UI_{DateTime.Now:HH_mm_ss_fff}.png");
+
+                frame.Save(file);
+            }
+            // --------------------------------------------------------
+
+            return match;
+        }
+
+        public bool MatchTemplateReverse(Mat template,
+                          Rectangle region,
+                          double threshold = 0.90,
+                          bool debug = false)
+        {
+            using Mat frame = CaptureScreenMat();        // fresh frame each call
+            using Mat roi = new Mat(frame, region);
+            using Mat result = new Mat();
+
+            CvInvoke.MatchTemplate(roi, template, result,
+                                   TemplateMatchingType.CcoeffNormed);
+
+            double minVal = 0, maxVal = 0;
+            Point minLoc = Point.Empty, maxLoc = Point.Empty;
+            CvInvoke.MinMaxLoc(result, ref minVal, ref maxVal,
+                               ref minLoc, ref maxLoc);   // ← unchanged
+
+            bool match = maxVal >= threshold;
+
+            // ---------- NEW: save only the matching frame ----------
+            if (debug && !match)
+            {
+                string folder = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                    "DebugCaptures");
+                Directory.CreateDirectory(folder);
+
+                string file = Path.Combine(
+                    folder,
+                    $"UNHOOK_{DateTime.Now:HH_mm_ss_fff}.png");
+
+                frame.Save(file);
+            }
+            // --------------------------------------------------------
+
+            return match;
         }
 
         Mat CaptureScreenMat()
@@ -78,32 +165,53 @@ namespace DBDtimer
             return bmp.ToMat();
         }
 
-        public bool UIenabled()
-        {
-            bool enabled = false;
+        //public bool UIenabled()
+        //{
+        //    if (MatchTemplate(_pauseMenuTemplate, pauseMenuSearchArea, 0.8))
+        //        return false;
 
-            if (MatchTemplate(_uiHookTemplate, uiSearchArea, 0.5)
-                ||
-                MatchTemplate(_uiMoriTemplate, uiSearchArea, 0.5))
+        //    if (MatchTemplate(_uiHookTemplate, uiSearchArea, 0.5)
+        //        || MatchTemplate(_uiMoriTemplate, uiSearchArea, 0.5))
+        //    {
+        //        uiMissingCounter = 0;
+        //    }
+        //    else
+        //    {
+        //        uiMissingCounter++;
+        //    }
+
+        //    return (uiMissingCounter <= uiMissingThreshold);
+        //}
+
+        public bool UIenabled(bool debug = false)
+        {
+            if (MatchTemplate(_pauseMenuTemplate, pauseMenuSearchArea, 0.8, debug))
             {
-                enabled = true;
+                uiSeenStreak = 0;
+                return false;
             }
 
-            //Debug.WriteLine($"uiCheck passed? = {enabled}");
+            bool hook = MatchTemplate(_uiHookTemplate, uiSearchArea, 0.5, debug);
+            bool mori = MatchTemplate(_uiMoriTemplate, uiSearchArea, 0.5, debug);
 
-            return enabled;
-        }
-
-        public static Color GetColorAt(Point location)
-        {
-            using (Bitmap bmp = new Bitmap(1, 1))
+            if (hook || mori)
             {
-                using (Graphics g = Graphics.FromImage(bmp))
-                {
-                    g.CopyFromScreen(location, Point.Empty, new Size(1, 1));
-                }
-                return bmp.GetPixel(0, 0);
+                uiMissingCounter = 0;
+                uiSeenStreak++;           
             }
+            else
+            {
+                uiMissingCounter++;
+                uiSeenStreak = 0;        
+            }
+
+            Debug.WriteLine($"uiMissingCounter: {uiMissingCounter}");
+            Debug.WriteLine($"uiSeenStreak: {uiSeenStreak}");
+            bool hudPresent = uiMissingCounter < uiMissingThreshold
+                           && uiSeenStreak >= uiSeenThreshold;  
+
+            return hudPresent;
         }
+
     }
 }

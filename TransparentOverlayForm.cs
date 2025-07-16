@@ -20,7 +20,7 @@ public class TransparentOverlayForm : Form
     public SurvivorManager survivorManager;
     public Scaler scaler;
     public ToastManager toastManager;
-    private readonly HotKeyManager hotkeyManager;
+    public readonly HotKeyManager hotkeyManager;
 
     public Survivor[] survivors = new Survivor[4];
 
@@ -37,14 +37,17 @@ public class TransparentOverlayForm : Form
 
     private OverlayMenuForm menuForm;
 
+    private readonly KeyboardWatcher kbWatcher;
+
     public TransparentOverlayForm()
     {
-        hotkeyManager = new HotKeyManager(this, ShowSettings, Exit, TriggerPause);
+        hotkeyManager = new HotKeyManager(this);
 
         // Add hot‑keys (Ctrl+Shift versions shown here)
         hotkeyManager.Add(HotKeyManager.MOD_SHIFT, (uint)Keys.M, ShowSettings);
         hotkeyManager.Add(HotKeyManager.MOD_SHIFT, (uint)Keys.K, Exit);
         hotkeyManager.Add(HotKeyManager.MOD_SHIFT, (uint)Keys.P, TriggerPause);
+        //hotkeyManager.Add(0, (uint)Keys.Escape, TemporaryPause);
 
 
         FormBorderStyle = FormBorderStyle.None;
@@ -85,6 +88,10 @@ public class TransparentOverlayForm : Form
         survivorManager = new(this);
         toastManager = new(this);
 
+        kbWatcher = new KeyboardWatcher();
+        kbWatcher.AltTabPressed += () => gameManager.TemporaryPause();
+        kbWatcher.EscPressed += () => gameManager.TemporaryPause();
+
         bmp = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
         graphics = Graphics.FromImage(bmp);
         graphics.Clear(Color.Transparent);
@@ -103,7 +110,7 @@ public class TransparentOverlayForm : Form
         hookCounterSVG.FillOpacity = 0.75f;
     }
 
-    protected override bool ShowWithoutActivation => true;   // prevents focus when shown
+    protected override bool ShowWithoutActivation => true;
 
     protected override CreateParams CreateParams
     {
@@ -202,7 +209,7 @@ public class TransparentOverlayForm : Form
             NativeMethods.SetBitmapToForm(this, bmp);
         }
     }
-    
+
     void TriggerPause()
     {
         if (gameManager.screenMonitorTimer.Enabled)
@@ -216,6 +223,11 @@ public class TransparentOverlayForm : Form
             toastManager.ShowToast("App unpaused");
             gameManager.screenMonitorTimer.Start();
         }
+    }
+
+    void TemporaryPause()
+    {
+        gameManager.TemporaryPause();
     }
 
     void Exit()
@@ -250,5 +262,11 @@ public class TransparentOverlayForm : Form
             NativeMethods.SetWindowLong(Handle, NativeMethods.GWL_EXSTYLE, style & ~NativeMethods.WS_EX_TRANSPARENT);
         else
             NativeMethods.SetWindowLong(Handle, NativeMethods.GWL_EXSTYLE, style | NativeMethods.WS_EX_TRANSPARENT);
+    }
+
+    protected override void OnFormClosed(FormClosedEventArgs e)
+    {
+        kbWatcher.Dispose();   // stop background thread
+        base.OnFormClosed(e);
     }
 }

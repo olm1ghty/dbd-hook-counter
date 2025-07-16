@@ -43,8 +43,11 @@ namespace DBDtimer
             {
                 form.survivorManager.KillSurvivor(index);
             }
-            else if (!form.screenChecker.MatchTemplate(form.screenChecker._hookedTemplate, statusSearchArea, 0.7))
+            else if (!form.gameManager.pauseInProgress &&
+                !form.screenChecker.MatchTemplateReverse(form.screenChecker._hookedTemplate, statusSearchArea, 0.65, debug: false))
             {
+                //Debug.WriteLine("UNHOOKING");
+
                 // check for STB
                 foreach (var survivor in form.survivors)
                 {

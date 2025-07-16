@@ -33,7 +33,7 @@ namespace DBDtimer
         {
             //Debug.WriteLine("LOBBY");
 
-            if (form.screenChecker.UIenabled())
+            if (form.screenChecker.UIenabled(debug: false))
             {
                 stateManager.SwitchState(stateManager.statePlaying);
             }
