@@ -119,11 +119,13 @@ namespace DBDtimer
 
             if (hook || mori)
             {
+                form.gameManager.pauseInProgress = false;
                 uiMissingCounter = 0;
-                uiSeenStreak++;           
+                uiSeenStreak++;        
             }
             else
             {
+                form.gameManager.pauseInProgress = true;
                 uiMissingCounter++;
                 uiSeenStreak = 0;        
             }

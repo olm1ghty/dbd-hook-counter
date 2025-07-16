@@ -13,7 +13,6 @@ public sealed class HotKeyManager : IDisposable
 
     private const int VK_ESCAPE = 0x1B;
 
-
     public HotKeyManager(Form host)
     {
         this.host = host ?? throw new ArgumentNullException(nameof(host));

@@ -30,7 +30,7 @@ namespace DBDtimer
 
         public override void Update(int index)
         {
-            if (form.screenChecker.MatchTemplate(form.screenChecker._hookedTemplate, searchArea, 0.7))
+            if (form.screenChecker.MatchTemplate(form.screenChecker._hookedTemplate, searchArea, 0.65))
             {
                 form.survivorManager.HookSurvivor(index);
             }

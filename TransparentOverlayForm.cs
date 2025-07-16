@@ -24,7 +24,7 @@ public class TransparentOverlayForm : Form
 
     public Survivor[] survivors = new Survivor[4];
 
-    public int hookStageCounterStartX = 264;
+    public int hookStageCounterStartX = 250;
     public int hookStageCounterStartY = 650;
     public int hookStageCounterOffset = 120;
 
@@ -47,7 +47,7 @@ public class TransparentOverlayForm : Form
         hotkeyManager.Add(HotKeyManager.MOD_SHIFT, (uint)Keys.M, ShowSettings);
         hotkeyManager.Add(HotKeyManager.MOD_SHIFT, (uint)Keys.K, Exit);
         hotkeyManager.Add(HotKeyManager.MOD_SHIFT, (uint)Keys.P, TriggerPause);
-        //hotkeyManager.Add(0, (uint)Keys.Escape, TemporaryPause);
+        hotkeyManager.Add(HotKeyManager.MOD_SHIFT, (uint)Keys.R, Restart);
 
 
         FormBorderStyle = FormBorderStyle.None;
@@ -101,13 +101,13 @@ public class TransparentOverlayForm : Form
         //hookCounterSVG.Height = new SvgUnit(SvgUnitType.Pixel, 30);
 
         float desiredWidth = 20;
-        float desiredHeight = 38;
+        float desiredHeight = 30;
         float svgWidth = hookCounterSVG.Bounds.Width;
         float svgHeight = hookCounterSVG.Bounds.Height;
         hookSVGscaleX = desiredWidth / svgWidth;
         hookSVGscaleY = desiredHeight / svgHeight;
 
-        hookCounterSVG.FillOpacity = 0.75f;
+        hookCounterSVG.FillOpacity = 0.80f;
     }
 
     protected override bool ShowWithoutActivation => true;
@@ -233,6 +233,12 @@ public class TransparentOverlayForm : Form
     void Exit()
     {
         Application.Exit();
+    }
+
+    void Restart()
+    {
+        Application.Restart();
+        Environment.Exit(0); // ensures full termination
     }
 
     private void ShowSettings()
