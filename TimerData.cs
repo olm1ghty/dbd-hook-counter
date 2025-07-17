@@ -1,19 +1,21 @@
 ﻿public class TimerData
 {
-    public DateTime StartedAt { get; }
-    public int DurationSeconds { get; }
+    public DateTime startedAt { get; }
+    public int durationSeconds { get; }
+    public Color color;
 
     public Point Position { get; set; }
 
     public int SecondsRemaining =>
-        Math.Max(0, DurationSeconds - (int)(DateTime.UtcNow - StartedAt).TotalSeconds);
+        Math.Max(0, durationSeconds - (int)(DateTime.UtcNow - startedAt).TotalSeconds);
 
     public bool IsExpired => SecondsRemaining <= 0;
 
-    public TimerData(int duration, Point pos)
+    public TimerData(int duration, Point pos, Color color)
     {
-        StartedAt = DateTime.UtcNow;
-        DurationSeconds = duration;
+        startedAt = DateTime.UtcNow;
+        durationSeconds = duration;
         Position = pos;
+        this.color = color;
     }
 }

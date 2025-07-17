@@ -73,6 +73,16 @@ namespace DBDtimer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap blood_splatter {
+            get {
+                object obj = ResourceManager.GetObject("blood_splatter", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap continue_button {
             get {
                 object obj = ResourceManager.GetObject("continue_button", resourceCulture);
@@ -133,9 +143,9 @@ namespace DBDtimer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap status_change {
+        internal static System.Drawing.Bitmap progress_bar {
             get {
-                object obj = ResourceManager.GetObject("status_change", resourceCulture);
+                object obj = ResourceManager.GetObject("progress_bar", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

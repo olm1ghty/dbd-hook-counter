@@ -15,9 +15,10 @@ namespace DBDtimer
         public SurvivorStateIntermediate stateIntermediate;
         public SurvivorStateBase currentState;
 
-        Rectangle statusSearchArea = new(123, 630, 90, 90);
-        Rectangle statusChangeSearchArea = new(187, 608, 100, 70);
+        Rectangle statusSearchArea = new(140, 632, 64, 84);
+        Rectangle bloodSplatterSearchArea = new(211, 622, 27, 70);
         Rectangle stbSearchArea = new(299, 653, 10, 28);
+        Rectangle progressBarSearchArea = new(250, 711, 60, 13);
 
         TransparentOverlayForm form;
 
@@ -30,11 +31,12 @@ namespace DBDtimer
             this.form = form;
 
             statusSearchArea = form.scaler.Scale(statusSearchArea);
-            statusChangeSearchArea = form.scaler.Scale(statusChangeSearchArea);
+            bloodSplatterSearchArea = form.scaler.Scale(bloodSplatterSearchArea);
             stbSearchArea = form.scaler.Scale(stbSearchArea);
+            progressBarSearchArea = form.scaler.Scale(progressBarSearchArea);
 
             stateUnhooked = new(index, statusSearchArea, form);
-            stateHooked = new(index, statusSearchArea, statusChangeSearchArea, stbSearchArea, form, this);
+            stateHooked = new(index, statusSearchArea, bloodSplatterSearchArea, stbSearchArea, progressBarSearchArea, form, this);
             stateDead = new(form, this);
             stateIntermediate = new();
 
