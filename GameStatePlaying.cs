@@ -33,19 +33,18 @@ namespace DBDtimer
             {
                 stateManager.SwitchState(stateManager.stateLobby);
             }
-            //else if (form.screenChecker.UIenabled())
-            else if (form.screenChecker.UIenabled(debug: false))
+            else if (form.screenChecker.UIenabled())
             {
-                foreach (var survivor in form.survivors)
+                foreach (var survivor in form.survivorManager.survivors)
                 {
                     survivor.Update();
                 }
 
-                form.DrawOverlay();
+                form.overlayRenderer.DrawOverlay();
             }
             else
             {
-                form.ClearOverlay();
+                form.overlayRenderer.ClearOverlay();
             }
         }
     }

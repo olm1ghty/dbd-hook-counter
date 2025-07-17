@@ -41,11 +41,10 @@ namespace DBDtimer
             temporaryPauseTimer.Stop();
             temporaryPauseTimer.Dispose();
             pauseInProgress = true;
-            //Debug.WriteLine("PAUSED");
             form.Invoke((Action)(() =>
             {
                 screenMonitorTimer.Stop();
-                form.ClearOverlay();
+                form.overlayRenderer.ClearOverlay();
             }));
             form.screenChecker.uiMissingCounter = form.screenChecker.uiMissingThreshold;
 
@@ -55,7 +54,6 @@ namespace DBDtimer
             {
                 form.BeginInvoke(() =>
                 {
-                    //Debug.WriteLine("CONTINUED");
                     screenMonitorTimer.Start();
                     pauseInProgress = false;
                 });

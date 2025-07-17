@@ -135,8 +135,8 @@ namespace DBDtimer
                 //uiSeenCounter = 0;        
             }
 
-            Debug.WriteLine($"uiMissingCounter: {uiMissingCounter}");
-            Debug.WriteLine($"form.gameManager.pauseInProgress: {form.gameManager.pauseInProgress}");
+            //Debug.WriteLine($"uiMissingCounter: {uiMissingCounter}");
+            //Debug.WriteLine($"form.gameManager.pauseInProgress: {form.gameManager.pauseInProgress}");
             //Debug.WriteLine($"uiSeenStreak: {uiSeenCounter}");
             bool hudPresent = uiMissingCounter < uiMissingThreshold
                            /*&& uiSeenStreak >= uiSeenThreshold*/;  

@@ -13,7 +13,6 @@ namespace DBDtimer
         int index;
         TransparentOverlayForm form;
 
-        int yOffset = 120;
         Rectangle searchArea = new();
 
         float hookedThreshold = 0.6f;
@@ -22,8 +21,8 @@ namespace DBDtimer
         public SurvivorStateUnhooked(int index, Rectangle searchArea, TransparentOverlayForm form)
         {
             this.index = index;
-            this.yOffset = form.scaler.Scale(this.yOffset);
-            int yOffset = index * this.yOffset;
+            int yOffset = form.scaler.Scale(GameSettings.hookStageCounterOffset);
+            yOffset = index * yOffset;
 
             this.searchArea = new Rectangle(searchArea.X, searchArea.Y + yOffset, searchArea.Width, searchArea.Height);
             this.form = form;
