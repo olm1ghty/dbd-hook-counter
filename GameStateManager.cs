@@ -1,12 +1,4 @@
-﻿using ExCSS;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
-using System.Windows.Forms;
+﻿using DBDtimer.Properties;
 
 namespace DBDtimer
 {
@@ -17,6 +9,7 @@ namespace DBDtimer
         GameStateBase stateCurrent;
         public GameStateLobby stateLobby;
         public GameStatePlaying statePlaying;
+        public GameStatePlayingManual statePlayingManual;
 
         public System.Windows.Forms.Timer screenMonitorTimer = new();
         int timerIntervalMs = 16;
@@ -24,14 +17,17 @@ namespace DBDtimer
         System.Timers.Timer temporaryPauseTimer = new();
         int temporaryPauseDuration = 1000;
 
-        // global flag
         public volatile bool pauseInProgress = false;
+        public bool manualMode = false;
 
         public GameStateManager(TransparentOverlayForm form)
         {
+            manualMode = Settings.Default.manualMode;
             this.form = form;
+
             stateLobby = new(this, form);
             statePlaying = new(this, form);
+            statePlayingManual = new(this, form);
             SwitchState(stateLobby);
             InitializeScreenMonitoring();
         }

@@ -35,9 +35,20 @@ namespace DBDtimer
 
         public override void Update()
         {
-            if (form.screenChecker.UIenabled(debug: false))
+            if (form.screenChecker.UIenabled())
             {
-                stateManager.SwitchState(stateManager.statePlaying);
+                GameStateBase nextState;
+
+                if (stateManager.manualMode)
+                {
+                    nextState = stateManager.statePlayingManual;
+                }
+                else
+                {
+                    nextState = stateManager.statePlaying;
+                }
+
+                stateManager.SwitchState(nextState);
             }
         }
     }

@@ -18,7 +18,7 @@ public class TransparentOverlayForm : Form
     public readonly HotKeyManager hotkeyManager;
     public readonly OverlayRenderer overlayRenderer;
 
-    public readonly OverlayMenuForm menuForm;
+    public OverlayMenuForm menuForm;
     private readonly KeyboardWatcher kbWatcher;
 
     public TransparentOverlayForm()

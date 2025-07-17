@@ -118,5 +118,17 @@ namespace DBDtimer.Properties {
                 this["enduranceTimerEnabled"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool manualMode {
+            get {
+                return ((bool)(this["manualMode"]));
+            }
+            set {
+                this["manualMode"] = value;
+            }
+        }
     }
 }

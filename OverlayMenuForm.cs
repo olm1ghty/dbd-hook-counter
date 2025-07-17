@@ -1,4 +1,5 @@
-﻿using ExCSS;
+﻿using DBDtimer.Properties;
+using ExCSS;
 using System.Diagnostics;
 using Properties = DBDtimer.Properties;
 
@@ -79,6 +80,20 @@ public class OverlayMenuForm : Form
             Properties.Settings.Default.enduranceTimerEnabled = enduranceCheckBox.Checked;
         };
 
+        // --- Manual mode ----------------
+        var manualCheckBox = new CheckBox
+        {
+            Text = "Manual mode (disables auto-check)",
+            AutoSize = true,
+            Margin = new Padding(0, 12, 0, 0),
+            Checked = Settings.Default.manualMode
+        };
+        manualCheckBox.CheckedChanged += (_, __) =>
+        {
+            form.gameManager.manualMode = manualCheckBox.Checked;
+            Settings.Default.manualMode = manualCheckBox.Checked;
+        };
+
         // --- Close button ----------------
         var closeBtn = new Button
         {
@@ -122,6 +137,7 @@ public class OverlayMenuForm : Form
             hudLabel, hudBox,
             dsCheckBox,
             enduranceCheckBox,
+            manualCheckBox,
             closeBtn,
         });
         Controls.Add(layout);
