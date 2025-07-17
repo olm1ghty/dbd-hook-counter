@@ -24,7 +24,7 @@ public class TransparentOverlayForm : Form
 
     public Survivor[] survivors = new Survivor[4];
 
-    public int hookStageCounterStartX = 250;
+    public int hookStageCounterStartX = 254;
     public int hookStageCounterStartY = 650;
     public int hookStageCounterOffset = 120;
 

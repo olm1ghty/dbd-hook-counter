@@ -20,7 +20,7 @@ namespace DBDtimer
 
         // loaded once
         public readonly Mat _hookedTemplate;
-        public readonly Mat _statusChangeTemplate;
+        public readonly Mat _bloodSplatterTemplate;
         public readonly Mat _deadTemplate;
         public readonly Mat _moriedTemplate;
         public readonly Mat _continueTemplate;
@@ -28,6 +28,7 @@ namespace DBDtimer
         public readonly Mat _uiHookTemplate;
         public readonly Mat _uiMoriTemplate;
         public readonly Mat _stbTemplate;
+        public readonly Mat _progressBarTemplate;
 
         Rectangle uiSearchArea = new(151, 1158, 33, 50);
         Rectangle pauseMenuSearchArea = new(116, 1478, 119, 57);
@@ -35,7 +36,7 @@ namespace DBDtimer
         public int uiMissingCounter = 0;
         public int uiMissingThreshold = 5;
 
-        private int uiSeenStreak = 0;
+        private int uiSeenCounter = 0;
         private int uiSeenThreshold = 5;
 
         public ScreenChecker(TransparentOverlayForm form)
@@ -43,7 +44,7 @@ namespace DBDtimer
             this.form = form;
 
             _hookedTemplate = form.scaler.LoadScaledTemplate(Resources.hooked);
-            _statusChangeTemplate = form.scaler.LoadScaledTemplate(Resources.status_change);
+            _bloodSplatterTemplate = form.scaler.LoadScaledTemplate(Resources.blood_splatter);
             _deadTemplate = form.scaler.LoadScaledTemplate(Resources.dead);
             _moriedTemplate = form.scaler.LoadScaledTemplate(Resources.moried);
             _continueTemplate = form.scaler.LoadScaledTemplateMenu(Resources.continue_button);
@@ -51,6 +52,7 @@ namespace DBDtimer
             _uiHookTemplate = form.scaler.LoadScaledTemplate(Resources.ui_hook);
             _uiMoriTemplate = form.scaler.LoadScaledTemplate(Resources.ui_mori);
             _stbTemplate = form.scaler.LoadScaledTemplate(Resources.stb);
+            _progressBarTemplate = form.scaler.LoadScaledTemplate(Resources.progress_bar);
 
             uiSearchArea = form.scaler.Scale(uiSearchArea);
             pauseMenuSearchArea = form.scaler.ScaleMenu(pauseMenuSearchArea);
@@ -59,8 +61,11 @@ namespace DBDtimer
         public bool MatchTemplate(Mat template,
                           Rectangle region,
                           double threshold = 0.90,
-                          bool debug = false)
+                          bool debug = false,
+                          string text = "")
         {
+            //Debug.WriteLine($"MatchTemplate: {text}");
+
             using Mat frame = CaptureScreenMat();        // fresh frame each call
             using Mat roi = new Mat(frame, region);
             using Mat result = new Mat();
@@ -110,28 +115,29 @@ namespace DBDtimer
         {
             if (MatchTemplate(_pauseMenuTemplate, pauseMenuSearchArea, 0.8, debug))
             {
-                uiSeenStreak = 0;
+                uiSeenCounter = 0;
                 return false;
             }
 
-            bool hook = MatchTemplate(_uiHookTemplate, uiSearchArea, 0.5, debug);
-            bool mori = MatchTemplate(_uiMoriTemplate, uiSearchArea, 0.5, debug);
+            bool hook = MatchTemplate(_uiHookTemplate, uiSearchArea, 0.8, debug);
+            bool mori = MatchTemplate(_uiMoriTemplate, uiSearchArea, 0.8, debug);
 
             if (hook || mori)
             {
                 form.gameManager.pauseInProgress = false;
                 uiMissingCounter = 0;
-                uiSeenStreak++;        
+                //uiSeenCounter++;        
             }
             else
             {
                 form.gameManager.pauseInProgress = true;
                 uiMissingCounter++;
-                uiSeenStreak = 0;        
+                //uiSeenCounter = 0;        
             }
 
             Debug.WriteLine($"uiMissingCounter: {uiMissingCounter}");
-            Debug.WriteLine($"uiSeenStreak: {uiSeenStreak}");
+            Debug.WriteLine($"form.gameManager.pauseInProgress: {form.gameManager.pauseInProgress}");
+            //Debug.WriteLine($"uiSeenStreak: {uiSeenCounter}");
             bool hudPresent = uiMissingCounter < uiMissingThreshold
                            /*&& uiSeenStreak >= uiSeenThreshold*/;  
 
