@@ -11,6 +11,8 @@ public class HotKeyActions
 
     public void ShowSettings()
     {
+        PauseApp();
+
         form.EnableInput(true);
 
         if (form.menuForm == null || form.menuForm.IsDisposed)
@@ -36,15 +38,25 @@ public class HotKeyActions
     {
         if (form.gameManager.screenMonitorTimer.Enabled)
         {
-            form.gameManager.screenMonitorTimer.Stop();
-            form.overlayRenderer.ClearOverlay();
-            form.toastManager.ShowToast("App paused");
+            PauseApp();
         }
         else
         {
-            form.toastManager.ShowToast("App unpaused");
-            form.gameManager.screenMonitorTimer.Start();
+            UnpauseApp();
         }
+    }
+
+    public void UnpauseApp()
+    {
+        form.toastManager.ShowToast("Hook counter unpaused");
+        form.gameManager.screenMonitorTimer.Start();
+    }
+
+    private void PauseApp()
+    {
+        form.gameManager.screenMonitorTimer.Stop();
+        form.overlayRenderer.ClearOverlay();
+        form.toastManager.ShowToast("Hook counter paused");
     }
 
     public void AddHookStage(int index)

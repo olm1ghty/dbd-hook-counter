@@ -1,6 +1,6 @@
 ﻿using DBDtimer.Properties;
 using ExCSS;
-using System.Diagnostics;
+using Color = System.Drawing.Color;
 using Properties = DBDtimer.Properties;
 
 public class OverlayMenuForm : Form
@@ -11,99 +11,84 @@ public class OverlayMenuForm : Form
     {
         this.form = form;
 
-        FormBorderStyle = FormBorderStyle.FixedToolWindow;
+        // Modern window style
+        FormBorderStyle = FormBorderStyle.FixedDialog;
         StartPosition = FormStartPosition.Manual;
         ShowInTaskbar = false;
         TopMost = true;
         AutoSize = true;
         AutoSizeMode = AutoSizeMode.GrowAndShrink;
-        Text = "Settings";
+        Text = "Overlay Settings";
+        Font = new Font("Segoe UI", 10);
+        BackColor = Color.FromArgb(30, 30, 30);
+        ForeColor = Color.White;
 
-        // --- Aspect ratio dropdown -----------------
-        var arLabel = new Label { Text = "Aspect ratio:", AutoSize = true };
-        var arBox = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList };
-        arBox = AddItems(arBox, form.scaler.aspectRatios);
-        arBox.SelectedIndex = Properties.Settings.Default.DropdownAR;
+        // Style template
+        var labelMargin = new Padding(0, 10, 0, 0);
+        var comboStyle = ComboBoxStyle.DropDownList;
+
+        // --- Aspect ratio dropdown
+        var arLabel = new Label { Text = "Aspect Ratio", AutoSize = true, Margin = labelMargin };
+        var arBox = CreateComboBox(form.scaler.aspectRatios, Properties.Settings.Default.DropdownAR);
         arBox.SelectedIndexChanged += (_, __) =>
         {
-            string value = arBox.SelectedItem!.ToString()!;
-            form.scaler.aspectRatio = value;
+            form.scaler.aspectRatio = arBox.SelectedItem!.ToString()!;
         };
 
-        // --- UI dropdown ----------------
-        var uiLabel = new Label { Text = "UI scale (DBD settings):", AutoSize = true, Margin = new Padding(0, 8, 0, 0) };
-        var uiBox = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList };
-        uiBox = AddItems(uiBox, form.scaler.MenuScales);
-        uiBox.SelectedIndex = Properties.Settings.Default.DropdownUI;
+        // --- UI scale
+        var uiLabel = new Label { Text = "UI Scale (in-game setting)", AutoSize = true, Margin = labelMargin };
+        var uiBox = CreateComboBox(form.scaler.MenuScales, Properties.Settings.Default.DropdownUI);
         uiBox.SelectedIndexChanged += (_, __) =>
         {
-            float value = int.Parse(uiBox.SelectedItem!.ToString()!) / 100f;
-            form.scaler.MenuScale = value;
+            form.scaler.MenuScale = int.Parse(uiBox.SelectedItem!.ToString()!) / 100f;
         };
 
-        // --- In-game HUD dropdown ----------------
-        var hudLabel = new Label { Text = "In-game HUD scale (DBD settings):", AutoSize = true, Margin = new Padding(0, 8, 0, 0) };
-        var hudBox = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList };
-        hudBox = AddItems(hudBox, form.scaler.HUDscales);
-        hudBox.SelectedIndex = Properties.Settings.Default.DropdownHUD;
+        // --- HUD scale
+        var hudLabel = new Label { Text = "HUD Scale (in-game setting)", AutoSize = true, Margin = labelMargin };
+        var hudBox = CreateComboBox(form.scaler.HUDscales, Properties.Settings.Default.DropdownHUD);
         hudBox.SelectedIndexChanged += (_, __) =>
         {
-            float value = int.Parse(hudBox.SelectedItem!.ToString()!) / 100f;
-            form.scaler.HUDScale = value;
+            form.scaler.HUDScale = int.Parse(hudBox.SelectedItem!.ToString()!) / 100f;
         };
 
-        // --- DS checkbox ----------------
-        var dsCheckBox = new CheckBox
-        {
-            Text = "DS timer",
-            AutoSize = true,
-            Margin = new Padding(0, 12, 0, 0),
-            Checked = form.timerManager.dsTimerEnabled
-        };
+        // --- Checkboxes
+        var dsCheckBox = CreateCheckbox("Enable DS Timer", form.timerManager.dsTimerEnabled);
         dsCheckBox.CheckedChanged += (_, __) =>
         {
             form.timerManager.dsTimerEnabled = dsCheckBox.Checked;
             Properties.Settings.Default.dsTimerEnabled = dsCheckBox.Checked;
         };
 
-        // --- Endurance checkbox ----------------
-        var enduranceCheckBox = new CheckBox
-        {
-            Text = "Off-hook endurance timer",
-            AutoSize = true,
-            Margin = new Padding(0, 12, 0, 0),
-            Checked = form.timerManager.enduranceTimerEnabled
-        };
+        var enduranceCheckBox = CreateCheckbox("Enable Endurance Timer", form.timerManager.enduranceTimerEnabled);
         enduranceCheckBox.CheckedChanged += (_, __) =>
         {
             form.timerManager.enduranceTimerEnabled = enduranceCheckBox.Checked;
             Properties.Settings.Default.enduranceTimerEnabled = enduranceCheckBox.Checked;
         };
 
-        // --- Manual mode ----------------
-        var manualCheckBox = new CheckBox
-        {
-            Text = "Manual mode (disables auto-check)",
-            AutoSize = true,
-            Margin = new Padding(0, 12, 0, 0),
-            Checked = Settings.Default.manualMode
-        };
+        var manualCheckBox = CreateCheckbox("Manual Mode (disables auto-check)", Settings.Default.manualMode);
         manualCheckBox.CheckedChanged += (_, __) =>
         {
             form.gameManager.manualMode = manualCheckBox.Checked;
             Settings.Default.manualMode = manualCheckBox.Checked;
         };
 
-        // --- Close button ----------------
-        var closeBtn = new Button
+        // --- Save + restart button
+        var saveBtn = new Button
         {
-            Text = "Save and restart the overlay",
+            Text = "💾 Save and restart overlay",
             AutoSize = true,
-            Margin = new Padding(0, 12, 0, 0)
+            BackColor = Color.FromArgb(45, 140, 240),
+            ForeColor = Color.White,
+            FlatStyle = FlatStyle.Flat,
+            Margin = new Padding(0, 16, 0, 0),
+            Padding = new Padding(8, 4, 8, 4)
         };
-        closeBtn.Click += (_, __) =>
+        saveBtn.FlatAppearance.BorderSize = 0;
+        saveBtn.Cursor = Cursors.Hand;
+
+        saveBtn.Click += (_, __) =>
         {
-            // Save chosen values
             Properties.Settings.Default.AspectRatio = form.scaler.aspectRatio;
             Properties.Settings.Default.MenuScale = form.scaler.MenuScale;
             Properties.Settings.Default.HUDScale = form.scaler.HUDScale;
@@ -111,50 +96,70 @@ public class OverlayMenuForm : Form
             Properties.Settings.Default.DropdownAR = arBox.SelectedIndex;
             Properties.Settings.Default.DropdownUI = uiBox.SelectedIndex;
             Properties.Settings.Default.DropdownHUD = hudBox.SelectedIndex;
-
             Properties.Settings.Default.dsTimerEnabled = dsCheckBox.Checked;
             Properties.Settings.Default.enduranceTimerEnabled = enduranceCheckBox.Checked;
 
             Properties.Settings.Default.Save();
 
-            // Restart app
             Application.Restart();
-            Environment.Exit(0); // ensures full termination
+            Environment.Exit(0);
         };
 
-
-        // --- Layout ------------------------
+        // --- Layout
         var layout = new FlowLayoutPanel
-        { 
-            AutoSize = true, 
+        {
+            AutoSize = true,
             FlowDirection = FlowDirection.TopDown,
-            Padding = new Padding(12, 8, 12, 8),
-            Margin = new Padding(12)
+            Padding = new Padding(16),
+            BackColor = Color.FromArgb(30, 30, 30),
+            Margin = new Padding(0)
         };
+
         layout.Controls.AddRange(new Control[] {
-            arLabel,  arBox,
+            arLabel, arBox,
             uiLabel, uiBox,
             hudLabel, hudBox,
             dsCheckBox,
             enduranceCheckBox,
             manualCheckBox,
-            closeBtn,
+            saveBtn
         });
+
         Controls.Add(layout);
     }
 
-    ComboBox AddItems<T>(ComboBox box, List<T> list)
+    ComboBox CreateComboBox<T>(List<T> items, int selectedIndex)
     {
-        foreach (var item in list)
+        var box = new ComboBox
         {
+            DropDownStyle = ComboBoxStyle.DropDownList,
+            Width = 200,
+            FlatStyle = FlatStyle.Flat,
+            BackColor = Color.FromArgb(50, 50, 50),
+            ForeColor = Color.White
+        };
+        foreach (var item in items)
             box.Items.Add(item);
-        }
+        box.SelectedIndex = selectedIndex;
         return box;
+    }
+
+    CheckBox CreateCheckbox(string text, bool initial)
+    {
+        return new CheckBox
+        {
+            Text = text,
+            AutoSize = true,
+            Checked = initial,
+            Margin = new Padding(0, 10, 0, 0),
+            ForeColor = Color.White
+        };
     }
 
     protected override void OnDeactivate(EventArgs e)
     {
+        form.hotkeyActions.UnpauseApp();
         base.OnDeactivate(e);
-        this.Close();  // auto-close when user clicks outside
+        this.Close();
     }
 }
