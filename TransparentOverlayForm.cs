@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
@@ -7,48 +6,28 @@ using DBDtimer;
 using Svg;
 using Properties = DBDtimer.Properties;
 using Color = System.Drawing.Color;
-using System.Runtime.InteropServices;
-using System.Reflection.Metadata;
-using System.Globalization;
-using static HotKeyManager;
 
 public class TransparentOverlayForm : Form
 {
-    public ScreenChecker screenChecker;
-    public TimerManager timerManager;
-    public GameStateManager gameManager;
-    public SurvivorManager survivorManager;
-    public Scaler scaler;
-    public ToastManager toastManager;
+    public readonly ScreenChecker screenChecker;
+    public readonly TimerManager timerManager;
+    public readonly GameStateManager gameManager;
+    public readonly SurvivorManager survivorManager;
+    public readonly Scaler scaler;
+    public readonly ToastManager toastManager;
     public readonly HotKeyManager hotkeyManager;
+    public readonly OverlayRenderer overlayRenderer;
 
-    public Survivor[] survivors = new Survivor[4];
-
-    public int hookStageCounterStartX = 254;
-    public int hookStageCounterStartY = 650;
-    public int hookStageCounterOffset = 120;
-
-    SvgDocument hookCounterSVG;
-    Graphics graphics;
-    Bitmap bmp;
-
-    float hookSVGscaleX;
-    float hookSVGscaleY;
-
-    private OverlayMenuForm menuForm;
-
+    public OverlayMenuForm menuForm;
     private readonly KeyboardWatcher kbWatcher;
 
     public TransparentOverlayForm()
     {
-        hotkeyManager = new HotKeyManager(this);
+        scaler = new();
+        timerManager = new(this);
 
-        // Add hot‑keys (Ctrl+Shift versions shown here)
-        hotkeyManager.Add(HotKeyManager.MOD_SHIFT, (uint)Keys.M, ShowSettings);
-        hotkeyManager.Add(HotKeyManager.MOD_SHIFT, (uint)Keys.K, Exit);
-        hotkeyManager.Add(HotKeyManager.MOD_SHIFT, (uint)Keys.P, TriggerPause);
-        hotkeyManager.Add(HotKeyManager.MOD_SHIFT, (uint)Keys.R, Restart);
-
+        var actions = new HotKeyActions(this);
+        hotkeyManager = new HotKeyManager(this, actions);
 
         FormBorderStyle = FormBorderStyle.None;
         TopMost = true;
@@ -58,56 +37,19 @@ public class TransparentOverlayForm : Form
         this.Icon = Properties.Resources.dbd;
         StartPosition = FormStartPosition.CenterScreen;
 
-        using (var svgStream = new MemoryStream(Properties.Resources.hooks))
-        {
-            hookCounterSVG = SvgDocument.Open<SvgDocument>(svgStream);
-        }
-
         // Use WS_EX_LAYERED to enable per-pixel alpha
         int initialStyle = NativeMethods.GetWindowLong(Handle, NativeMethods.GWL_EXSTYLE);
         NativeMethods.SetWindowLong(Handle, NativeMethods.GWL_EXSTYLE, initialStyle | NativeMethods.WS_EX_LAYERED | NativeMethods.WS_EX_TRANSPARENT);
 
-
-        scaler = new ();
-
-        hookStageCounterStartX = scaler.Scale(hookStageCounterStartX);
-        hookStageCounterStartY = scaler.ScaleY(hookStageCounterStartY);
-        hookStageCounterOffset = scaler.Scale(hookStageCounterOffset);
-
-        survivors = new Survivor[]
-        {
-            new Survivor(0, this),
-            new Survivor(1, this),
-            new Survivor(2, this),
-            new Survivor(3, this)
-        };
-
         screenChecker = new(this);
-        timerManager = new(this);
-        gameManager = new(this);
         survivorManager = new(this);
+        gameManager = new(this);
         toastManager = new(this);
+        overlayRenderer = new(this);
 
         kbWatcher = new KeyboardWatcher();
         kbWatcher.AltTabPressed += () => gameManager.TemporaryPause();
         kbWatcher.EscPressed += () => gameManager.TemporaryPause();
-
-        bmp = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
-        graphics = Graphics.FromImage(bmp);
-        graphics.Clear(Color.Transparent);
-        graphics.SmoothingMode = SmoothingMode.AntiAlias;
-        graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-
-        //hookCounterSVG.Height = new SvgUnit(SvgUnitType.Pixel, 30);
-
-        float desiredWidth = 20;
-        float desiredHeight = 30;
-        float svgWidth = hookCounterSVG.Bounds.Width;
-        float svgHeight = hookCounterSVG.Bounds.Height;
-        hookSVGscaleX = desiredWidth / svgWidth;
-        hookSVGscaleY = desiredHeight / svgHeight;
-
-        hookCounterSVG.FillOpacity = 0.80f;
     }
 
     protected override bool ShowWithoutActivation => true;
@@ -117,151 +59,14 @@ public class TransparentOverlayForm : Form
         get
         {
             var cp = base.CreateParams;
-            cp.ExStyle |= NativeMethods.WS_EX_LAYERED      // stays
-                       | NativeMethods.WS_EX_TRANSPARENT  // stays
-                       | NativeMethods.WS_EX_NOACTIVATE;  // new: never takes focus
+            cp.ExStyle |= NativeMethods.WS_EX_LAYERED     
+                       | NativeMethods.WS_EX_TRANSPARENT  
+                       | NativeMethods.WS_EX_NOACTIVATE; 
             return cp;
         }
     }
 
-
-    public void DrawOverlay()
-    {
-        // wipe everything that was drawn last time ⟵  IMPORTANT
-        graphics.Clear(Color.Transparent);
-
-        //if (screenChecker.UIenabled())
-        {
-            // --- draw hook stages ---
-            for (int i = 0; i < survivors.Length; i++)
-            {
-                hookCounterSVG.Fill = new SvgColourServer(Color.Transparent);
-
-                SvgElement leftHook = hookCounterSVG.GetElementById("leftHook");
-                leftHook.Fill = new SvgColourServer(Color.Transparent);
-
-                SvgElement rightHook = hookCounterSVG.GetElementById("rightHook");
-                rightHook.Fill = new SvgColourServer(Color.Transparent);
-
-                switch (survivors[i].hookStages)
-                {
-                    case 0:
-                        leftHook.Fill = new SvgColourServer(Color.Black);
-                        rightHook.Fill = new SvgColourServer(Color.Black);
-                        break;
-
-                    case 1:
-                        leftHook.Fill = new SvgColourServer(Color.White);
-                        rightHook.Fill = new SvgColourServer(Color.Black);
-                        break;
-
-                    case 2:
-                        leftHook.Fill = new SvgColourServer(Color.White);
-                        rightHook.Fill = new SvgColourServer(Color.White);
-                        break;
-                }
-
-                var state = graphics.Save();
-                graphics.TranslateTransform(hookStageCounterStartX, (hookStageCounterStartY) + (i * hookStageCounterOffset));
-                graphics.ScaleTransform(hookSVGscaleX, hookSVGscaleY);
-                hookCounterSVG.Draw(graphics);
-                graphics.Restore(state);
-            }
-
-            // clean up expired timers before drawing
-            timerManager.RemoveExpiredTimers();
-
-            // draw all active timers
-            foreach (var list in timerManager.timers)
-            {
-                foreach (var timer in list)
-                {
-                    string txt = timer.SecondsRemaining.ToString();
-                    using (Font f = new Font("Arial", 12, System.Drawing.FontStyle.Bold))
-                    using (Brush b = new SolidBrush(timer.color))
-                    {
-                        graphics.DrawString(txt, f, b, timer.Position);
-                    }
-                }
-            }
-        }
-
-        // ----- draw toasts -----
-        toastManager.toasts.RemoveAll(t => !t.IsAlive);          // drop finished ones
-
-        foreach (var toast in toastManager.toasts)
-        {
-            using var f = new Font("Arial", 16, FontStyle.Bold);
-            int a = toast.CurrentAlpha;
-            using var b = new SolidBrush(Color.FromArgb(a, Color.Yellow));
-            graphics.DrawString(toast.Text, f, b, toast.Position);
-        }
-
-        NativeMethods.SetBitmapToForm(this, bmp);
-    }
-
-    public void ClearOverlay()
-    {
-        if (graphics != null
-            && bmp != null)
-        {
-            graphics.Clear(Color.Transparent);
-            NativeMethods.SetBitmapToForm(this, bmp);
-        }
-    }
-
-    void TriggerPause()
-    {
-        if (gameManager.screenMonitorTimer.Enabled)
-        {
-            gameManager.screenMonitorTimer.Stop();
-            ClearOverlay();
-            toastManager.ShowToast("App paused");
-        }
-        else
-        {
-            toastManager.ShowToast("App unpaused");
-            gameManager.screenMonitorTimer.Start();
-        }
-    }
-
-    void TemporaryPause()
-    {
-        gameManager.TemporaryPause();
-    }
-
-    void Exit()
-    {
-        Application.Exit();
-    }
-
-    void Restart()
-    {
-        Application.Restart();
-        Environment.Exit(0); // ensures full termination
-    }
-
-    private void ShowSettings()
-    {
-        EnableInput(true);                    // overlay becomes clickable
-
-        if (menuForm == null || menuForm.IsDisposed)
-        {
-            menuForm = new OverlayMenuForm(this);
-
-            menuForm.FormClosed += (_, __) => {
-                EnableInput(false);           // restore click‑through
-            };
-        }
-
-        // position near mouse cursor
-        Point p = Cursor.Position;
-        menuForm.Location = p;
-        menuForm.Show();
-        menuForm.BringToFront();
-    }
-
-    private void EnableInput(bool enable)
+    public void EnableInput(bool enable)
     {
         int style = NativeMethods.GetWindowLong(Handle, NativeMethods.GWL_EXSTYLE);
         if (enable)

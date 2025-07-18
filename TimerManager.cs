@@ -47,8 +47,8 @@ namespace DBDtimer
 
         Point CalculatePosition(int survivorIndex = -1)
         {
-            int x = (int)(form.hookStageCounterStartX - timerStartXoffset);
-            int y = (int)(form.hookStageCounterStartY + (form.hookStageCounterOffset * survivorIndex) - timerStartYoffset);
+            int x = (int)(form.overlayRenderer.hookStageCounterStartX - timerStartXoffset);
+            int y = (int)(form.overlayRenderer.hookStageCounterStartY + (form.overlayRenderer.hookStageCounterOffset * survivorIndex) - timerStartYoffset);
 
             if (survivorIndex == -1)
             {
@@ -121,8 +121,8 @@ namespace DBDtimer
             {
                 foreach (var timer in timers[i])
                 {
-                    int x = (int)(form.hookStageCounterStartX - timerStartXoffset);
-                    int y = (int)(form.hookStageCounterStartY + (form.hookStageCounterOffset * i) - timerStartYoffset);
+                    int x = (int)(form.overlayRenderer.hookStageCounterStartX - timerStartXoffset);
+                    int y = (int)(form.overlayRenderer.hookStageCounterStartY + (form.overlayRenderer.hookStageCounterOffset * i) - timerStartYoffset);
 
                     if (i == -1)
                     {
@@ -157,6 +157,25 @@ namespace DBDtimer
             if (enduranceTimerEnabled)
             {
                 AddTimer(hook, Color.White, index);
+            }
+        }
+
+        public void TriggerTimerManually(int index)
+        {
+            if (TimerExists(index))
+            {
+                RemoveTimer(index);
+            }
+            else
+            {
+                if (dsTimerEnabled)
+                {
+                    AddTimer(ds, Color.Red, index);
+                }
+                if (enduranceTimerEnabled)
+                {
+                    AddTimer(hook, Color.White, index);
+                }
             }
         }
     }

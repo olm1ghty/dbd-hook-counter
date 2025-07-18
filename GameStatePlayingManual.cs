@@ -1,20 +1,19 @@
-﻿using Emgu.CV.Flann;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace DBDtimer
 {
-    public class GameStatePlaying : GameStateBase
+    public class GameStatePlayingManual : GameStateBase
     {
         GameStateManager stateManager;
         TransparentOverlayForm form;
         Rectangle continueSearchArea = GameSettings.continueSearchArea;
 
-        public GameStatePlaying(GameStateManager stateManager, TransparentOverlayForm form)
+        public GameStatePlayingManual(GameStateManager stateManager, TransparentOverlayForm form)
         {
             this.stateManager = stateManager;
             this.form = form;
@@ -32,19 +31,6 @@ namespace DBDtimer
             if (form.screenChecker.MatchTemplate(form.screenChecker._continueTemplate, continueSearchArea, 0.8))
             {
                 stateManager.SwitchState(stateManager.stateLobby);
-            }
-            else if (form.screenChecker.UIenabled())
-            {
-                foreach (var survivor in form.survivorManager.survivors)
-                {
-                    survivor.Update();
-                }
-
-                form.overlayRenderer.DrawOverlay();
-            }
-            else
-            {
-                form.overlayRenderer.ClearOverlay();
             }
         }
     }

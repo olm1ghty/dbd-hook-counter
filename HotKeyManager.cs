@@ -8,13 +8,31 @@ public sealed class HotKeyManager : IDisposable
     private const int WM_HOTKEY = 0x0312;
 
     private readonly Form host;
+    private readonly Dictionary<int, Action> hotkeys = new();
     private readonly List<HotKey> list = new();
     private int nextId = 1;                       // unique id per key
 
     private const int VK_ESCAPE = 0x1B;
 
-    public HotKeyManager(Form host)
+    public HotKeyManager(Form host, HotKeyActions actions)
     {
+        Add(MOD_SHIFT, (uint)Keys.M, actions.ShowSettings);
+        Add(MOD_SHIFT, (uint)Keys.K, actions.Exit);
+        Add(MOD_SHIFT, (uint)Keys.P, actions.TriggerPause);
+        Add(MOD_SHIFT, (uint)Keys.R, actions.Restart);
+
+        Add(0, (uint)Keys.D1, () => actions.AddHookStage(0));
+        Add(0, (uint)Keys.D2, () => actions.AddHookStage(1));
+        Add(0, (uint)Keys.D3, () => actions.AddHookStage(2));
+        Add(0, (uint)Keys.D4, () => actions.AddHookStage(3));
+        Add(0, (uint)Keys.D5, actions.ResetHookStages);
+
+        Add(MOD_SHIFT, (uint)Keys.D1, () => actions.TriggerTimerManually(0));
+        Add(MOD_SHIFT, (uint)Keys.D2, () => actions.TriggerTimerManually(1));
+        Add(MOD_SHIFT, (uint)Keys.D3, () => actions.TriggerTimerManually(2));
+        Add(MOD_SHIFT, (uint)Keys.D4, () => actions.TriggerTimerManually(3));
+        Add(MOD_SHIFT, (uint)Keys.D5, actions.ClearAllTimers);
+
         this.host = host ?? throw new ArgumentNullException(nameof(host));
 
         host.HandleCreated += (_, __) => RegisterAll();
@@ -23,8 +41,15 @@ public sealed class HotKeyManager : IDisposable
         Application.AddMessageFilter(new Filter(this));
     }
 
-    public void Add(uint modifiers, uint vk, Action action)
-        => list.Add(new HotKey(modifiers, vk, action));
+    //public void Add(uint modifiers, uint vk, Action action)
+    //    => list.Add(new HotKey(modifiers, vk, action));
+
+    public void Add(uint modifier, uint key, Action action)
+    {
+        int id = ((int)modifier << 16) | (int)key;
+        hotkeys[id] = action;
+        list.Add(new HotKey(modifier, key, action)); // ← make sure it's also added to `list` for `RegisterAll`
+    }
 
     public void RegisterAll()
     {

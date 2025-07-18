@@ -26,9 +26,6 @@ namespace DBDtimer
             Timer timer = new();
             timer.Interval = 1000;
             timer.Tick += (s, e) => {
-                //Debug.WriteLine("SurvivorStateIntermediate TIMER TICK");
-                //Debug.WriteLine($"Hook stages: {survivor.hookStages}");
-                //Debug.WriteLine($"Next state: {nextState}");
                 survivor.SwitchStateFromIntermediate(nextState);
                 timer.Stop();
             };

@@ -10,33 +10,41 @@ namespace DBDtimer
     {
         TransparentOverlayForm form;
 
+        public Survivor[] survivors = new Survivor[4];
+
         public SurvivorManager(TransparentOverlayForm form)
         { 
             this.form = form;
+
+            survivors = new Survivor[]
+            {
+            new Survivor(0, form),
+            new Survivor(1, form),
+            new Survivor(2, form),
+            new Survivor(3, form)
+            };
         }
 
         public void HookSurvivor(int index)
         {
-            form.survivors[index].GetHooked();
+            survivors[index].GetHooked();
         }
 
         public void KillSurvivor(int index)
         {
-            var survivor = form.survivors[index];
+            var survivor = survivors[index];
             survivor.SwitchState(survivor.stateDead);
             form.timerManager.RemoveTimer(index);
         }
 
         public void UnhookSurvivor(int index)
         {
-            form.survivors[index].SwitchState(form.survivors[index].stateUnhooked);
+            survivors[index].SwitchState(survivors[index].stateUnhooked);
         }
 
         public void AddHookStage(int survivorIndex)
         {
-            //Debug.WriteLine($"AddHookStage: {survivorIndex}");
-
-            form.survivors[survivorIndex].hookStages++;
+            survivors[survivorIndex].hookStages++;
         }
     }
 }

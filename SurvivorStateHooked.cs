@@ -10,7 +10,6 @@ namespace DBDtimer
 {
     public class SurvivorStateHooked : SurvivorStateBase
     {
-        int yOffset = 120;
         int index;
 
         Rectangle statusSearchArea = new();
@@ -22,16 +21,15 @@ namespace DBDtimer
         Survivor survivor;
 
         float deadThreshold = 0.5f;
-        float unhookThreshold = 0.7f;
+        float unhookThreshold = 0.65f;
         float bloodSplatterThreshold = 0.7f;
-        //float progressBarThreshold = 0.6f;
         float stbThreshold = 0.5f;
 
         public SurvivorStateHooked(int index, Rectangle searchArea, Rectangle nextStageSearchArea, Rectangle stbSearchArea, Rectangle unhookSearchArea, TransparentOverlayForm form, Survivor survivor)
         {
             this.index = index;
-            this.yOffset = form.scaler.Scale(this.yOffset);
-            int yOffset = index * this.yOffset;
+            int yOffset = form.scaler.Scale(GameSettings.hookStageCounterOffset);
+            yOffset = index * yOffset;
 
             this.statusSearchArea = new Rectangle(searchArea.X, searchArea.Y + yOffset, searchArea.Width, searchArea.Height);
             this.bloodSplatterSearchArea = new Rectangle(nextStageSearchArea.X, nextStageSearchArea.Y + yOffset, nextStageSearchArea.Width, nextStageSearchArea.Height);
@@ -87,9 +85,8 @@ namespace DBDtimer
 
         private void CheckForSTB()
         {
-            foreach (var survivor in form.survivors)
+            foreach (var survivor in form.survivorManager.survivors)
             {
-                // check every unhooked survivor
                 if (survivor.currentState == survivor.stateUnhooked)
                 {
                     if (form.screenChecker.MatchTemplate(form.screenChecker._stbTemplate, survivor.stateHooked.stbSearchArea, stbThreshold, text: "stb")

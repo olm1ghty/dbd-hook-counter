@@ -20,22 +20,35 @@ namespace DBDtimer
 
         public override void Enter()
         {
-            foreach (var survivor in form.survivors)
+            foreach (var survivor in form.survivorManager.survivors)
             {
                 survivor.hookStages = 0;
                 survivor.SwitchState(survivor.stateUnhooked);
                 form.timerManager.ClearAllTimers();
-                form.ClearOverlay();
+
+                if (form.overlayRenderer != null )
+                {
+                    form.overlayRenderer.ClearOverlay();
+                }
             }
         }
 
         public override void Update()
         {
-            //Debug.WriteLine("LOBBY");
-
-            if (form.screenChecker.UIenabled(debug: false))
+            if (form.screenChecker.UIenabled())
             {
-                stateManager.SwitchState(stateManager.statePlaying);
+                GameStateBase nextState;
+
+                if (stateManager.manualMode)
+                {
+                    nextState = stateManager.statePlayingManual;
+                }
+                else
+                {
+                    nextState = stateManager.statePlaying;
+                }
+
+                stateManager.SwitchState(nextState);
             }
         }
     }
