@@ -12,7 +12,6 @@ public class HotKeyActions
     public void ShowSettings()
     {
         PauseApp();
-
         form.EnableInput(true);
 
         if (form.menuForm == null || form.menuForm.IsDisposed)
@@ -21,10 +20,25 @@ public class HotKeyActions
             form.menuForm.FormClosed += (_, __) => form.EnableInput(false);
         }
 
-        form.menuForm.Location = Cursor.Position;
+        // Get the screen that the cursor is on
+        var screen = Screen.FromPoint(Cursor.Position);
+        var screenBounds = screen.WorkingArea;
+
+        // Start from cursor position
+        Point desiredLocation = Cursor.Position;
+
+        // Clamp the form’s location to the screen bounds
+        int maxX = screenBounds.Right - form.menuForm.Width;
+        int maxY = screenBounds.Bottom - form.menuForm.Height;
+
+        desiredLocation.X = Math.Max(screenBounds.Left, Math.Min(desiredLocation.X, maxX));
+        desiredLocation.Y = Math.Max(screenBounds.Top, Math.Min(desiredLocation.Y, maxY));
+
+        form.menuForm.Location = desiredLocation;
         form.menuForm.Show();
         form.menuForm.BringToFront();
     }
+
 
     public void Exit() => Application.Exit();
 
@@ -48,15 +62,21 @@ public class HotKeyActions
 
     public void UnpauseApp()
     {
-        form.toastManager.ShowToast("Hook counter unpaused");
-        form.gameManager.screenMonitorTimer.Start();
+        if (!form.gameManager.screenMonitorTimer.Enabled)
+        {
+            form.toastManager.ShowToast("Hook counter unpaused");
+            form.gameManager.screenMonitorTimer.Start();
+        }
     }
 
     private void PauseApp()
     {
-        form.gameManager.screenMonitorTimer.Stop();
-        form.overlayRenderer.ClearOverlay();
-        form.toastManager.ShowToast("Hook counter paused");
+        if (form.gameManager.screenMonitorTimer.Enabled)
+        {
+            form.gameManager.screenMonitorTimer.Stop();
+            form.overlayRenderer.ClearOverlay();
+            form.toastManager.ShowToast("Hook counter paused");
+        }
     }
 
     public void AddHookStage(int index)
