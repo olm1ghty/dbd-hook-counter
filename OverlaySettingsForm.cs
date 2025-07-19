@@ -52,14 +52,14 @@ public class OverlaySettingsForm : Form
         };
 
         // --- Checkboxes
-        var dsCheckBox = CreateCheckbox("Enable DS Timer", form.timerManager.dsTimerEnabled);
+        var dsCheckBox = CreateCheckbox("DS Timer", form.timerManager.dsTimerEnabled);
         dsCheckBox.CheckedChanged += (_, __) =>
         {
             form.timerManager.dsTimerEnabled = dsCheckBox.Checked;
             Properties.Settings.Default.dsTimerEnabled = dsCheckBox.Checked;
         };
 
-        var enduranceCheckBox = CreateCheckbox("Enable Endurance Timer", form.timerManager.enduranceTimerEnabled);
+        var enduranceCheckBox = CreateCheckbox("Endurance Timer", form.timerManager.enduranceTimerEnabled);
         enduranceCheckBox.CheckedChanged += (_, __) =>
         {
             form.timerManager.enduranceTimerEnabled = enduranceCheckBox.Checked;
