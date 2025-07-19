@@ -17,6 +17,7 @@ public sealed class HotKeyManager : IDisposable
     public HotKeyManager(Form host, HotKeyActions actions)
     {
         Add(MOD_SHIFT, (uint)Keys.M, actions.ShowSettings);
+        Add(MOD_SHIFT, (uint)Keys.H, actions.ShowKeybinds);
         Add(MOD_SHIFT, (uint)Keys.K, actions.Exit);
         Add(MOD_SHIFT, (uint)Keys.P, actions.TriggerPause);
         Add(MOD_SHIFT, (uint)Keys.R, actions.Restart);

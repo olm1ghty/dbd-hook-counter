@@ -16,18 +16,19 @@ public class TransparentOverlayForm : Form
     public readonly Scaler scaler;
     public readonly ToastManager toastManager;
     public readonly HotKeyManager hotkeyManager;
+    public readonly HotKeyActions hotkeyActions;
     public readonly OverlayRenderer overlayRenderer;
-
-    public OverlayMenuForm menuForm;
-    private readonly KeyboardWatcher kbWatcher;
+    private readonly KeyboardWatcher keyboardWatcher;
+    public OverlaySettingsForm settingsForm;
+    public OverlayKeybindsForm keybindsForm;
 
     public TransparentOverlayForm()
     {
         scaler = new();
         timerManager = new(this);
 
-        var actions = new HotKeyActions(this);
-        hotkeyManager = new HotKeyManager(this, actions);
+        hotkeyActions = new HotKeyActions(this);
+        hotkeyManager = new HotKeyManager(this, hotkeyActions);
 
         FormBorderStyle = FormBorderStyle.None;
         TopMost = true;
@@ -47,9 +48,11 @@ public class TransparentOverlayForm : Form
         toastManager = new(this);
         overlayRenderer = new(this);
 
-        kbWatcher = new KeyboardWatcher();
-        kbWatcher.AltTabPressed += () => gameManager.TemporaryPause();
-        kbWatcher.EscPressed += () => gameManager.TemporaryPause();
+        keyboardWatcher = new KeyboardWatcher();
+        keyboardWatcher.AltTabPressed += () => gameManager.TemporaryPause();
+        keyboardWatcher.EscPressed += () => gameManager.TemporaryPause();
+
+        toastManager.ShowToast("Hook counter online");
     }
 
     protected override bool ShowWithoutActivation => true;
@@ -77,7 +80,7 @@ public class TransparentOverlayForm : Form
 
     protected override void OnFormClosed(FormClosedEventArgs e)
     {
-        kbWatcher.Dispose();   // stop background thread
+        keyboardWatcher.Dispose();   // stop background thread
         base.OnFormClosed(e);
     }
 }
