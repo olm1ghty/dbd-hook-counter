@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Properties = DBDtimer.Properties;
+using Properties = DBD_Hook_Counter.Properties;
 
-namespace DBDtimer
+namespace DBD_Hook_Counter
 {
     public class TimerManager
     {

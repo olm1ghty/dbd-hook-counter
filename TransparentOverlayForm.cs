@@ -2,9 +2,9 @@
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
-using DBDtimer;
+using DBD_Hook_Counter;
 using Svg;
-using Properties = DBDtimer.Properties;
+using Properties = DBD_Hook_Counter.Properties;
 using Color = System.Drawing.Color;
 
 public class TransparentOverlayForm : Form

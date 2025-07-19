@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Timer = System.Windows.Forms.Timer;
 
-namespace DBDtimer
+namespace DBD_Hook_Counter
 {
     public class SurvivorStateIntermediate : SurvivorStateBase
     {

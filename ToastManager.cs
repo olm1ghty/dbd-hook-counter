@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DBDtimer
+namespace DBD_Hook_Counter
 {
     public class ToastManager
     {

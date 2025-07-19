@@ -1,6 +1,6 @@
-﻿using DBDtimer.Properties;
+﻿using DBD_Hook_Counter.Properties;
 
-namespace DBDtimer
+namespace DBD_Hook_Counter
 {
     public class GameStateManager
     {

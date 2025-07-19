@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace DBDtimer
+namespace DBD_Hook_Counter
 {
     internal static class Program
     {

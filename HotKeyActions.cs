@@ -1,4 +1,4 @@
-﻿using DBDtimer;
+﻿using DBD_Hook_Counter;
 
 public class HotKeyActions
 {

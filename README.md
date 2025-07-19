@@ -3,11 +3,11 @@
 ## *Display hook stages when playing killer*
 ![ui example](https://private-user-images.githubusercontent.com/95138418/468284120-758a1559-c6bc-40b9-b55b-aa9859ab34e5.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTI5MjY0NzksIm5iZiI6MTc1MjkyNjE3OSwicGF0aCI6Ii85NTEzODQxOC80NjgyODQxMjAtNzU4YTE1NTktYzZiYy00MGI5LWI1NWItYWE5ODU5YWIzNGU1LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA3MTklMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNzE5VDExNTYxOVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTU3MTQxOTU3YTI2ZWM5NjM1ZTE3MjM5MTRlNTdhMGEwYzcxOTdiMDQyNzBiOWY5NWQ4ODZiOWQyZjU0ZDYzNTEmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.6VAY6Ewjespl9uRLe1wHvy2X48kc3zxGs8egqdAdqSU)
 
-This is a Dead by Daylight hook counter for killers (with additional features).
+This is a Dead by Daylight hook counter for killers (with additional features). It works by visually checking survivor's statuses on the screen.
 
 ## Features
 
-    - Fully automatic (analyzes visual data on the screen)
+    - Fully automatic
     - Has manual controls if you don't like automatic tracking
     - Hook counter
     - DS timer
@@ -19,7 +19,7 @@ This is a Dead by Daylight hook counter for killers (with additional features).
 ## How to use
 > Disclaimer: Works with DBD in `Windowed Fullscreen` mode. Doesn't work in Fullscreen mode. 
 
-    1. Launch the app.
+    1. Launch "DBD Hook Counter.exe"
     2. Shift + M to open settings.
     3. Set your Aspect Ratio based on your screen resolution.
     4. Set UI and HUD scale to match those you have in DBD's graphics settings.

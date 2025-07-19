@@ -1,4 +1,4 @@
-﻿using DBDtimer.Properties;
+﻿using DBD_Hook_Counter.Properties;
 
 public class OverlayKeybindsForm : Form
 {

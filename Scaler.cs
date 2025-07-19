@@ -2,7 +2,7 @@
 using Emgu.CV;
 using System.Windows.Forms;
 using System.Diagnostics;
-using Properties = DBDtimer.Properties;
+using Properties = DBD_Hook_Counter.Properties;
 
 public class Scaler
 {

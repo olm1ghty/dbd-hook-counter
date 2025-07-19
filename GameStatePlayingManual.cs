@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DBDtimer
+namespace DBD_Hook_Counter
 {
     public class GameStatePlayingManual : GameStateBase
     {

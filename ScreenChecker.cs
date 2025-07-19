@@ -1,18 +1,10 @@
 ﻿using Emgu.CV.CvEnum;
-using Emgu.CV.Structure;
 using Emgu.CV;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
 using System.Diagnostics;
 using System.Drawing.Imaging;
-using DBDtimer.Properties;
-using Emgu.CV.Flann;
+using DBD_Hook_Counter.Properties;
 
-namespace DBDtimer
+namespace DBD_Hook_Counter
 {
     public class ScreenChecker
     {

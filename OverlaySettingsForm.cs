@@ -1,7 +1,7 @@
-﻿using DBDtimer.Properties;
+﻿using DBD_Hook_Counter.Properties;
 using ExCSS;
 using Color = System.Drawing.Color;
-using Properties = DBDtimer.Properties;
+using Properties = DBD_Hook_Counter.Properties;
 
 public class OverlaySettingsForm : Form
 {
