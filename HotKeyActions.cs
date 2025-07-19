@@ -14,10 +14,10 @@ public class HotKeyActions
         PauseApp();
         form.EnableInput(true);
 
-        if (form.menuForm == null || form.menuForm.IsDisposed)
+        if (form.settingsForm == null || form.settingsForm.IsDisposed)
         {
-            form.menuForm = new OverlayMenuForm(form);
-            form.menuForm.FormClosed += (_, __) => form.EnableInput(false);
+            form.settingsForm = new OverlaySettingsForm(form);
+            form.settingsForm.FormClosed += (_, __) => form.EnableInput(false);
         }
 
         // Get the screen that the cursor is on
@@ -28,17 +28,45 @@ public class HotKeyActions
         Point desiredLocation = Cursor.Position;
 
         // Clamp the form’s location to the screen bounds
-        int maxX = screenBounds.Right - form.menuForm.Width;
-        int maxY = screenBounds.Bottom - form.menuForm.Height;
+        int maxX = screenBounds.Right - form.settingsForm.Width;
+        int maxY = screenBounds.Bottom - form.settingsForm.Height;
 
         desiredLocation.X = Math.Max(screenBounds.Left, Math.Min(desiredLocation.X, maxX));
         desiredLocation.Y = Math.Max(screenBounds.Top, Math.Min(desiredLocation.Y, maxY));
 
-        form.menuForm.Location = desiredLocation;
-        form.menuForm.Show();
-        form.menuForm.BringToFront();
+        form.settingsForm.Location = desiredLocation;
+        form.settingsForm.Show();
+        form.settingsForm.BringToFront();
     }
 
+    public void ShowKeybinds()
+    {
+        PauseApp();
+
+        if (form.keybindsForm == null || form.keybindsForm.IsDisposed)
+        {
+            form.keybindsForm = new OverlayKeybindsForm(form);
+            form.keybindsForm.FormClosed += (_, __) => form.EnableInput(false);
+        }
+
+        // Get the screen that the cursor is on
+        var screen = Screen.FromPoint(Cursor.Position);
+        var screenBounds = screen.WorkingArea;
+
+        // Start from cursor position
+        Point desiredLocation = Cursor.Position;
+
+        // Clamp the form’s location to the screen bounds
+        int maxX = screenBounds.Right - form.keybindsForm.Width;
+        int maxY = screenBounds.Bottom - form.keybindsForm.Height;
+
+        desiredLocation.X = Math.Max(screenBounds.Left, Math.Min(desiredLocation.X, maxX));
+        desiredLocation.Y = Math.Max(screenBounds.Top, Math.Min(desiredLocation.Y, maxY));
+
+        form.keybindsForm.Location = desiredLocation;
+        form.keybindsForm.Show();
+        form.keybindsForm.BringToFront();
+    }
 
     public void Exit() => Application.Exit();
 
@@ -69,7 +97,7 @@ public class HotKeyActions
         }
     }
 
-    private void PauseApp()
+    public void PauseApp()
     {
         if (form.gameManager.screenMonitorTimer.Enabled)
         {

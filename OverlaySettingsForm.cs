@@ -3,11 +3,11 @@ using ExCSS;
 using Color = System.Drawing.Color;
 using Properties = DBDtimer.Properties;
 
-public class OverlayMenuForm : Form
+public class OverlaySettingsForm : Form
 {
     TransparentOverlayForm form;
 
-    public OverlayMenuForm(TransparentOverlayForm form)
+    public OverlaySettingsForm(TransparentOverlayForm form)
     {
         this.form = form;
 
