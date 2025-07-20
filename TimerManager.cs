@@ -27,9 +27,9 @@ namespace DBD_Hook_Counter
         {
             this.form = form;
 
-            timerStartXoffset = form.scaler.ScaleOffset(timerStartXoffset);
-            timerStartYoffset = form.scaler.ScaleOffset(timerStartYoffset);
-            timerDistanceYoffset = form.scaler.ScaleOffset(timerDistanceYoffset);
+            timerStartXoffset = form.scaler.ScaleOffsetX(timerStartXoffset);
+            timerStartYoffset = form.scaler.ScaleOffsetX(timerStartYoffset);
+            timerDistanceYoffset = form.scaler.ScaleOffsetX(timerDistanceYoffset);
 
             for (int i = 0; i < 4; i++)
             {

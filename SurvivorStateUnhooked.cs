@@ -21,7 +21,7 @@ namespace DBD_Hook_Counter
         public SurvivorStateUnhooked(int index, Rectangle searchArea, TransparentOverlayForm form)
         {
             this.index = index;
-            int yOffset = form.scaler.ScaleOffset(GameSettings.hookStageCounterOffset);
+            int yOffset = form.scaler.ScaleOffsetX(GameSettings.hookStageCounterOffset);
             yOffset = index * yOffset;
 
             this.searchArea = new Rectangle(searchArea.X, searchArea.Y + yOffset, searchArea.Width, searchArea.Height);

@@ -15,7 +15,6 @@ namespace DBD_Hook_Counter
         Rectangle statusSearchArea = new();
         Rectangle bloodSplatterSearchArea = new();
         Rectangle stbSearchArea = new();
-        Rectangle progressBarSearchArea = new();
 
         TransparentOverlayForm form;
         Survivor survivor;
@@ -25,16 +24,15 @@ namespace DBD_Hook_Counter
         float bloodSplatterThreshold = 0.75f;
         float stbThreshold = 0.5f;
 
-        public SurvivorStateHooked(int index, Rectangle statusSearchArea, Rectangle bloodSplatterSearchArea, Rectangle stbSearchArea, Rectangle progressBarSearchArea, TransparentOverlayForm form, Survivor survivor)
+        public SurvivorStateHooked(int index, Rectangle statusSearchArea, Rectangle bloodSplatterSearchArea, Rectangle stbSearchArea, TransparentOverlayForm form, Survivor survivor)
         {
             this.index = index;
-            int yOffset = form.scaler.ScaleOffset(GameSettings.hookStageCounterOffset);
+            int yOffset = form.scaler.ScaleOffsetX(GameSettings.hookStageCounterOffset);
             yOffset = index * yOffset;
 
             this.statusSearchArea = new Rectangle(statusSearchArea.X, statusSearchArea.Y + yOffset, statusSearchArea.Width, statusSearchArea.Height);
             this.bloodSplatterSearchArea = new Rectangle(bloodSplatterSearchArea.X, bloodSplatterSearchArea.Y + yOffset, bloodSplatterSearchArea.Width, bloodSplatterSearchArea.Height);
             this.stbSearchArea = new Rectangle(stbSearchArea.X, stbSearchArea.Y + yOffset, stbSearchArea.Width, stbSearchArea.Height);
-            this.progressBarSearchArea = new Rectangle(progressBarSearchArea.X, progressBarSearchArea.Y + yOffset, progressBarSearchArea.Width, progressBarSearchArea.Height);
 
             this.form = form;
             this.survivor = survivor;
@@ -70,7 +68,7 @@ namespace DBD_Hook_Counter
 
         private bool BloodSplatter()
         {
-            return form.screenChecker.MatchTemplate(form.screenChecker._bloodSplatterTemplate, bloodSplatterSearchArea, bloodSplatterThreshold, text: "blood", debug:true);
+            return form.screenChecker.MatchTemplate(form.screenChecker._bloodSplatterTemplate, bloodSplatterSearchArea, bloodSplatterThreshold, text: "blood", debug:false);
         }
 
         private bool SurvivorDead()

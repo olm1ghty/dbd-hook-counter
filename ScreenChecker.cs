@@ -135,7 +135,6 @@ namespace DBD_Hook_Counter
                 Debug.WriteLine(maxVal);
             }
 
-
             return match;
         }
 

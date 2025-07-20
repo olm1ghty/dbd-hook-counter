@@ -5,6 +5,7 @@ using System.Drawing;
 using Properties = DBD_Hook_Counter.Properties;
 using ExCSS;
 using Point = System.Drawing.Point;
+using DBD_Hook_Counter;
 
 public class Scaler
 {
@@ -47,20 +48,33 @@ public class Scaler
         return (int)(y - blackBarOffsetY);  // Adjust Y by removing the top black bar offset (80px)
     }
 
-    // Scale the Y-coordinate to the target resolution
     int ScaleY(int originalY)
     {
-        int adjustedY = AdjustReferenceY(originalY);  // Adjust the Y-coordinate by removing the black bar offset
-        float scaleFactor = (float)actualHeight / (referenceHeight - 2 * blackBarOffsetY);  // Scaling based on visible area height (1440px)
-        return (int)(adjustedY * scaleFactor);  // Apply the scaling factor
+        int adjustedY = AdjustReferenceY(originalY);  // removes 80 from top black bar
+        float scaleFactor = (float)actualHeight / (referenceHeight - 2 * blackBarOffsetY); // scaling visible height
+        return (int)(adjustedY * scaleFactor * HUDScale);  // ✅ apply HUD scale to match actual position
     }
 
-    // Scale the Y-coordinate to the target resolution
     int ScaleYMenu(int originalY)
     {
         int adjustedY = (int)(originalY - (blackBarOffsetY * 2));  // Adjust the Y-coordinate by removing the black bar offset
         float scaleFactor = (float)actualHeight / (referenceHeight - 2 * blackBarOffsetY);  // Scaling based on visible area height (1440px)
         return (int)(adjustedY * scaleFactor);  // Apply the scaling factor
+    }
+
+    public int ScaleYFromBottomAnchor(float originalY)
+    {
+        float referenceBarOffsetY = 80f;
+        float visibleReferenceHeight = referenceHeight - 2 * referenceBarOffsetY;
+        float adjustedY = originalY - referenceBarOffsetY;
+
+        float scale = (float)actualHeight / visibleReferenceHeight;
+        float scaledYFullHUD = adjustedY * scale;
+
+        float visibleTargetHeight = actualHeight;
+        float anchoredY = visibleTargetHeight - ((visibleTargetHeight - scaledYFullHUD) * HUDScale);
+
+        return (int)Math.Round(anchoredY);
     }
 
     public Mat LoadScaledTemplate(Bitmap bmp, bool isMenu = false)
@@ -97,10 +111,11 @@ public class Scaler
         int scaledWidth = (int)(rect.Width * resolutionScaleX * HUDScale);
         int scaledHeight = (int)(rect.Height * resolutionScaleY * HUDScale);
         int scaledX = (int)(rect.X * resolutionScaleX * HUDScale);
-        int scaledY = (int)(ScaleY(rect.Y) * HUDScale);
+        int scaledY = ScaleYFromBottomAnchor((float)rect.Y);
 
         return new Rectangle(scaledX, scaledY, scaledWidth, scaledHeight);
     }
+
 
     public Rectangle ScaleMenu(Rectangle rect)
     {
@@ -122,13 +137,18 @@ public class Scaler
         return new Point(scaledX, scaledY);
     }
 
-    public int ScaleOffset(int coordinate)
+    public int ScaleOffsetX(int coordinate)
     {
         return (int)(coordinate * resolutionScaleX * HUDScale);
     }
 
-    public int ScaleYHUD(int coordinate)
+    public int ScaleYOffsetHUD(int coordinate)
     {
-        return (int)(ScaleY(coordinate) * HUDScale);
+        float referenceBarOffsetY = 80f;
+        float referenceVisibleHeight = referenceHeight - 2 * referenceBarOffsetY;
+
+        float resolutionScale = (float)actualHeight / referenceVisibleHeight;
+
+        return (int)Math.Round(GameSettings.hookStageCounterOffset * resolutionScale * HUDScale);
     }
 }

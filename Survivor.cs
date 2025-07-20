@@ -15,10 +15,9 @@ namespace DBD_Hook_Counter
         public SurvivorStateIntermediate stateIntermediate;
         public SurvivorStateBase currentState;
 
-        Rectangle statusSearchArea = new(140, 632, 64, 84);
-        Rectangle bloodSplatterSearchArea = new(211, 622, 27, 70);
+        Rectangle statusSearchArea = new(135, 627, 74, 94);
+        Rectangle bloodSplatterSearchArea = new(206, 617, 37, 80);
         Rectangle stbSearchArea = new(299, 653, 10, 28);
-        Rectangle progressBarSearchArea = new(250, 711, 60, 13);
 
         TransparentOverlayForm form;
 
@@ -33,10 +32,9 @@ namespace DBD_Hook_Counter
             statusSearchArea = form.scaler.Scale(statusSearchArea);
             bloodSplatterSearchArea = form.scaler.Scale(bloodSplatterSearchArea);
             stbSearchArea = form.scaler.Scale(stbSearchArea);
-            progressBarSearchArea = form.scaler.Scale(progressBarSearchArea);
 
             stateUnhooked = new(index, statusSearchArea, form);
-            stateHooked = new(index, statusSearchArea, bloodSplatterSearchArea, stbSearchArea, progressBarSearchArea, form, this);
+            stateHooked = new(index, statusSearchArea, bloodSplatterSearchArea, stbSearchArea, form, this);
             stateDead = new(form, this);
             stateIntermediate = new();
 
