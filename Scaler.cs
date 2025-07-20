@@ -68,11 +68,24 @@ public class Scaler
         float visibleReferenceHeight = referenceHeight - 2 * referenceBarOffsetY;
         float adjustedY = originalY - referenceBarOffsetY;
 
-        float scale = (float)actualHeight / visibleReferenceHeight;
-        float scaledYFullHUD = adjustedY * scale;
+        float resolutionScale = (float)actualHeight / visibleReferenceHeight;
+        float scaledYFullHUD = adjustedY * resolutionScale;
 
         float visibleTargetHeight = actualHeight;
         float anchoredY = visibleTargetHeight - ((visibleTargetHeight - scaledYFullHUD) * HUDScale);
+
+        return (int)Math.Round(anchoredY);
+    }
+    public int ScaleYFromBottomAnchorMenu(float originalY)
+    {
+        float visibleReferenceHeight = referenceHeight;
+        float adjustedY = originalY;
+
+        float resolutionScale = (float)actualHeight / visibleReferenceHeight;
+        float scaledYFullHUD = adjustedY * resolutionScale;
+
+        float visibleTargetHeight = actualHeight;
+        float anchoredY = visibleTargetHeight - ((visibleTargetHeight - scaledYFullHUD) * MenuScale);
 
         return (int)Math.Round(anchoredY);
     }
@@ -116,13 +129,19 @@ public class Scaler
         return new Rectangle(scaledX, scaledY, scaledWidth, scaledHeight);
     }
 
-
     public Rectangle ScaleMenu(Rectangle rect)
     {
         int scaledWidth = (int)(rect.Width * resolutionScaleX * MenuScale);
         int scaledHeight = (int)(rect.Height * resolutionScaleY * MenuScale);
-        int scaledX = (int)(rect.X * resolutionScaleX * MenuScale);
-        int scaledY = (int)(ScaleYMenu(rect.Y) * MenuScale);
+
+        // X is anchored from the right
+        float refRight = referenceWidth - rect.X;
+        int scaledX = (int)(actualWidth - (refRight * resolutionScaleX * MenuScale));
+
+        // Y uses linear top-left scale
+        float refBottom = referenceHeight - rect.Y;
+        float scaledBottom = refBottom * resolutionScaleY * MenuScale;
+        int scaledY = (int)(actualHeight - scaledBottom);
 
         return new Rectangle(scaledX, scaledY, scaledWidth, scaledHeight);
     }

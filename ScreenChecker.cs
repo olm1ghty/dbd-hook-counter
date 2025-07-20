@@ -22,7 +22,7 @@ namespace DBD_Hook_Counter
         public readonly Mat _progressBarTemplate;
 
         Rectangle uiSearchArea = new(151, 1158, 37, 54);
-        Rectangle pauseMenuSearchArea = new(116, 1478, 119, 57);
+        Rectangle pauseMenuSearchArea = new(106, 1468, 139, 77);
 
         public int uiMissingCounter = 0;
         public int uiMissingThreshold = 10;

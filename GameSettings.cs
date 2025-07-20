@@ -12,6 +12,6 @@ namespace DBD_Hook_Counter
         public static int hookStageCounterStartY = 650;
         public static int hookStageCounterOffset = 120;
 
-        public static Rectangle continueSearchArea = new(2243, 1482, 168, 59);
+        public static Rectangle continueSearchArea = new(2233, 1472, 188, 79);
     }
 }
