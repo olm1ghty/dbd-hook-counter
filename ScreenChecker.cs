@@ -10,7 +10,6 @@ namespace DBD_Hook_Counter
     {
         TransparentOverlayForm form;
 
-        // loaded once
         public readonly Mat _hookedTemplate;
         public readonly Mat _bloodSplatterTemplate;
         public readonly Mat _deadTemplate;
@@ -22,14 +21,13 @@ namespace DBD_Hook_Counter
         public readonly Mat _stbTemplate;
         public readonly Mat _progressBarTemplate;
 
-        Rectangle uiSearchArea = new(151, 1158, 33, 50);
+        Rectangle uiSearchArea = new(151, 1158, 37, 54);
         Rectangle pauseMenuSearchArea = new(116, 1478, 119, 57);
 
         public int uiMissingCounter = 0;
-        public int uiMissingThreshold = 5;
-
-        private int uiSeenCounter = 0;
-        private int uiSeenThreshold = 5;
+        public int uiMissingThreshold = 10;
+        public float uiMatchThreshold = 0.6f;
+        public float pauseMatchThreshold = 0.8f;
 
         public ScreenChecker(TransparentOverlayForm form)
         {
@@ -39,8 +37,8 @@ namespace DBD_Hook_Counter
             _bloodSplatterTemplate = form.scaler.LoadScaledTemplate(Resources.blood_splatter);
             _deadTemplate = form.scaler.LoadScaledTemplate(Resources.dead);
             _moriedTemplate = form.scaler.LoadScaledTemplate(Resources.moried);
-            _continueTemplate = form.scaler.LoadScaledTemplateMenu(Resources.continue_button);
-            _pauseMenuTemplate = form.scaler.LoadScaledTemplateMenu(Resources.back_button);
+            _continueTemplate = form.scaler.LoadScaledTemplate(Resources.continue_button, true);
+            _pauseMenuTemplate = form.scaler.LoadScaledTemplate(Resources.back_button, true);
             _uiHookTemplate = form.scaler.LoadScaledTemplate(Resources.ui_hook);
             _uiMoriTemplate = form.scaler.LoadScaledTemplate(Resources.ui_mori);
             _stbTemplate = form.scaler.LoadScaledTemplate(Resources.stb);
@@ -58,7 +56,7 @@ namespace DBD_Hook_Counter
         {
             //Debug.WriteLine($"MatchTemplate: {text}");
 
-            using Mat frame = CaptureScreenMat();        // fresh frame each call
+            using Mat frame = CaptureScreenMat();        
             using Mat roi = new Mat(frame, region);
             using Mat result = new Mat();
 
@@ -68,12 +66,60 @@ namespace DBD_Hook_Counter
             double minVal = 0, maxVal = 0;
             Point minLoc = Point.Empty, maxLoc = Point.Empty;
             CvInvoke.MinMaxLoc(result, ref minVal, ref maxVal,
-                               ref minLoc, ref maxLoc);   // ← unchanged
+                               ref minLoc, ref maxLoc);   
 
             bool match = maxVal >= threshold;
 
-            // ---------- NEW: save only the matching frame ----------
             if (debug && match)
+            {
+                SaveImage(frame);
+                SaveImage(roi);
+                Debug.WriteLine(maxVal);
+            }
+
+            return match;
+        }
+
+        private static void SaveImage(Mat roi)
+        {
+            string folder = Path.Combine(
+                                Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                                "DebugCaptures");
+            Directory.CreateDirectory(folder);
+
+            string file = Path.Combine(
+                folder,
+                $"UI_{DateTime.Now:HH_mm_ss_fff}.png");
+
+            roi.Save(file);
+        }
+
+        public bool MatchTemplateGrayscale(Mat template,
+                                   Rectangle region,
+                                   double threshold = 0.90,
+                                   bool debug = false,
+                                   string text = "")
+        {
+            using Mat frame = CaptureScreenMat();
+            using Mat roiColor = new Mat(frame, region);
+            using Mat roi = new();
+            using Mat grayTemplate = new();
+            using Mat result = new();
+
+            // Convert both ROI and template to grayscale
+            CvInvoke.CvtColor(roiColor, roi, ColorConversion.Bgr2Gray);
+            CvInvoke.CvtColor(template, grayTemplate, ColorConversion.Bgr2Gray);
+
+            // Match using grayscale
+            CvInvoke.MatchTemplate(roi, grayTemplate, result, TemplateMatchingType.CcoeffNormed);
+
+            double minVal = 0, maxVal = 0;
+            Point minLoc = Point.Empty, maxLoc = Point.Empty;
+            CvInvoke.MinMaxLoc(result, ref minVal, ref maxVal, ref minLoc, ref maxLoc);
+
+            bool match = maxVal >= threshold;
+
+            if (debug)
             {
                 string folder = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
@@ -82,14 +128,17 @@ namespace DBD_Hook_Counter
 
                 string file = Path.Combine(
                     folder,
-                    $"UI_{DateTime.Now:HH_mm_ss_fff}.png");
+                    $"UI_Gray_{DateTime.Now:HH_mm_ss_fff}.png");
 
-                frame.Save(file);
+
+                roi.Save(file);
+                Debug.WriteLine(maxVal);
             }
-            // --------------------------------------------------------
+
 
             return match;
         }
+
 
         Mat CaptureScreenMat()
         {
@@ -105,33 +154,28 @@ namespace DBD_Hook_Counter
 
         public bool UIenabled(bool debug = false)
         {
-            if (MatchTemplate(_pauseMenuTemplate, pauseMenuSearchArea, 0.8, debug))
+            if (MatchTemplateGrayscale(_pauseMenuTemplate, pauseMenuSearchArea, pauseMatchThreshold, debug))
             {
-                uiSeenCounter = 0;
                 return false;
             }
 
-            bool hook = MatchTemplate(_uiHookTemplate, uiSearchArea, 0.8, debug);
-            bool mori = MatchTemplate(_uiMoriTemplate, uiSearchArea, 0.8, debug);
+            bool hook = MatchTemplateGrayscale(_uiHookTemplate, uiSearchArea, uiMatchThreshold, debug);
+            bool mori = MatchTemplateGrayscale(_uiMoriTemplate, uiSearchArea, uiMatchThreshold, debug);
 
             if (hook || mori)
             {
                 form.gameManager.pauseInProgress = false;
                 uiMissingCounter = 0;
-                //uiSeenCounter++;        
             }
             else
             {
                 form.gameManager.pauseInProgress = true;
                 uiMissingCounter++;
-                //uiSeenCounter = 0;        
             }
 
             //Debug.WriteLine($"uiMissingCounter: {uiMissingCounter}");
             //Debug.WriteLine($"form.gameManager.pauseInProgress: {form.gameManager.pauseInProgress}");
-            //Debug.WriteLine($"uiSeenStreak: {uiSeenCounter}");
-            bool hudPresent = uiMissingCounter < uiMissingThreshold
-                           /*&& uiSeenStreak >= uiSeenThreshold*/;  
+            bool hudPresent = uiMissingCounter < uiMissingThreshold;  
 
             return hudPresent;
         }

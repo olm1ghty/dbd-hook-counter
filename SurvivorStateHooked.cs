@@ -21,20 +21,20 @@ namespace DBD_Hook_Counter
         Survivor survivor;
 
         float deadThreshold = 0.5f;
-        float unhookThreshold = 0.65f;
-        float bloodSplatterThreshold = 0.7f;
+        float unhookThreshold = 0.4f;
+        float bloodSplatterThreshold = 0.75f;
         float stbThreshold = 0.5f;
 
-        public SurvivorStateHooked(int index, Rectangle searchArea, Rectangle nextStageSearchArea, Rectangle stbSearchArea, Rectangle unhookSearchArea, TransparentOverlayForm form, Survivor survivor)
+        public SurvivorStateHooked(int index, Rectangle statusSearchArea, Rectangle bloodSplatterSearchArea, Rectangle stbSearchArea, Rectangle progressBarSearchArea, TransparentOverlayForm form, Survivor survivor)
         {
             this.index = index;
-            int yOffset = form.scaler.Scale(GameSettings.hookStageCounterOffset);
+            int yOffset = form.scaler.ScaleOffset(GameSettings.hookStageCounterOffset);
             yOffset = index * yOffset;
 
-            this.statusSearchArea = new Rectangle(searchArea.X, searchArea.Y + yOffset, searchArea.Width, searchArea.Height);
-            this.bloodSplatterSearchArea = new Rectangle(nextStageSearchArea.X, nextStageSearchArea.Y + yOffset, nextStageSearchArea.Width, nextStageSearchArea.Height);
+            this.statusSearchArea = new Rectangle(statusSearchArea.X, statusSearchArea.Y + yOffset, statusSearchArea.Width, statusSearchArea.Height);
+            this.bloodSplatterSearchArea = new Rectangle(bloodSplatterSearchArea.X, bloodSplatterSearchArea.Y + yOffset, bloodSplatterSearchArea.Width, bloodSplatterSearchArea.Height);
             this.stbSearchArea = new Rectangle(stbSearchArea.X, stbSearchArea.Y + yOffset, stbSearchArea.Width, stbSearchArea.Height);
-            this.progressBarSearchArea = new Rectangle(unhookSearchArea.X, unhookSearchArea.Y + yOffset, unhookSearchArea.Width, unhookSearchArea.Height);
+            this.progressBarSearchArea = new Rectangle(progressBarSearchArea.X, progressBarSearchArea.Y + yOffset, progressBarSearchArea.Width, progressBarSearchArea.Height);
 
             this.form = form;
             this.survivor = survivor;
@@ -63,24 +63,25 @@ namespace DBD_Hook_Counter
             else if (BloodSplatter())
             {
                 Debug.WriteLine($"{index} ADDITIONAL HOOK STAGE");
+                //form.toastManager.ShowToast("ADDITIONAL HOOK STAGE");
                 form.survivorManager.HookSurvivor(index);
             }
         }
 
         private bool BloodSplatter()
         {
-            return form.screenChecker.MatchTemplate(form.screenChecker._bloodSplatterTemplate, bloodSplatterSearchArea, bloodSplatterThreshold, text: "blood");
+            return form.screenChecker.MatchTemplate(form.screenChecker._bloodSplatterTemplate, bloodSplatterSearchArea, bloodSplatterThreshold, text: "blood", debug:true);
         }
 
         private bool SurvivorDead()
         {
-            return form.screenChecker.MatchTemplate(form.screenChecker._deadTemplate, statusSearchArea, deadThreshold, text: "dead");
+            return form.screenChecker.MatchTemplateGrayscale(form.screenChecker._deadTemplate, statusSearchArea, deadThreshold, text: "dead");
         }
 
         private bool SurvivorUnhooked()
         {
-            return ( !form.gameManager.pauseInProgress && 
-                !form.screenChecker.MatchTemplate(form.screenChecker._hookedTemplate, statusSearchArea, unhookThreshold, text: "hook"));
+            return (!form.gameManager.pauseInProgress && 
+                !form.screenChecker.MatchTemplateGrayscale(form.screenChecker._hookedTemplate, statusSearchArea, unhookThreshold, text: "hook", debug:false));
         }
 
         private void CheckForSTB()
@@ -89,7 +90,7 @@ namespace DBD_Hook_Counter
             {
                 if (survivor.currentState == survivor.stateUnhooked)
                 {
-                    if (form.screenChecker.MatchTemplate(form.screenChecker._stbTemplate, survivor.stateHooked.stbSearchArea, stbThreshold, text: "stb")
+                    if (form.screenChecker.MatchTemplateGrayscale(form.screenChecker._stbTemplate, survivor.stateHooked.stbSearchArea, stbThreshold, text: "stb")
                         && form.screenChecker.MatchTemplate(form.screenChecker._bloodSplatterTemplate, survivor.stateHooked.bloodSplatterSearchArea, bloodSplatterThreshold, text: "blood"))
                     {
                         this.survivor.hookStages--;

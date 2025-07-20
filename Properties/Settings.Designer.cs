@@ -25,18 +25,6 @@ namespace DBD_Hook_Counter.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("16:9")]
-        public string AspectRatio {
-            get {
-                return ((string)(this["AspectRatio"]));
-            }
-            set {
-                this["AspectRatio"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public float MenuScale {
             get {

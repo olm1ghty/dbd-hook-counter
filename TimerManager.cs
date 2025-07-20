@@ -17,7 +17,7 @@ namespace DBD_Hook_Counter
         private int ds = 61;
 
         public int timerStartXoffset = 215;
-        public int timerStartYoffset = -20;
+        public int timerStartYoffset = -10;
         public int timerDistanceYoffset = 20;
 
         public bool dsTimerEnabled;
@@ -27,9 +27,9 @@ namespace DBD_Hook_Counter
         {
             this.form = form;
 
-            timerStartXoffset = form.scaler.Scale(timerStartXoffset);
-            timerStartYoffset = form.scaler.Scale(timerStartYoffset);
-            timerDistanceYoffset = form.scaler.Scale(timerDistanceYoffset);
+            timerStartXoffset = form.scaler.ScaleOffset(timerStartXoffset);
+            timerStartYoffset = form.scaler.ScaleOffset(timerStartYoffset);
+            timerDistanceYoffset = form.scaler.ScaleOffset(timerDistanceYoffset);
 
             for (int i = 0; i < 4; i++)
             {

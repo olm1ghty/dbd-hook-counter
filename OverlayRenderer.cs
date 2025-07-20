@@ -32,9 +32,9 @@ namespace DBD_Hook_Counter
         {
             this.form = form;
 
-            hookStageCounterStartX = form.scaler.Scale(GameSettings.hookStageCounterStartX);
-            hookStageCounterStartY = form.scaler.ScaleY(GameSettings.hookStageCounterStartY);
-            hookStageCounterOffset = form.scaler.Scale(GameSettings.hookStageCounterOffset);
+            hookStageCounterStartX = form.scaler.ScaleOffset(GameSettings.hookStageCounterStartX);
+            hookStageCounterStartY = form.scaler.ScaleYHUD(GameSettings.hookStageCounterStartY);
+            hookStageCounterOffset = form.scaler.ScaleOffset(GameSettings.hookStageCounterOffset);
 
             bmp = new Bitmap(form.Width, form.Height, PixelFormat.Format32bppArgb);
             graphics = Graphics.FromImage(bmp);

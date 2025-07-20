@@ -2,9 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DBD_Hook_Counter.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="AspectRatio" Type="System.String" Scope="User">
-      <Value Profile="(Default)">16:9</Value>
-    </Setting>
     <Setting Name="MenuScale" Type="System.Single" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>

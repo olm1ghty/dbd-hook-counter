@@ -27,14 +27,6 @@ public class OverlaySettingsForm : Form
         var labelMargin = new Padding(0, 10, 0, 0);
         var comboStyle = ComboBoxStyle.DropDownList;
 
-        // --- Aspect ratio dropdown
-        var arLabel = new Label { Text = "Aspect Ratio", AutoSize = true, Margin = labelMargin };
-        var arBox = CreateComboBox(form.scaler.aspectRatios, Properties.Settings.Default.DropdownAR);
-        arBox.SelectedIndexChanged += (_, __) =>
-        {
-            form.scaler.aspectRatio = arBox.SelectedItem!.ToString()!;
-        };
-
         // --- UI scale
         var uiLabel = new Label { Text = "UI Scale (in-game setting)", AutoSize = true, Margin = labelMargin };
         var uiBox = CreateComboBox(form.scaler.MenuScales, Properties.Settings.Default.DropdownUI);
@@ -89,11 +81,9 @@ public class OverlaySettingsForm : Form
 
         saveBtn.Click += (_, __) =>
         {
-            Properties.Settings.Default.AspectRatio = form.scaler.aspectRatio;
             Properties.Settings.Default.MenuScale = form.scaler.MenuScale;
             Properties.Settings.Default.HUDScale = form.scaler.HUDScale;
 
-            Properties.Settings.Default.DropdownAR = arBox.SelectedIndex;
             Properties.Settings.Default.DropdownUI = uiBox.SelectedIndex;
             Properties.Settings.Default.DropdownHUD = hudBox.SelectedIndex;
             Properties.Settings.Default.dsTimerEnabled = dsCheckBox.Checked;
@@ -116,7 +106,6 @@ public class OverlaySettingsForm : Form
         };
 
         layout.Controls.AddRange(new Control[] {
-            arLabel, arBox,
             uiLabel, uiBox,
             hudLabel, hudBox,
             dsCheckBox,
