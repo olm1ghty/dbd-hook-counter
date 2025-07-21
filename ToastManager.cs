@@ -17,15 +17,28 @@ namespace DBD_Hook_Counter
             this.mainForm = mainForm;
         }
 
-
         public void ShowToast(string text)
         {
-            // example position: centered, 50 px from top of the primary screen
+            using var tempLabel = new Label
+            {
+                Text = text,
+                AutoSize = true,
+                Font = new Font("Arial", 16, FontStyle.Bold),
+                Padding = new Padding(10)
+            };
+
+            // Measure size
+            tempLabel.CreateControl(); // force handle creation
+            Size size = tempLabel.PreferredSize;
+
             Rectangle scr = Screen.PrimaryScreen.Bounds;
-            Point pos = new Point(scr.X + (scr.Width - 300) / 2, scr.Y + 50);
+            Point pos = new(
+                scr.X + (scr.Width - size.Width) / 2,
+                scr.Y + 50
+            );
 
             var toast = new ToastForm(text, pos);
-            toast.Show();            // <-- this makes the form appear
+            toast.Show();
         }
     }
 }
