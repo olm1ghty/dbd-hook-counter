@@ -1,11 +1,11 @@
 ![banner](https://private-user-images.githubusercontent.com/95138418/468283475-016785d9-d0b0-4836-8796-17d0601f1de4.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTI5MjU2MjUsIm5iZiI6MTc1MjkyNTMyNSwicGF0aCI6Ii85NTEzODQxOC80NjgyODM0NzUtMDE2Nzg1ZDktZDBiMC00ODM2LTg3OTYtMTdkMDYwMWYxZGU0LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA3MTklMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNzE5VDExNDIwNVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWY0OGVkODU5YzMxNjhkOTVjZDM0ZDA5ODYxNjQxOTRiYjcxMGE3ZDQ2MWRiZmE1MjY4MmQwMTk5YzgzNTk0YmImWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.UwGvWuyDuuO1N3jkuQUuyw86uBLlqUMQ7A5t_UqR75g)
 
 <div align="center">
+    
+### [Download](https://github.com/olm1ghty/dbd-hook-counter/releases/download/release/DBD.Hook.Counter.rar)
 
 ## *Display hook stages when playing killer*
 ![ui example](https://private-user-images.githubusercontent.com/95138418/468284120-758a1559-c6bc-40b9-b55b-aa9859ab34e5.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTI5MjY0NzksIm5iZiI6MTc1MjkyNjE3OSwicGF0aCI6Ii85NTEzODQxOC80NjgyODQxMjAtNzU4YTE1NTktYzZiYy00MGI5LWI1NWItYWE5ODU5YWIzNGU1LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA3MTklMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNzE5VDExNTYxOVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTU3MTQxOTU3YTI2ZWM5NjM1ZTE3MjM5MTRlNTdhMGEwYzcxOTdiMDQyNzBiOWY5NWQ4ODZiOWQyZjU0ZDYzNTEmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.6VAY6Ewjespl9uRLe1wHvy2X48kc3zxGs8egqdAdqSU)
-
-### [Download](https://github.com/olm1ghty/dbd-hook-counter/releases/download/release/DBD.Hook.Counter.rar)
 
 </div>
 
@@ -13,13 +13,13 @@ This is a Dead by Daylight hook counter for killers (with additional features). 
 
 ## Features
     - Fully automatic
-    - Has manual controls if you don't like automatic tracking
+    - Has manual mode if you don't like automatic tracking
     - Hook counter
     - DS timer
     - Off-hook endurance timer
-    - Supports 16:9 and 16:10 aspect ratios
+    - Supports any resolution with 16:9 and 16:10 aspect ratios
     - Only visible in the match, hides itself in the menu
-    - Doesn't trigger anti-cheat (we don't hack into the game's memory, we're just using visual data)
+    - Doesn't trigger anti-cheat (because we're not cheating, the app is strictly client-side)
     - Doesn't breach EULA (it's as legal as putting a note on the screen)
 
 ## How to use
@@ -43,7 +43,7 @@ This is a Dead by Daylight hook counter for killers (with additional features). 
 You will know that it's set up correctly by seeing empty hook counters on the UI (only when the match starts):
 
 <div align="center">
-    
+
 ![ui on](https://private-user-images.githubusercontent.com/95138418/468284101-74cdbb8f-86fd-4751-b305-e1f33bcb2a93.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTI5MjY0MzUsIm5iZiI6MTc1MjkyNjEzNSwicGF0aCI6Ii85NTEzODQxOC80NjgyODQxMDEtNzRjZGJiOGYtODZmZC00NzUxLWIzMDUtZTFmMzNiY2IyYTkzLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA3MTklMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNzE5VDExNTUzNVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTA4NjYyNGIzODc3NGVmYzM1YTE2N2Y4NjM1NjI2MTY2NWI5YTRiMTViODVmYTY2MGJjYTRiNjVhNzA1NzgzZmMmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.CVQXd4MuRA8CxBVNLN7w1ANC-Iiq_SMbP5Sy4z0XA3Q)
 
 </div>
