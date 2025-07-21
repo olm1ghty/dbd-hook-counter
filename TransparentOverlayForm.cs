@@ -22,9 +22,11 @@ public class TransparentOverlayForm : Form
     public OverlaySettingsForm settingsForm;
     public OverlayKeybindsForm keybindsForm;
 
+    public readonly Screen screen;
+
     public TransparentOverlayForm()
     {
-        scaler = new();
+        scaler = new(this);
         timerManager = new(this);
 
         hotkeyActions = new HotKeyActions(this);
@@ -32,8 +34,10 @@ public class TransparentOverlayForm : Form
 
         FormBorderStyle = FormBorderStyle.None;
         TopMost = true;
-        Rectangle screen = Screen.PrimaryScreen.Bounds;
-        this.Bounds = screen;
+
+        // Get the screen that the cursor is on
+        screen = Screen.FromPoint(Cursor.Position);
+        this.Bounds = screen.Bounds;
         this.Text = "DBD Hook Counter";
         this.Icon = Properties.Resources.dbd;
         StartPosition = FormStartPosition.CenterScreen;

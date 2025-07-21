@@ -8,13 +8,13 @@ namespace DBD_Hook_Counter
 {
     public class ToastManager
     {
-        TransparentOverlayForm mainForm;
+        TransparentOverlayForm form;
         public readonly List<ToastMessage> toasts;
 
-        public ToastManager(TransparentOverlayForm mainForm)
+        public ToastManager(TransparentOverlayForm form)
         {
             toasts = new();
-            this.mainForm = mainForm;
+            this.form = form;
         }
 
         public void ShowToast(string text)
@@ -31,7 +31,7 @@ namespace DBD_Hook_Counter
             tempLabel.CreateControl(); // force handle creation
             Size size = tempLabel.PreferredSize;
 
-            Rectangle scr = Screen.PrimaryScreen.Bounds;
+            Rectangle scr = form.screen.Bounds;
             Point pos = new(
                 scr.X + (scr.Width - size.Width) / 2,
                 scr.Y + 50

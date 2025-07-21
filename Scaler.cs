@@ -9,6 +9,8 @@ using DBD_Hook_Counter;
 
 public class Scaler
 {
+    TransparentOverlayForm form;
+
     public List<int> HUDscales = new() { 100, 95, 90, 85, 80, 75, 70 };
     public List<int> MenuScales = new() { 100, 95, 90, 85, 80, 75, 70 };
 
@@ -29,13 +31,15 @@ public class Scaler
     float targetAspect;
     float actualAspect;
 
-    public Scaler()
+    public Scaler(TransparentOverlayForm form)
     {
+        this.form = form;
+
         HUDScale = Properties.Settings.Default.HUDScale;
         MenuScale = Properties.Settings.Default.MenuScale;
 
-        actualWidth = Screen.PrimaryScreen.Bounds.Width;
-        actualHeight = Screen.PrimaryScreen.Bounds.Height;
+        actualWidth = form.screen.Bounds.Width;
+        actualHeight = form.screen.Bounds.Height;
 
         resolutionScaleX = (float)actualWidth / referenceWidth;
         resolutionScaleY = (float)actualHeight / referenceHeight;
