@@ -20,7 +20,7 @@ namespace DBD_Hook_Counter
         Survivor survivor;
 
         float deadThreshold = 0.5f;
-        float unhookThreshold = 0.4f;
+        float unhookThreshold = 0.5f;
         float bloodSplatterThreshold = 0.75f;
         float stbThreshold = 0.5f;
 
@@ -61,7 +61,6 @@ namespace DBD_Hook_Counter
             else if (BloodSplatter())
             {
                 Debug.WriteLine($"{index} ADDITIONAL HOOK STAGE");
-                //form.toastManager.ShowToast("ADDITIONAL HOOK STAGE");
                 form.survivorManager.HookSurvivor(index);
             }
         }

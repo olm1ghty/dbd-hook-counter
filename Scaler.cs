@@ -14,18 +14,20 @@ public class Scaler
 
     int referenceWidth = 2560;
     int referenceHeight = 1600;
+    float referenceBlackBarOffset = 80f;
 
     int actualWidth;
     int actualHeight;
+    float actualBlackBarOffset;
 
     float resolutionScaleX;
     float resolutionScaleY;
 
-    float blackBarOffsetY = 80f;
-    //float referenceBarOffsetY = 80f; // Because base rects were measured with black bars present
-
     public float HUDScale = 1f;
     public float MenuScale = 1f;
+
+    float targetAspect;
+    float actualAspect;
 
     public Scaler()
     {
@@ -38,56 +40,20 @@ public class Scaler
         resolutionScaleX = (float)actualWidth / referenceWidth;
         resolutionScaleY = (float)actualHeight / referenceHeight;
 
-        // Detect black bars if display is wider than 16:9 (i.e., 16:10 displaying a 16:9 render)
-        float targetAspect = 16f / 9f;
-        float displayAspect = (float)actualWidth / actualHeight;
-    }
+        // Only compute actual black bars if aspect ratio is wider than 16:9
+        targetAspect = 16f / 9f;
+        actualAspect = (float)actualWidth / actualHeight;
 
-    private int AdjustReferenceY(int y)
-    {
-        return (int)(y - blackBarOffsetY);  // Adjust Y by removing the top black bar offset (80px)
-    }
-
-    int ScaleY(int originalY)
-    {
-        int adjustedY = AdjustReferenceY(originalY);  // removes 80 from top black bar
-        float scaleFactor = (float)actualHeight / (referenceHeight - 2 * blackBarOffsetY); // scaling visible height
-        return (int)(adjustedY * scaleFactor * HUDScale);  // ✅ apply HUD scale to match actual position
-    }
-
-    int ScaleYMenu(int originalY)
-    {
-        int adjustedY = (int)(originalY - (blackBarOffsetY * 2));  // Adjust the Y-coordinate by removing the black bar offset
-        float scaleFactor = (float)actualHeight / (referenceHeight - 2 * blackBarOffsetY);  // Scaling based on visible area height (1440px)
-        return (int)(adjustedY * scaleFactor);  // Apply the scaling factor
-    }
-
-    public int ScaleYFromBottomAnchor(float originalY)
-    {
-        float referenceBarOffsetY = 80f;
-        float visibleReferenceHeight = referenceHeight - 2 * referenceBarOffsetY;
-        float adjustedY = originalY - referenceBarOffsetY;
-
-        float resolutionScale = (float)actualHeight / visibleReferenceHeight;
-        float scaledYFullHUD = adjustedY * resolutionScale;
-
-        float visibleTargetHeight = actualHeight;
-        float anchoredY = visibleTargetHeight - ((visibleTargetHeight - scaledYFullHUD) * HUDScale);
-
-        return (int)Math.Round(anchoredY);
-    }
-    public int ScaleYFromBottomAnchorMenu(float originalY)
-    {
-        float visibleReferenceHeight = referenceHeight;
-        float adjustedY = originalY;
-
-        float resolutionScale = (float)actualHeight / visibleReferenceHeight;
-        float scaledYFullHUD = adjustedY * resolutionScale;
-
-        float visibleTargetHeight = actualHeight;
-        float anchoredY = visibleTargetHeight - ((visibleTargetHeight - scaledYFullHUD) * MenuScale);
-
-        return (int)Math.Round(anchoredY);
+        if (actualAspect < targetAspect)
+        {
+            int renderedHeight = (int)(actualWidth / targetAspect);
+            int blackBarTotal = actualHeight - renderedHeight;
+            actualBlackBarOffset = blackBarTotal / 2f;
+        }
+        else
+        {
+            actualBlackBarOffset = 0f;
+        }
     }
 
     public Mat LoadScaledTemplate(Bitmap bmp, bool isMenu = false)
@@ -105,7 +71,7 @@ public class Scaler
         return resized;
     }
 
-    private static void SaveImage(Mat resized)
+    private static void SaveImage(Mat image)
     {
         string folder = Path.Combine(
                             Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
@@ -116,7 +82,18 @@ public class Scaler
             folder,
             $"UI_{DateTime.Now:HH_mm_ss_fff}.png");
 
-        //resized.Save(file);
+        image.Save(file);
+    }
+
+    public int ScaleYFromBottomAnchor(float originalY)
+    {
+        float referenceVisibleHeight = referenceHeight - 2 * referenceBlackBarOffset;
+        float distanceFromBottom = referenceVisibleHeight - (originalY - referenceBlackBarOffset);
+        float actualVisibleHeight = actualHeight - 2 * actualBlackBarOffset;
+        float scaledDistance = distanceFromBottom * (actualVisibleHeight / referenceVisibleHeight);
+        float finalY = actualHeight - actualBlackBarOffset - (scaledDistance * HUDScale);
+
+        return (int)Math.Round(finalY);
     }
 
     public Rectangle Scale(Rectangle rect)
@@ -146,16 +123,6 @@ public class Scaler
         return new Rectangle(scaledX, scaledY, scaledWidth, scaledHeight);
     }
 
-    public Point Scale(Point point)
-    {
-        int adjustedY = point.Y;
-
-        int scaledX = (int)(point.X * resolutionScaleX * HUDScale);
-        int scaledY = (int)(ScaleY(point.Y) * HUDScale);
-
-        return new Point(scaledX, scaledY);
-    }
-
     public int ScaleOffsetX(int coordinate)
     {
         return (int)(coordinate * resolutionScaleX * HUDScale);
@@ -163,11 +130,21 @@ public class Scaler
 
     public int ScaleYOffsetHUD(int coordinate)
     {
-        float referenceBarOffsetY = 80f;
-        float referenceVisibleHeight = referenceHeight - 2 * referenceBarOffsetY;
+        float adjustedReferenceBarOffset = 0f;
+        float adjustedActualBarOffset = 0f;
 
-        float resolutionScale = (float)actualHeight / referenceVisibleHeight;
+        if (actualAspect < targetAspect)
+        {
+            // Letterboxing exists
+            adjustedReferenceBarOffset = 80f;
+            int renderedHeight = (int)(actualWidth / targetAspect);
+            int blackBarTotal = actualHeight - renderedHeight;
+            adjustedActualBarOffset = blackBarTotal / 2f;
+        }
 
-        return (int)Math.Round(GameSettings.hookStageCounterOffset * resolutionScale * HUDScale);
+        float referenceVisibleHeight = referenceHeight - 2 * referenceBlackBarOffset;
+        float resolutionScale = (float)(actualHeight - 2 * adjustedActualBarOffset) / referenceVisibleHeight;
+
+        return (int)Math.Round(coordinate * resolutionScale * HUDScale);
     }
 }

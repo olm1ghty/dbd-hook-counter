@@ -1,4 +1,5 @@
 ﻿using Emgu.CV.Flann;
+using Microsoft.VisualBasic.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,6 +14,7 @@ namespace DBD_Hook_Counter
         GameStateManager stateManager;
         TransparentOverlayForm form;
         Rectangle continueSearchArea = GameSettings.continueSearchArea;
+        float continueThreshold = 0.7f;
 
         public GameStatePlaying(GameStateManager stateManager, TransparentOverlayForm form)
         {
@@ -29,7 +31,7 @@ namespace DBD_Hook_Counter
 
         public override void Update()
         {
-            if (form.screenChecker.MatchTemplate(form.screenChecker._continueTemplate, continueSearchArea, 0.8))
+            if (form.screenChecker.MatchTemplate(form.screenChecker._continueTemplate, continueSearchArea, continueThreshold, debug: false))
             {
                 stateManager.SwitchState(stateManager.stateLobby);
             }

@@ -15,7 +15,7 @@ namespace DBD_Hook_Counter
         public SurvivorStateIntermediate stateIntermediate;
         public SurvivorStateBase currentState;
 
-        Rectangle statusSearchArea = new(135, 627, 74, 94);
+        Rectangle statusSearchArea = new(135, 638, 74, 94);
         Rectangle bloodSplatterSearchArea = new(206, 617, 37, 80);
         Rectangle stbSearchArea = new(299, 653, 10, 28);
 

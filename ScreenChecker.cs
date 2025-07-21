@@ -54,8 +54,6 @@ namespace DBD_Hook_Counter
                           bool debug = false,
                           string text = "")
         {
-            //Debug.WriteLine($"MatchTemplate: {text}");
-
             using Mat frame = CaptureScreenMat();        
             using Mat roi = new Mat(frame, region);
             using Mat result = new Mat();
@@ -72,6 +70,7 @@ namespace DBD_Hook_Counter
 
             if (debug && match)
             {
+                Debug.WriteLine($"MatchTemplate: {text}");
                 SaveImage(frame);
                 SaveImage(roi);
                 Debug.WriteLine(maxVal);
@@ -119,19 +118,10 @@ namespace DBD_Hook_Counter
 
             bool match = maxVal >= threshold;
 
-            if (debug)
+            if (debug && match)
             {
-                string folder = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                    "DebugCaptures");
-                Directory.CreateDirectory(folder);
-
-                string file = Path.Combine(
-                    folder,
-                    $"UI_Gray_{DateTime.Now:HH_mm_ss_fff}.png");
-
-
-                roi.Save(file);
+                SaveImage(frame);
+                SaveImage(roi);
                 Debug.WriteLine(maxVal);
             }
 
