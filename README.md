@@ -24,7 +24,9 @@ This is a Dead by Daylight hook counter for killers (with additional features). 
 
 ## How to use
 > Disclaimer: Supported platform: only Windows.
+---
 > Disclaimer: Works with DBD in `Windowed Fullscreen` mode. Doesn't work in Fullscreen mode - this mode doesn't allow for the overlay to be displayed on top of it. 
+---
 
     1. Launch the app.
     2. Shift + M to open settings.
