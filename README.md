@@ -3,6 +3,7 @@
 <div align="center">
 
 ### [Download](https://github.com/olm1ghty/dbd-hook-counter/releases/download/release/DBD.Hook.Counter.rar)
+**SHA256**: `0B555ED4FDF7CE89CC0A9FD864F4A05A6ED32BC742378E1CD5901F5AA38864E8`
 
 ## *Display hook stages when playing killer*
 ![ui example](https://private-user-images.githubusercontent.com/95138418/468284120-758a1559-c6bc-40b9-b55b-aa9859ab34e5.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTI5MjY0NzksIm5iZiI6MTc1MjkyNjE3OSwicGF0aCI6Ii85NTEzODQxOC80NjgyODQxMjAtNzU4YTE1NTktYzZiYy00MGI5LWI1NWItYWE5ODU5YWIzNGU1LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA3MTklMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNzE5VDExNTYxOVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTU3MTQxOTU3YTI2ZWM5NjM1ZTE3MjM5MTRlNTdhMGEwYzcxOTdiMDQyNzBiOWY5NWQ4ODZiOWQyZjU0ZDYzNTEmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.6VAY6Ewjespl9uRLe1wHvy2X48kc3zxGs8egqdAdqSU)
@@ -12,16 +13,27 @@
 This is a Dead by Daylight hook counter for killers (with additional features). It works by visually monitoring survivors' statuses on the screen and then displays them as an overlay.
 
 ## Features
-    ⚙️ Fully automatic (HUD-based tracking)
-    🧠 Manual mode if you prefer full control
-    🎯 Hook stage counter for all survivors
-    ⏱️ DS & Endurance timers (optional)
-    🖥️ Works on any resolution (16:9, 16:10)
-    🔒 Doesn’t store or send any data — it's all local and discarded immediately
-    🧼 Hides itself in menus, only shows in match
-    🧩 Doesn’t trigger anti-cheat (no memory access)
-    🧾 EULA-safe (like putting a sticky note on your screen)
-    🛠️ Fully open-source & customizable
+- ⚙️ Fully automatic (HUD-based tracking)
+- 🧠 Manual mode if you prefer full control
+- 🎯 Hook stage counter for all survivors
+- ⏱️ DS & Endurance timers (optional)
+- 🖥️ Works on any resolution (16:9, 16:10)
+- 🔒 Doesn’t store or send any data — it's all local and discarded immediately
+- 🧼 Hides itself in menus, only shows in match
+- 🧩 Doesn’t trigger anti-cheat (no memory access)
+- 🧾 EULA-safe (like putting a sticky note on your screen)
+- 🛠️ Fully open-source & customizable
+
+<details>
+<summary>🛡️ Why it's safe</summary>
+
+- No game files are modified
+- No memory is read
+- Doesn’t interact with DBD’s process
+- Just an overlay that analyzes HUD pixels
+
+Think of it like a sticky note on your screen — legal, simple, and safe.
+</details>
 
 ## How to use
 > Supported platforms: only Windows.
@@ -29,11 +41,11 @@ This is a Dead by Daylight hook counter for killers (with additional features). 
 > Disclaimer: Works with DBD in `Windowed Fullscreen` mode. Doesn't work in Fullscreen mode - this mode doesn't allow for the overlay to be displayed on top of it.
 ---
 
-    1. Launch the app.
-    2. Shift + M to open settings.
-    3. Set UI and HUD scale to match those you have in DBD's graphics settings.
-    4. Save settings.
-    5. Play DBD while this app is running, and it will do its thing automatically.
+1. Launch the app.
+2. Shift + M to open settings.
+3. Set UI and HUD scale to match those you have in DBD's graphics settings.
+4. Save settings.
+5. Play DBD while this app is running, and it will do its thing automatically.
 
 <div align="center">
 
