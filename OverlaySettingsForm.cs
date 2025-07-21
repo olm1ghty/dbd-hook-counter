@@ -23,6 +23,13 @@ public class OverlaySettingsForm : Form
         BackColor = Color.FromArgb(30, 30, 30);
         ForeColor = Color.White;
 
+        this.Shown += (s, e) =>
+        {
+            this.Activate();
+            this.Focus();
+            this.BringToFront();
+        };
+
         // Style template
         var labelMargin = new Padding(0, 10, 0, 0);
         var comboStyle = ComboBoxStyle.DropDownList;
