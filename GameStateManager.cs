@@ -15,7 +15,7 @@ namespace DBD_Hook_Counter
         int timerIntervalMs = 16;
 
         System.Timers.Timer temporaryPauseTimer = new();
-        int temporaryPauseDuration = 1000;
+        int temporaryPauseDuration = 3000;
 
         public volatile bool pauseInProgress = false;
         public bool manualMode = false;

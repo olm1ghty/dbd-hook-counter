@@ -51,6 +51,7 @@ public class TransparentOverlayForm : Form
         keyboardWatcher = new KeyboardWatcher();
         keyboardWatcher.AltTabPressed += () => gameManager.TemporaryPause();
         keyboardWatcher.EscPressed += () => gameManager.TemporaryPause();
+        keyboardWatcher.WinKeyPressed += () => gameManager.TemporaryPause();
 
         toastManager.ShowToast("Hook counter online");
     }
