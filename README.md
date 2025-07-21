@@ -12,16 +12,16 @@
 This is a Dead by Daylight hook counter for killers (with additional features). It works by visually monitoring survivors' statuses on the screen and then displays them as an overlay.
 
 ## Features
-    ⚙️ Fully automatic (HUD-based tracking)
-    🧠 Manual mode if you prefer full control
-    🎯 Hook stage counter for all survivors
-    ⏱️ DS & Endurance timers (optional)
-    🖥️ Works on any resolution (16:9, 16:10)
-    🔒 Doesn’t store or send any data — it's all local and discarded immediately
-    🧼 Hides itself in menus, only shows in match
-    🧩 Doesn’t trigger anti-cheat (no memory access)
-    🧾 EULA-safe (like putting a sticky note on your screen)
-    🛠️ Fully open-source & customizable
+⚙️ Fully automatic (HUD-based tracking)
+🧠 Manual mode if you prefer full control
+🎯 Hook stage counter for all survivors
+⏱️ DS & Endurance timers (optional)
+🖥️ Works on any resolution (16:9, 16:10)
+🔒 Doesn’t store or send any data — it's all local and discarded immediately
+🧼 Hides itself in menus, only shows in match
+🧩 Doesn’t trigger anti-cheat (no memory access)
+🧾 EULA-safe (like putting a sticky note on your screen)
+🛠️ Fully open-source & customizable
 
 ## How to use
 > Supported platforms: only Windows.
