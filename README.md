@@ -3,9 +3,9 @@
 ## *Display hook stages when playing killer*
 ![ui example](https://private-user-images.githubusercontent.com/95138418/468284120-758a1559-c6bc-40b9-b55b-aa9859ab34e5.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTI5MjY0NzksIm5iZiI6MTc1MjkyNjE3OSwicGF0aCI6Ii85NTEzODQxOC80NjgyODQxMjAtNzU4YTE1NTktYzZiYy00MGI5LWI1NWItYWE5ODU5YWIzNGU1LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA3MTklMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNzE5VDExNTYxOVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTU3MTQxOTU3YTI2ZWM5NjM1ZTE3MjM5MTRlNTdhMGEwYzcxOTdiMDQyNzBiOWY5NWQ4ODZiOWQyZjU0ZDYzNTEmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.6VAY6Ewjespl9uRLe1wHvy2X48kc3zxGs8egqdAdqSU)
 
-
-### [Download](https://github.com/olm1ghty/dbd-hook-counter/releases/download/v1.0/DBD.Hook.Counter.rar)
-
+<div align="center">
+    ### [Download](https://github.com/olm1ghty/dbd-hook-counter/releases/download/v1.0/DBD.Hook.Counter.rar)
+</div>
 
 This is a Dead by Daylight hook counter for killers (with additional features). It works by visually monitoring survivors' statuses on the screen and then displays them as an overlay.
 
