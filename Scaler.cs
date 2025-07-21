@@ -38,8 +38,9 @@ public class Scaler
         HUDScale = Properties.Settings.Default.HUDScale;
         MenuScale = Properties.Settings.Default.MenuScale;
 
-        actualWidth = form.screen.Bounds.Width;
-        actualHeight = form.screen.Bounds.Height;
+        var screen = Screen.FromPoint(Cursor.Position);
+        actualWidth = screen.Bounds.Width;
+        actualHeight = screen.Bounds.Height;
 
         resolutionScaleX = (float)actualWidth / referenceWidth;
         resolutionScaleY = (float)actualHeight / referenceHeight;

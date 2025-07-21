@@ -131,7 +131,7 @@ namespace DBD_Hook_Counter
 
         Mat CaptureScreenMat()
         {
-            Rectangle roi = Screen.PrimaryScreen.Bounds;
+            Rectangle roi = form.screen.Bounds;
             using Bitmap bmp = new Bitmap(roi.Width, roi.Height, PixelFormat.Format24bppRgb);
             using (Graphics g = Graphics.FromImage(bmp))
             {
