@@ -12,15 +12,16 @@
 This is a Dead by Daylight hook counter for killers (with additional features). It works by visually monitoring survivors' statuses on the screen and then displays them as an overlay.
 
 ## Features
-    - Fully automatic
-    - Has manual mode if you don't like automatic tracking
-    - Hook counter
-    - DS timer
-    - Off-hook endurance timer
-    - Supports any resolution with 16:9 and 16:10 aspect ratios
-    - Only visible in the match, hides itself in the menu
-    - Doesn't trigger anti-cheat (because we're not cheating, the app is strictly client-side)
-    - Doesn't breach EULA (it's as legal as putting a note on the screen)
+    ⚙️ Fully automatic (HUD-based tracking)
+    🧠 Manual mode if you prefer full control
+    🎯 Hook stage counter for all survivors
+    ⏱️ DS & Endurance timers with optional alerts
+    🖥️ Works on any resolution (16:9, 16:10)
+    🔒 Doesn’t store or send any data — it's all local and discarded immediately
+    🧼 Hides itself in menus, only shows in match
+    🧩 Doesn’t trigger anti-cheat (no memory access)
+    🧾 EULA-safe (like putting a sticky note on your screen)
+    🛠️ Fully open-source & customizable
 
 ## How to use
 > Supported platforms: only Windows.
@@ -63,6 +64,10 @@ If it doesn't work, try Shift + R to restart the app or make sure that you confi
 
 ## Antivirus
 The app is unsigned, so your antivirus might view it as a threat.
+
+**SHA256**: `0B555ED4FDF7CE89CC0A9FD864F4A05A6ED32BC742378E1CD5901F5AA38864E8`
+
+This hash lets users verify the file is untampered. If you’re unsure, scan the file on [VirusTotal](https://virustotal.com/) or build from source.
 
 ## Acknowledgements
 [@Nemonn](https://github.com/nemonn) - Thanks for helping out with the materials and for the good advice!
