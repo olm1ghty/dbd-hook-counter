@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 
 namespace DBD_Hook_Counter
 {
@@ -47,12 +41,12 @@ namespace DBD_Hook_Counter
         {
             if (SurvivorDead())
             {
-                Debug.WriteLine($"{index} DEAD");
+                //Debug.WriteLine($"{index} DEAD");
                 form.survivorManager.KillSurvivor(index);
             }
             else if (SurvivorUnhooked())
             {
-                Debug.WriteLine($"{index} UNHOOKED");
+                //Debug.WriteLine($"{index} UNHOOKED");
                 CheckForSTB();
 
                 form.timerManager.TriggerTimer(index);
@@ -60,7 +54,7 @@ namespace DBD_Hook_Counter
             }
             else if (BloodSplatter())
             {
-                Debug.WriteLine($"{index} ADDITIONAL HOOK STAGE");
+                //Debug.WriteLine($"{index} ADDITIONAL HOOK STAGE");
                 form.survivorManager.HookSurvivor(index);
             }
         }

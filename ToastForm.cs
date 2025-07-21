@@ -2,7 +2,7 @@
 
 public sealed class ToastForm : Form
 {
-    private readonly System.Windows.Forms.Timer fadeTimer = new() { Interval = 16 }; // ~33 fps
+    private readonly System.Windows.Forms.Timer fadeTimer = new() { Interval = 16 };
     private readonly int lifeMs;
     private readonly Stopwatch sw = Stopwatch.StartNew();
 
@@ -15,8 +15,8 @@ public sealed class ToastForm : Form
         StartPosition = FormStartPosition.Manual;
         TopMost = true;
         DoubleBuffered = true;
-        BackColor = Color.Black;   // will become transparent where alpha=0
-        Opacity = 0;             // start invisible
+        BackColor = Color.Black;
+        Opacity = 0;
         AutoSize = true;
         AutoSizeMode = AutoSizeMode.GrowAndShrink;
 
@@ -45,7 +45,7 @@ public sealed class ToastForm : Form
 
     private void Animate()
     {
-        double t = sw.ElapsedMilliseconds / (double)lifeMs; // 0‑1
+        double t = sw.ElapsedMilliseconds / (double)lifeMs;
 
         if (t <= 0.15)                    // fade‑in 15 %
             Opacity = t / 0.15;
@@ -61,6 +61,5 @@ public sealed class ToastForm : Form
         }
     }
 
-    // keep form from activating
     protected override bool ShowWithoutActivation => true;
 }

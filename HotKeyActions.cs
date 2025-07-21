@@ -3,6 +3,7 @@
 public class HotKeyActions
 {
     private readonly TransparentOverlayForm form;
+    Screen screen;
 
     public HotKeyActions(TransparentOverlayForm form)
     {
@@ -21,7 +22,7 @@ public class HotKeyActions
         }
 
         // Get the screen that the cursor is on
-        var screen = Screen.FromPoint(Cursor.Position);
+        screen = Screen.FromPoint(Cursor.Position);
         var screenBounds = screen.WorkingArea;
 
         // Start from cursor position
@@ -49,11 +50,7 @@ public class HotKeyActions
             form.keybindsForm.FormClosed += (_, __) => form.EnableInput(false);
         }
 
-        // Get the screen that the cursor is on
-        var screen = Screen.FromPoint(Cursor.Position);
         var screenBounds = screen.WorkingArea;
-
-        // Start from cursor position
         Point desiredLocation = Cursor.Position;
 
         // Clamp the form’s location to the screen bounds

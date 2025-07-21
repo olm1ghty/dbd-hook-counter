@@ -19,7 +19,6 @@ namespace DBD_Hook_Counter
         public readonly Mat _uiHookTemplate;
         public readonly Mat _uiMoriTemplate;
         public readonly Mat _stbTemplate;
-        public readonly Mat _progressBarTemplate;
 
         Rectangle uiSearchArea = new(151, 1158, 37, 54);
         Rectangle pauseMenuSearchArea = new(106, 1468, 139, 77);
@@ -42,7 +41,6 @@ namespace DBD_Hook_Counter
             _uiHookTemplate = form.scaler.LoadScaledTemplate(Resources.ui_hook);
             _uiMoriTemplate = form.scaler.LoadScaledTemplate(Resources.ui_mori);
             _stbTemplate = form.scaler.LoadScaledTemplate(Resources.stb);
-            _progressBarTemplate = form.scaler.LoadScaledTemplate(Resources.progress_bar);
 
             uiSearchArea = form.scaler.Scale(uiSearchArea);
             pauseMenuSearchArea = form.scaler.ScaleMenu(pauseMenuSearchArea);
@@ -162,8 +160,6 @@ namespace DBD_Hook_Counter
                 uiMissingCounter++;
             }
 
-            //Debug.WriteLine($"uiMissingCounter: {uiMissingCounter}");
-            //Debug.WriteLine($"form.gameManager.pauseInProgress: {form.gameManager.pauseInProgress}");
             bool hudPresent = uiMissingCounter < uiMissingThreshold;  
 
             return hudPresent;

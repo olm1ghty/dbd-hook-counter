@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DBD_Hook_Counter
+﻿namespace DBD_Hook_Counter
 {
     public class Survivor
     {
@@ -15,9 +8,9 @@ namespace DBD_Hook_Counter
         public SurvivorStateIntermediate stateIntermediate;
         public SurvivorStateBase currentState;
 
-        Rectangle statusSearchArea = new(135, 638, 74, 94);
-        Rectangle bloodSplatterSearchArea = new(206, 617, 37, 80);
-        Rectangle stbSearchArea = new(299, 653, 10, 28);
+        Rectangle statusSearchArea;
+        Rectangle bloodSplatterSearchArea;
+        Rectangle stbSearchArea;
 
         TransparentOverlayForm form;
 
@@ -29,9 +22,9 @@ namespace DBD_Hook_Counter
             this.index = index;
             this.form = form;
 
-            statusSearchArea = form.scaler.Scale(statusSearchArea);
-            bloodSplatterSearchArea = form.scaler.Scale(bloodSplatterSearchArea);
-            stbSearchArea = form.scaler.Scale(stbSearchArea);
+            statusSearchArea = form.scaler.Scale(GameSettings.statusSearchArea);
+            bloodSplatterSearchArea = form.scaler.Scale(GameSettings.bloodSplatterSearchArea);
+            stbSearchArea = form.scaler.Scale(GameSettings.stbSearchArea);
 
             stateUnhooked = new(index, statusSearchArea, form);
             stateHooked = new(index, statusSearchArea, bloodSplatterSearchArea, stbSearchArea, form, this);
@@ -57,8 +50,6 @@ namespace DBD_Hook_Counter
         public void Update()
         {
             currentState.Update(index);
-            //Debug.WriteLine($"Survivor: {currentState}.Update({index}, mainForm)");
-            //Debug.WriteLine($"Hook stages: {hookStages}");
         }
 
         public void GetHooked()

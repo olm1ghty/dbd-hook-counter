@@ -4,7 +4,7 @@ public sealed class KeyboardWatcher : IDisposable
 {
     public event Action EscPressed;
     public event Action AltTabPressed;
-    public event Action WinKeyPressed;       // 🔔 New event
+    public event Action WinKeyPressed;
 
     private readonly Thread thread;
     private volatile bool running = true;
@@ -13,10 +13,10 @@ public sealed class KeyboardWatcher : IDisposable
     private static extern short GetAsyncKeyState(int vKey);
 
     private const int VK_ESCAPE = 0x1B;
-    private const int VK_MENU = 0x12;        // Alt
-    private const int VK_TAB = 0x09;         // Tab
-    private const int VK_LWIN = 0x5B;        // Left Win
-    private const int VK_RWIN = 0x5C;        // Right Win
+    private const int VK_MENU = 0x12;
+    private const int VK_TAB = 0x09;
+    private const int VK_LWIN = 0x5B;
+    private const int VK_RWIN = 0x5C;
 
     public KeyboardWatcher()
     {
@@ -40,15 +40,12 @@ public sealed class KeyboardWatcher : IDisposable
             bool rWinDown = (GetAsyncKeyState(VK_RWIN) & 0x8000) != 0;
             bool winDown = lWinDown || rWinDown;
 
-            // Esc rising edge
             if (escDown && !escPrev)
                 EscPressed?.Invoke();
 
-            // Alt+Tab rising edge
             if (tabDown && !tabPrev && altDown)
                 AltTabPressed?.Invoke();
 
-            // Win key rising edge
             if (winDown && !winPrev)
                 WinKeyPressed?.Invoke();
 
@@ -56,7 +53,7 @@ public sealed class KeyboardWatcher : IDisposable
             tabPrev = tabDown;
             winPrev = winDown;
 
-            Thread.Sleep(5); // ~200 Hz
+            Thread.Sleep(5);
         }
     }
 

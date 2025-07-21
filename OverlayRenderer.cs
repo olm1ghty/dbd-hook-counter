@@ -1,14 +1,7 @@
-﻿using Emgu.CV;
-using Svg;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using Svg;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DBD_Hook_Counter
 {
@@ -109,16 +102,8 @@ namespace DBD_Hook_Counter
 
                 hookCounterSVG.Draw(graphics);
                 graphics.Restore(state);
-
-
-                //var state = graphics.Save();
-                //graphics.TranslateTransform(hookStageCounterStartX, (hookStageCounterStartY) + (i * hookStageCounterOffset));
-                //graphics.ScaleTransform(hookSVGscaleX, hookSVGscaleY);
-                //hookCounterSVG.Draw(graphics);
-                //graphics.Restore(state);
             }
 
-            // clean up expired timers before drawing
             form.timerManager.RemoveExpiredTimers();
 
             // draw all active timers
@@ -127,7 +112,7 @@ namespace DBD_Hook_Counter
                 foreach (var timer in list)
                 {
                     string txt = timer.SecondsRemaining.ToString();
-                    using (Font f = new Font("Arial", 12, System.Drawing.FontStyle.Bold))
+                    using (Font f = new Font("Segoe UI", 12, System.Drawing.FontStyle.Bold))
                     using (Brush b = new SolidBrush(timer.color))
                     {
                         graphics.DrawString(txt, f, b, timer.Position);
@@ -136,11 +121,11 @@ namespace DBD_Hook_Counter
             }
 
             // ----- draw toasts -----
-            form.toastManager.toasts.RemoveAll(t => !t.IsAlive);          // drop finished ones
+            form.toastManager.toasts.RemoveAll(t => !t.IsAlive);
 
             foreach (var toast in form.toastManager.toasts)
             {
-                using var f = new Font("Arial", 16, FontStyle.Bold);
+                using var f = new Font("Segoe UI", 16, FontStyle.Bold);
                 int a = toast.CurrentAlpha;
                 using var b = new SolidBrush(Color.FromArgb(a, Color.Yellow));
                 graphics.DrawString(toast.Text, f, b, toast.Position);

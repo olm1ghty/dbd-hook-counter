@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DBD_Hook_Counter
+﻿namespace DBD_Hook_Counter
 {
     public static class GameSettings
     {
@@ -12,6 +6,9 @@ namespace DBD_Hook_Counter
         public static int hookStageCounterStartY = 676;
         public static int hookStageCounterOffset = 118;
 
+        public static Rectangle statusSearchArea = new(135, 638, 74, 94);
+        public static Rectangle bloodSplatterSearchArea = new(206, 617, 37, 80);
+        public static Rectangle stbSearchArea = new(299, 653, 10, 28);
         public static Rectangle continueSearchArea = new(2233, 1472, 188, 79);
     }
 }

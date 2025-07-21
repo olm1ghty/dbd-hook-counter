@@ -1,5 +1,4 @@
 ﻿using DBD_Hook_Counter.Properties;
-using ExCSS;
 using Color = System.Drawing.Color;
 using Properties = DBD_Hook_Counter.Properties;
 
@@ -11,7 +10,6 @@ public class OverlaySettingsForm : Form
     {
         this.form = form;
 
-        // Modern window style
         FormBorderStyle = FormBorderStyle.FixedDialog;
         StartPosition = FormStartPosition.Manual;
         ShowInTaskbar = false;
@@ -88,15 +86,15 @@ public class OverlaySettingsForm : Form
 
         saveBtn.Click += (_, __) =>
         {
-            Properties.Settings.Default.MenuScale = form.scaler.MenuScale;
-            Properties.Settings.Default.HUDScale = form.scaler.HUDScale;
+            Settings.Default.MenuScale = form.scaler.MenuScale;
+            Settings.Default.HUDScale = form.scaler.HUDScale;
 
-            Properties.Settings.Default.DropdownUI = uiBox.SelectedIndex;
-            Properties.Settings.Default.DropdownHUD = hudBox.SelectedIndex;
-            Properties.Settings.Default.dsTimerEnabled = dsCheckBox.Checked;
-            Properties.Settings.Default.enduranceTimerEnabled = enduranceCheckBox.Checked;
+            Settings.Default.DropdownUI = uiBox.SelectedIndex;
+            Settings.Default.DropdownHUD = hudBox.SelectedIndex;
+            Settings.Default.dsTimerEnabled = dsCheckBox.Checked;
+            Settings.Default.enduranceTimerEnabled = enduranceCheckBox.Checked;
 
-            Properties.Settings.Default.Save();
+            Settings.Default.Save();
 
             Application.Restart();
             Environment.Exit(0);

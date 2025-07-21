@@ -1,11 +1,6 @@
 ﻿using Emgu.CV.CvEnum;
 using Emgu.CV;
-using System.Windows.Forms;
-using System.Drawing;
 using Properties = DBD_Hook_Counter.Properties;
-using ExCSS;
-using Point = System.Drawing.Point;
-using DBD_Hook_Counter;
 
 public class Scaler
 {

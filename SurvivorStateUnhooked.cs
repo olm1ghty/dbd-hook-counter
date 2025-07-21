@@ -1,10 +1,4 @@
-﻿using Emgu.CV.Flann;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 
 namespace DBD_Hook_Counter
 {
@@ -37,12 +31,12 @@ namespace DBD_Hook_Counter
         {
             if (form.screenChecker.MatchTemplateGrayscale(form.screenChecker._hookedTemplate, searchArea, hookedThreshold, debug: false))
             {
-                Debug.WriteLine($"{index} HOOKED");
+                //Debug.WriteLine($"{index} HOOKED");
                 form.survivorManager.HookSurvivor(index);
             }
             else if (form.screenChecker.MatchTemplateGrayscale(form.screenChecker._moriedTemplate, searchArea, moriedThreshold))
             {
-                Debug.WriteLine($"{index} MORIED");
+                //Debug.WriteLine($"{index} MORIED");
                 form.survivorManager.KillSurvivor(index);
             }
         }

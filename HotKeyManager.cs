@@ -1,5 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using System.Windows.Forms;
 
 public sealed class HotKeyManager : IDisposable
 {
@@ -10,7 +9,7 @@ public sealed class HotKeyManager : IDisposable
     private readonly Form host;
     private readonly Dictionary<int, Action> hotkeys = new();
     private readonly List<HotKey> list = new();
-    private int nextId = 1;                       // unique id per key
+    private int nextId = 1;
 
     private const int VK_ESCAPE = 0x1B;
 
@@ -42,14 +41,11 @@ public sealed class HotKeyManager : IDisposable
         Application.AddMessageFilter(new Filter(this));
     }
 
-    //public void Add(uint modifiers, uint vk, Action action)
-    //    => list.Add(new HotKey(modifiers, vk, action));
-
     public void Add(uint modifier, uint key, Action action)
     {
         int id = ((int)modifier << 16) | (int)key;
         hotkeys[id] = action;
-        list.Add(new HotKey(modifier, key, action)); // ← make sure it's also added to `list` for `RegisterAll`
+        list.Add(new HotKey(modifier, key, action));
     }
 
     public void RegisterAll()
@@ -79,10 +75,10 @@ public sealed class HotKeyManager : IDisposable
         {
             if (m.Msg == WM_HOTKEY)
             {
-                int index = m.WParam.ToInt32() - 1; // ids start at 1
+                int index = m.WParam.ToInt32() - 1;
                 if (index >= 0 && index < mgr.list.Count)
                     mgr.list[index].Action();
-                return true;                        // swallow
+                return true;
             }
             return false;
         }

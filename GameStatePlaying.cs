@@ -1,13 +1,4 @@
-﻿using Emgu.CV.Flann;
-using Microsoft.VisualBasic.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DBD_Hook_Counter
+﻿namespace DBD_Hook_Counter
 {
     public class GameStatePlaying : GameStateBase
     {

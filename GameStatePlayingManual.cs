@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace DBD_Hook_Counter
+﻿namespace DBD_Hook_Counter
 {
     public class GameStatePlayingManual : GameStateBase
     {
         GameStateManager stateManager;
         TransparentOverlayForm form;
         Rectangle continueSearchArea = GameSettings.continueSearchArea;
+        float continueThreshold = 0.7f;
 
         public GameStatePlayingManual(GameStateManager stateManager, TransparentOverlayForm form)
         {
@@ -28,9 +22,17 @@ namespace DBD_Hook_Counter
 
         public override void Update()
         {
-            if (form.screenChecker.MatchTemplate(form.screenChecker._continueTemplate, continueSearchArea, 0.8))
+            if (form.screenChecker.MatchTemplate(form.screenChecker._continueTemplate, continueSearchArea, continueThreshold, debug: false))
             {
                 stateManager.SwitchState(stateManager.stateLobby);
+            }
+            else if (form.screenChecker.UIenabled())
+            {
+                form.overlayRenderer.DrawOverlay();
+            }
+            else
+            {
+                form.overlayRenderer.ClearOverlay();
             }
         }
     }
