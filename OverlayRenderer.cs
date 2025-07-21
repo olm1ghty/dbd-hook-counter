@@ -47,8 +47,8 @@ namespace DBD_Hook_Counter
                 hookCounterSVG = SvgDocument.Open<SvgDocument>(svgStream);
             }
 
-            float desiredWidth = 20;
-            float desiredHeight = 30;
+            float desiredWidth = 20 * form.scaler.resolutionScaleY;
+            float desiredHeight = 30 * form.scaler.resolutionScaleX;
             float svgWidth = hookCounterSVG.Bounds.Width;
             float svgHeight = hookCounterSVG.Bounds.Height;
             hookSVGscaleX = desiredWidth / svgWidth;
@@ -91,11 +91,31 @@ namespace DBD_Hook_Counter
                         break;
                 }
 
+                var svgBounds = hookCounterSVG.Bounds;
+
+                // Anchor to center
+                float anchorX = svgBounds.Width / 2f;
+                float anchorY = svgBounds.Height / 2f;
+
                 var state = graphics.Save();
-                graphics.TranslateTransform(hookStageCounterStartX, (hookStageCounterStartY) + (i * hookStageCounterOffset));
+                graphics.TranslateTransform(
+                    hookStageCounterStartX,
+                    hookStageCounterStartY + (i * hookStageCounterOffset)
+                );
                 graphics.ScaleTransform(hookSVGscaleX, hookSVGscaleY);
+
+                // Shift origin back to center of the SVG
+                graphics.TranslateTransform(-anchorX, -anchorY);
+
                 hookCounterSVG.Draw(graphics);
                 graphics.Restore(state);
+
+
+                //var state = graphics.Save();
+                //graphics.TranslateTransform(hookStageCounterStartX, (hookStageCounterStartY) + (i * hookStageCounterOffset));
+                //graphics.ScaleTransform(hookSVGscaleX, hookSVGscaleY);
+                //hookCounterSVG.Draw(graphics);
+                //graphics.Restore(state);
             }
 
             // clean up expired timers before drawing

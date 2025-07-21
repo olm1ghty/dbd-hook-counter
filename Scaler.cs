@@ -20,8 +20,8 @@ public class Scaler
     int actualHeight;
     float actualBlackBarOffset;
 
-    float resolutionScaleX;
-    float resolutionScaleY;
+    public readonly float resolutionScaleX;
+    public readonly float resolutionScaleY;
 
     public float HUDScale = 1f;
     public float MenuScale = 1f;

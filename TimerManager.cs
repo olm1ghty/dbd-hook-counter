@@ -17,7 +17,7 @@ namespace DBD_Hook_Counter
         private int ds = 61;
 
         public int timerStartXoffset = 215;
-        public int timerStartYoffset = -10;
+        public int timerStartYoffset = 10;
         public int timerDistanceYoffset = 20;
 
         public bool dsTimerEnabled;
