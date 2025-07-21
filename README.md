@@ -1,7 +1,7 @@
 ![banner](https://private-user-images.githubusercontent.com/95138418/468283475-016785d9-d0b0-4836-8796-17d0601f1de4.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTI5MjU2MjUsIm5iZiI6MTc1MjkyNTMyNSwicGF0aCI6Ii85NTEzODQxOC80NjgyODM0NzUtMDE2Nzg1ZDktZDBiMC00ODM2LTg3OTYtMTdkMDYwMWYxZGU0LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA3MTklMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNzE5VDExNDIwNVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWY0OGVkODU5YzMxNjhkOTVjZDM0ZDA5ODYxNjQxOTRiYjcxMGE3ZDQ2MWRiZmE1MjY4MmQwMTk5YzgzNTk0YmImWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.UwGvWuyDuuO1N3jkuQUuyw86uBLlqUMQ7A5t_UqR75g)
 
 <div align="center">
-    
+
 ### [Download](https://github.com/olm1ghty/dbd-hook-counter/releases/download/release/DBD.Hook.Counter.rar)
 
 ## *Display hook stages when playing killer*
@@ -60,6 +60,9 @@ If it doesn't work, try Shift + R to restart the app or make sure that you confi
     - 5 - Clear all hook stages.
     - Shift + 1/2/3/4 - Manually trigger unhook timers.
     - Shift + 5 - Clear all timers.
+
+## Antivirus
+The app is unsigned, so your antivirus might view it as a threat.
 
 ## Acknowledgements
 [@Nemonn](https://github.com/nemonn) - Thanks for helping out with the materials and for the good advice!
