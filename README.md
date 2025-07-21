@@ -19,13 +19,13 @@ This is a Dead by Daylight hook counter for killers (with additional features). 
     - Off-hook endurance timer
     - Supports 16:9 and 16:10 aspect ratios
     - Only visible in the match, hides itself in the menu
-    - Doesn't trigger anti-cheat (we don't hack into the game's memory, we're just using visual data on the screen)
+    - Doesn't trigger anti-cheat (we don't hack into the game's memory, we're just using visual data)
     - Doesn't breach EULA (it's as legal as putting a note on the screen)
 
 ## How to use
-> Disclaimer: Supported platform: only Windows.
+> Supported platforms: only Windows.
 ---
-> Disclaimer: Works with DBD in `Windowed Fullscreen` mode. Doesn't work in Fullscreen mode - this mode doesn't allow for the overlay to be displayed on top of it. 
+> Disclaimer: Works with DBD in `Windowed Fullscreen` mode. Doesn't work in Fullscreen mode - this mode doesn't allow for the overlay to be displayed on top of it.
 ---
 
     1. Launch the app.
@@ -34,11 +34,19 @@ This is a Dead by Daylight hook counter for killers (with additional features). 
     4. Save settings.
     5. Play DBD while this app is running, and it will do its thing automatically.
 
+<div align="center">
+
 ![settings](https://private-user-images.githubusercontent.com/95138418/468483892-964d9db6-3ca1-40e1-8602-5ba7895b9302.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTMwNzk5OTcsIm5iZiI6MTc1MzA3OTY5NywicGF0aCI6Ii85NTEzODQxOC80Njg0ODM4OTItOTY0ZDlkYjYtM2NhMS00MGUxLTg2MDItNWJhNzg5NWI5MzAyLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA3MjElMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNzIxVDA2MzQ1N1omWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTdjMzNlZDc5YTUyNDNlYzE1ODdiNDlmMjFiODRhZGE5NjEyYjY5ZGYzZmNmMTg0MDQ5MThlYzdmNGI4ZWZkMDYmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.QugI4n7c73MB1rC2KR5U7_Tgc9ziYbtzQNCbKnKhW8g)
+
+</div>
 
 You will know that it's set up correctly by seeing empty hook counters on the UI (only when the match starts):
 
+<div align="center">
+    
 ![ui on](https://private-user-images.githubusercontent.com/95138418/468284101-74cdbb8f-86fd-4751-b305-e1f33bcb2a93.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTI5MjY0MzUsIm5iZiI6MTc1MjkyNjEzNSwicGF0aCI6Ii85NTEzODQxOC80NjgyODQxMDEtNzRjZGJiOGYtODZmZC00NzUxLWIzMDUtZTFmMzNiY2IyYTkzLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA3MTklMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNzE5VDExNTUzNVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTA4NjYyNGIzODc3NGVmYzM1YTE2N2Y4NjM1NjI2MTY2NWI5YTRiMTViODVmYTY2MGJjYTRiNjVhNzA1NzgzZmMmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.CVQXd4MuRA8CxBVNLN7w1ANC-Iiq_SMbP5Sy4z0XA3Q)
+
+</div>
 
 If it doesn't work, try Shift + R to restart the app or make sure that you configured your UI/HUD scales correctly in the settings menu.
 
