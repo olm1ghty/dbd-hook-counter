@@ -15,7 +15,7 @@ This is a Dead by Daylight hook counter for killers (with additional features). 
     ⚙️ Fully automatic (HUD-based tracking)
     🧠 Manual mode if you prefer full control
     🎯 Hook stage counter for all survivors
-    ⏱️ DS & Endurance timers with optional alerts
+    ⏱️ DS & Endurance timers (optional)
     🖥️ Works on any resolution (16:9, 16:10)
     🔒 Doesn’t store or send any data — it's all local and discarded immediately
     🧼 Hides itself in menus, only shows in match
