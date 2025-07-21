@@ -39,7 +39,9 @@ Think of it like a sticky note on your screen — legal, simple, and safe.
 ## How to use
 > Supported platforms: only Windows.
 ---
-> Disclaimer: Works with DBD in `Windowed Fullscreen` mode. Doesn't work in Fullscreen mode - this mode doesn't allow for the overlay to be displayed on top of it.
+> Works with DBD in `Windowed Fullscreen` mode. Doesn't work in Fullscreen mode - this mode doesn't allow for the overlay to be displayed on top of it.
+---
+> Multiple monitors? Launch the app on the same monitor you launch DBD.
 ---
 
 1. Launch the app.
