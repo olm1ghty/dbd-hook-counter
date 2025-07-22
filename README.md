@@ -1,4 +1,4 @@
-![banner](images/banner.png)
+![banner](readme_images/banner.png)
 
 <div align="center">
 
@@ -7,7 +7,7 @@
 
 
 ## *Display hook stages when playing killer*
-![ui example](images/ui_example.png)
+![ui example](readme_images/ui_example.png)
 
 </div>
 
@@ -52,13 +52,13 @@ Think of it like a sticky note on your screen — legal, simple, and safe.
 
 <div align="center">
 
-![settings](images/settings.png)
+![settings](readme_images/settings.png)
 
 </div>
 
 You will know that it's set up correctly by seeing empty hook counters on the UI (only when the match starts):
 
-![ui on](images/ui_on.png)
+![ui on](readme_images/ui_on.png)
 
 </div>
 
