@@ -58,6 +58,8 @@ Think of it like a sticky note on your screen — legal, simple, and safe.
 
 You will know that it's set up correctly by seeing empty hook counters on the UI (only when the match starts):
 
+<div align="center">
+    
 ![ui on](readme_images/ui_on.png)
 
 </div>
