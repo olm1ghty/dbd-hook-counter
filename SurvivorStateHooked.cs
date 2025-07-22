@@ -46,11 +46,14 @@ namespace DBD_Hook_Counter
             }
             else if (SurvivorUnhooked())
             {
-                //Debug.WriteLine($"{index} UNHOOKED");
-                CheckForSTB();
-
-                form.timerManager.TriggerTimer(index);
-                form.survivorManager.UnhookSurvivor(index);
+                // additional check to prevent false unhooks
+                if (!survivor.stateUnhooked.SurvivorHooked())
+                {
+                    //Debug.WriteLine($"{index} UNHOOKED");
+                    CheckForSTB();
+                    form.timerManager.TriggerTimer(index);
+                    form.survivorManager.UnhookSurvivor(index);
+                }
             }
             else if (BloodSplatter())
             {
