@@ -29,16 +29,26 @@ namespace DBD_Hook_Counter
 
         public override void Update(int index)
         {
-            if (form.screenChecker.MatchTemplateGrayscale(form.screenChecker._hookedTemplate, searchArea, hookedThreshold, debug: false))
+            if (SurvivorHooked())
             {
                 //Debug.WriteLine($"{index} HOOKED");
                 form.survivorManager.HookSurvivor(index);
             }
-            else if (form.screenChecker.MatchTemplateGrayscale(form.screenChecker._moriedTemplate, searchArea, moriedThreshold))
+            else if (SurvivorMoried())
             {
                 //Debug.WriteLine($"{index} MORIED");
                 form.survivorManager.KillSurvivor(index);
             }
+        }
+
+        private bool SurvivorMoried()
+        {
+            return form.screenChecker.MatchTemplateGrayscale(form.screenChecker._moriedTemplate, searchArea, moriedThreshold);
+        }
+
+        public bool SurvivorHooked()
+        {
+            return form.screenChecker.MatchTemplateGrayscale(form.screenChecker._hookedTemplate, searchArea, hookedThreshold, debug: false);
         }
     }
 }
