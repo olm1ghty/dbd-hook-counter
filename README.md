@@ -32,10 +32,6 @@ Mostly, it monitors survivors' portraits and the space around them. When it sees
 - 🧾 EULA-safe (like putting a sticky note on your screen)
 - 🛠️ Fully open-source & customizable
 
-## Yes, it even works with video
-Since it's not dependent on any game processes, you can apply it to a video feed. For example, you can use it while watching a stream to keep track of the game situation.
-![stream](readme_images/stream.png)
-
 <details>
 <summary>🛡️ Why it's safe</summary>
 
@@ -44,6 +40,10 @@ Since it's not dependent on any game processes, you can apply it to a video feed
 - Doesn’t interact with DBD’s process
 - Just an overlay that analyzes HUD pixels
 </details>
+
+## Yes, it even works with video
+Since it's not dependent on any game processes, you can apply it to a video feed. For example, you can use it while watching a stream to keep track of the game situation.
+![stream](readme_images/stream.png)
 
 ## How to use
 > Supported platforms: only Windows.
