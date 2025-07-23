@@ -13,6 +13,7 @@
 
 This is a Dead by Daylight hook counter for killers (with additional features). It works by visually monitoring survivors' statuses on the screen and then displays them as an overlay.
 
+<details>
 <summary>❓ How it works</summary>
 It's a Windows Forms app made with C#. I'm using Emgu.CV library to monitor the HUD.
 
