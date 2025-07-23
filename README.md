@@ -13,6 +13,12 @@
 
 This is a Dead by Daylight hook counter for killers (with additional features). It works by visually monitoring survivors' statuses on the screen and then displays them as an overlay.
 
+<summary>❓ How it works</summary>
+It's a Windows Forms app made with C#. I'm using Emgu.CV library to monitor the HUD.
+
+Mostly, it monitors survivors' portraits and the space around them. When it sees that the survivor is hooked, it adds a hook stage on the screen. When it sees that the survivor is unhooked, it adds a DS and off-hook Endurance timer on the screen (optional, can be switched off).
+</details>
+
 ## Features
 - ⚙️ Fully automatic (HUD-based tracking)
 - 🧠 Manual mode if you prefer full control
@@ -32,8 +38,6 @@ This is a Dead by Daylight hook counter for killers (with additional features). 
 - No memory is read
 - Doesn’t interact with DBD’s process
 - Just an overlay that analyzes HUD pixels
-
-Think of it like a sticky note on your screen — legal, simple, and safe.
 </details>
 
 ## How to use
@@ -82,7 +86,7 @@ The app is unsigned, so your antivirus might view it as a threat.
 
 **SHA256**: `D559A65DDA8D9944D4BAFA1144E2CBFC29B2A761F755A0A8C9F1CE198060E0F3`
 
-This hash lets users verify the file is untampered. If you’re unsure, scan the file on [VirusTotal](https://virustotal.com/) or build from source.
+This hash lets users verify the file is untampered with. If you’re unsure, scan the file on [VirusTotal](https://virustotal.com/) or build from source.
 
 ## Acknowledgements
 [@Nemonn](https://github.com/nemonn) - Thanks for helping out with the materials and for the good advice!
