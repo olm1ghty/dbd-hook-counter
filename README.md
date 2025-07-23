@@ -42,7 +42,7 @@ Mostly, it monitors survivors' portraits and the space around them. When it sees
 </details>
 
 ## Yes, it even works with video
-Since it's not dependent on any game processes, you can apply it to a video feed. For example, you can use it while watching a stream to keep track of the game situation.
+Since it's not dependent on any game processes, you can apply it to a video feed. For example, turn it on while watching your favorite streamer to keep track of the game situation.
 ![stream](readme_images/stream.png)
 
 ## How to use
