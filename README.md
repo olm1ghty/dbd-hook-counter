@@ -3,7 +3,7 @@
 <div align="center">
 
 ### [Download](https://github.com/olm1ghty/dbd-hook-counter/releases/download/1.1/DBD.Hook.Counter.zip)
-**SHA256**: `D559A65DDA8D9944D4BAFA1144E2CBFC29B2A761F755A0A8C9F1CE198060E0F3`
+**SHA256**: `C9A974AAEFBA1BC9FE09D14FCE02DB26CB801C31ADA2F5502E30D4083E86CCCC`
 
 
 ## *Display hook stages when playing killer*
@@ -89,7 +89,7 @@ If it doesn't work, try Shift + R to restart the app or make sure that you confi
 ## Antivirus
 The app is unsigned, so your antivirus might view it as a threat.
 
-**SHA256**: `D559A65DDA8D9944D4BAFA1144E2CBFC29B2A761F755A0A8C9F1CE198060E0F3`
+**SHA256**: `C9A974AAEFBA1BC9FE09D14FCE02DB26CB801C31ADA2F5502E30D4083E86CCCC`
 
 This hash lets users verify the file is untampered with. If you’re unsure, scan the file on [VirusTotal](https://virustotal.com/) or build from source.
 
