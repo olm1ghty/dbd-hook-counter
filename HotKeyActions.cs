@@ -50,7 +50,7 @@ public class HotKeyActions
             form.keybindsForm.FormClosed += (_, __) => form.EnableInput(false);
         }
 
-        var screenBounds = screen.WorkingArea;
+        var screenBounds = Screen.FromPoint(Cursor.Position).WorkingArea;
         Point desiredLocation = Cursor.Position;
 
         // Clamp the form’s location to the screen bounds
