@@ -53,11 +53,11 @@ Since it's not dependent on any game processes, you can apply it to a video feed
 > Multiple monitors? Launch the app on the same monitor you launch DBD.
 ---
 
-1. Launch the app.
-2. Shift + M to open settings.
-3. Set UI and HUD scale to match those you have in DBD's graphics settings.
-4. Save settings.
-5. Play DBD while this app is running, and it will do its thing automatically.
+1. Launch DBD.
+2. Launch this app.
+3. Shift + M to open settings.
+4. Set UI and HUD scale to match those you have in DBD's graphics settings.
+5. Save settings.
 
 <div align="center">
 
