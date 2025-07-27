@@ -94,7 +94,7 @@ The app is unsigned, so your antivirus might view it as a threat.
 This hash lets users verify the file is untampered with. If you’re unsure, scan the file on [VirusTotal](https://virustotal.com/) or build from source.
 
 ## Contact me
-Ping me on Discord: "0lmighty"
+💬 Ping me on Discord: "0lmighty"
 
 ## Acknowledgements
 [@Nemonn](https://github.com/nemonn) - Thanks for helping out with the materials and for the good advice!
