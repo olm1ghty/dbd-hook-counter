@@ -21,6 +21,8 @@ namespace DBD_Hook_Counter
         float hookSVGscaleX;
         float hookSVGscaleY;
 
+        float timerFontSize;
+
         public OverlayRenderer(TransparentOverlayForm form)
         {
             this.form = form;
@@ -48,6 +50,7 @@ namespace DBD_Hook_Counter
             hookSVGscaleY = desiredHeight / svgHeight;
 
             hookCounterSVG.FillOpacity = 0.80f;
+            timerFontSize = form.scaler.ScaleFontSize(Properties.Settings.Default.timerFontSize);
         }
 
         public void DrawOverlay()
@@ -112,7 +115,7 @@ namespace DBD_Hook_Counter
                 foreach (var timer in list)
                 {
                     string txt = timer.SecondsRemaining.ToString();
-                    using (Font f = new Font("Segoe UI", 12, System.Drawing.FontStyle.Bold))
+                    using (Font f = new Font("Segoe UI", timerFontSize, System.Drawing.FontStyle.Bold))
                     using (Brush b = new SolidBrush(timer.color))
                     {
                         graphics.DrawString(txt, f, b, timer.Position);

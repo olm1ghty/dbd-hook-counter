@@ -118,5 +118,29 @@ namespace DBD_Hook_Counter.Properties {
                 this["manualMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool otrTimerEnabled {
+            get {
+                return ((bool)(this["otrTimerEnabled"]));
+            }
+            set {
+                this["otrTimerEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("12")]
+        public int timerFontSize {
+            get {
+                return ((int)(this["timerFontSize"]));
+            }
+            set {
+                this["timerFontSize"] = value;
+            }
+        }
     }
 }

@@ -3,7 +3,7 @@
 <div align="center">
 
 ### [Download](https://github.com/olm1ghty/dbd-hook-counter/releases/download/1.2/DBD.Hook.Counter.zip)
-**SHA256**: `C9A974AAEFBA1BC9FE09D14FCE02DB26CB801C31ADA2F5502E30D4083E86CCCC`
+**SHA256**: `EEF9D4E2642553C585D7784F7A8AFF4448BFE75DB112E25A37592038241163A8`
 
 
 ## *Display hook stages when playing killer*
@@ -17,14 +17,14 @@ This is a Dead by Daylight hook counter for killers (with additional features). 
 <summary>❓ How it works</summary>
 It's a Windows Forms app made with C#. I'm using Emgu.CV library to monitor the HUD.
 
-Mostly, it monitors survivors' portraits and the space around them. When it sees that the survivor is hooked, it adds a hook stage on the screen. When it sees that the survivor is unhooked, it adds a DS and off-hook Endurance timer on the screen (optional, can be switched off).
+Mostly, it monitors survivors' portraits and the space around them. When it sees that the survivor is hooked, it adds a hook stage on the screen. When it sees that the survivor is unhooked, it adds a DS, OTR, and off-hook Endurance timer on the screen (optional, can be switched off).
 </details>
 
 ## Features
 - ⚙️ Fully automatic (HUD-based tracking)
 - 🧠 Manual mode if you prefer full control
 - 🎯 Hook stage counter for all survivors
-- ⏱️ DS & Endurance timers (optional)
+- ⏱️ DS, OTR, & Endurance timers (optional)
 - 🖥️ Works on any resolution (16:9, 16:10)
 - 🔒 Doesn’t store or send any data — it's all local and discarded immediately
 - 🧼 Hides itself in menus, only shows in match
@@ -89,7 +89,7 @@ If it doesn't work, try Shift + R to restart the app or make sure that you confi
 ## Antivirus
 The app is unsigned, so your antivirus might view it as a threat.
 
-**SHA256**: `C9A974AAEFBA1BC9FE09D14FCE02DB26CB801C31ADA2F5502E30D4083E86CCCC`
+**SHA256**: `EEF9D4E2642553C585D7784F7A8AFF4448BFE75DB112E25A37592038241163A8`
 
 This hash lets users verify the file is untampered with. If you’re unsure, scan the file on [VirusTotal](https://virustotal.com/) or build from source.
 

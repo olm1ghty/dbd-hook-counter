@@ -12,6 +12,7 @@ public sealed class HotKeyManager : IDisposable
     private int nextId = 1;
 
     private const int VK_ESCAPE = 0x1B;
+    private bool paused = false;
 
     public HotKeyManager(Form host, HotKeyActions actions)
     {
@@ -81,6 +82,24 @@ public sealed class HotKeyManager : IDisposable
                 return true;
             }
             return false;
+        }
+    }
+
+    public void PauseHotkeys()
+    {
+        if (!paused)
+        {
+            paused = true;
+            UnregisterAll();
+        }
+    }
+
+    public void ResumeHotkeys()
+    {
+        if (paused)
+        {
+            paused = false;
+            RegisterAll();
         }
     }
 

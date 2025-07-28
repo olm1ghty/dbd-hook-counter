@@ -147,4 +147,17 @@ public class Scaler
 
         return (int)Math.Round(coordinate * resolutionScale * HUDScale);
     }
+
+    public float ScaleFontSize(float baseFontSize, bool isMenu = false)
+    {
+        float scaleX = resolutionScaleX;
+        float scaleY = resolutionScaleY;
+        float scale = isMenu ? MenuScale : HUDScale;
+
+        // Use the average scale to maintain aspect ratio
+        float averageScale = (scaleX + scaleY) / 2f;
+
+        return baseFontSize * averageScale * scale;
+    }
+
 }

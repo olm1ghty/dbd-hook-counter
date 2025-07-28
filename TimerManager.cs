@@ -6,15 +6,17 @@
 
         public List<TimerData>[] timers = new List<TimerData>[4];
 
-        private int hook = 11;
+        private int unhookEndurance = 11;
         private int ds = 61;
+        private int otr = 81;
 
-        public int timerStartXoffset = 215;
-        public int timerStartYoffset = 10;
-        public int timerDistanceYoffset = 20;
+        public int timerStartXoffset = -215;
+        public int timerStartYoffset = -10;
+        public int timerSpacingOffset = 34;
 
         public bool dsTimerEnabled;
         public bool enduranceTimerEnabled;
+        public bool otrTimerEnabled;
 
         public TimerManager(TransparentOverlayForm form)
         {
@@ -22,7 +24,7 @@
 
             timerStartXoffset = form.scaler.ScaleOffsetX(timerStartXoffset);
             timerStartYoffset = form.scaler.ScaleOffsetX(timerStartYoffset);
-            timerDistanceYoffset = form.scaler.ScaleOffsetX(timerDistanceYoffset);
+            timerSpacingOffset = form.scaler.ScaleOffsetX(timerSpacingOffset);
 
             for (int i = 0; i < 4; i++)
             {
@@ -31,17 +33,18 @@
 
             dsTimerEnabled = Properties.Settings.Default.dsTimerEnabled;
             enduranceTimerEnabled = Properties.Settings.Default.enduranceTimerEnabled;
+            otrTimerEnabled = Properties.Settings.Default.otrTimerEnabled;
         }
 
         public void AddTimer(int seconds, Color color, int survivorIndex = -1)
         {
-            timers[survivorIndex].Add(new TimerData(seconds, CalculatePosition(survivorIndex), color));
+            timers[survivorIndex].Add(new TimerData(seconds, CalculateNewTimerPosition(survivorIndex), color));
         }
 
-        Point CalculatePosition(int survivorIndex = -1)
+        Point CalculateNewTimerPosition(int survivorIndex = -1)
         {
-            int x = (int)(form.overlayRenderer.hookStageCounterStartX - timerStartXoffset);
-            int y = (int)(form.overlayRenderer.hookStageCounterStartY + (form.overlayRenderer.hookStageCounterOffset * survivorIndex) - timerStartYoffset);
+            int x = (int)(form.overlayRenderer.hookStageCounterStartX + timerStartXoffset);
+            int y = (int)(form.overlayRenderer.hookStageCounterStartY + (form.overlayRenderer.hookStageCounterOffset * survivorIndex) + timerStartYoffset);
 
             if (survivorIndex == -1)
             {
@@ -50,7 +53,7 @@
 
             if (timers[survivorIndex].Count > 0)
             {
-                y += timerDistanceYoffset;
+                y += timerSpacingOffset * timers[survivorIndex].Count;
             }
 
             return new Point(x, y);
@@ -108,33 +111,57 @@
             }
         }
 
+        //public void ArrangeTimers()
+        //{
+        //    for (int i = 0; i < timers.Length; i++)
+        //    {
+        //        foreach (var timer in timers[i])
+        //        {
+        //            int x = (int)(form.overlayRenderer.hookStageCounterStartX - timerStartXoffset);
+        //            int y = (int)(form.overlayRenderer.hookStageCounterStartY + (form.overlayRenderer.hookStageCounterOffset * i) - timerStartYoffset);
+
+        //            if (i == -1)
+        //            {
+        //                i = 0;
+        //            }
+
+        //            if (timers[i].Count > 1)
+        //            {
+        //                if (timers[i][0] == timer)
+        //                {
+        //                    y -= timerDistanceYoffset;
+        //                }
+        //                else if (timers[i][1] == timer)
+        //                {
+        //                    y += timerDistanceYoffset;
+        //                }
+        //            }
+
+        //            timer.Position = new Point(x, y);
+        //        }
+        //    }
+        //}
+
         public void ArrangeTimers()
         {
+            int clusterCenterX = (int)(form.overlayRenderer.hookStageCounterStartX + timerStartXoffset);
+            int clusterCenterY = (int)(form.overlayRenderer.hookStageCounterStartY + timerStartYoffset);
+            float timerSpacing = timerSpacingOffset; // must be float for precise spacing
+
             for (int i = 0; i < timers.Length; i++)
             {
-                foreach (var timer in timers[i])
+                List<TimerData> timerGroup = timers[i];
+                int count = timerGroup.Count;
+
+                for (int j = 0; j < count; j++)
                 {
-                    int x = (int)(form.overlayRenderer.hookStageCounterStartX - timerStartXoffset);
-                    int y = (int)(form.overlayRenderer.hookStageCounterStartY + (form.overlayRenderer.hookStageCounterOffset * i) - timerStartYoffset);
+                    // Keep offsetFromCenter as float
+                    float offsetFromCenter = j - (count - 1) / 2.0f;
 
-                    if (i == -1)
-                    {
-                        i = 0;
-                    }
+                    int x = clusterCenterX;
+                    int y = (int)(clusterCenterY + form.overlayRenderer.hookStageCounterOffset * i + offsetFromCenter * timerSpacing);
 
-                    if (timers[i].Count > 1)
-                    {
-                        if (timers[i][0] == timer)
-                        {
-                            y -= timerDistanceYoffset;
-                        }
-                        else if (timers[i][1] == timer)
-                        {
-                            y += timerDistanceYoffset;
-                        }
-                    }
-
-                    timer.Position = new Point(x, y);
+                    timerGroup[j].Position = new Point(x, y);
                 }
             }
         }
@@ -143,13 +170,17 @@
         {
             RemoveTimer(index);
 
+            if (otrTimerEnabled)
+            {
+                AddTimer(otr, Color.White, index);
+            }
             if (dsTimerEnabled)
             {
                 AddTimer(ds, Color.Red, index);
             }
             if (enduranceTimerEnabled)
             {
-                AddTimer(hook, Color.White, index);
+                AddTimer(unhookEndurance, Color.White, index);
             }
         }
 
@@ -161,13 +192,17 @@
             }
             else
             {
+                if (otrTimerEnabled)
+                {
+                    AddTimer(otr, Color.White, index);
+                }
                 if (dsTimerEnabled)
                 {
                     AddTimer(ds, Color.Red, index);
                 }
                 if (enduranceTimerEnabled)
                 {
-                    AddTimer(hook, Color.White, index);
+                    AddTimer(unhookEndurance, Color.White, index);
                 }
             }
         }

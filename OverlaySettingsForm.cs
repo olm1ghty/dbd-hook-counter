@@ -16,7 +16,7 @@ public class OverlaySettingsForm : Form
         TopMost = true;
         AutoSize = true;
         AutoSizeMode = AutoSizeMode.GrowAndShrink;
-        Text = "Overlay Settings";
+        Text = "Overlay settings";
         Font = new Font("Segoe UI", 10);
         BackColor = Color.FromArgb(30, 30, 30);
         ForeColor = Color.White;
@@ -33,7 +33,7 @@ public class OverlaySettingsForm : Form
         var comboStyle = ComboBoxStyle.DropDownList;
 
         // --- UI scale
-        var uiLabel = new Label { Text = "UI Scale (in-game setting)", AutoSize = true, Margin = labelMargin };
+        var uiLabel = new Label { Text = "UI scale (in-game setting)", AutoSize = true, Margin = labelMargin };
         var uiBox = CreateComboBox(form.scaler.MenuScales, Properties.Settings.Default.DropdownUI);
         uiBox.SelectedIndexChanged += (_, __) =>
         {
@@ -41,7 +41,7 @@ public class OverlaySettingsForm : Form
         };
 
         // --- HUD scale
-        var hudLabel = new Label { Text = "HUD Scale (in-game setting)", AutoSize = true, Margin = labelMargin };
+        var hudLabel = new Label { Text = "HUD scale (in-game setting)", AutoSize = true, Margin = labelMargin };
         var hudBox = CreateComboBox(form.scaler.HUDscales, Properties.Settings.Default.DropdownHUD);
         hudBox.SelectedIndexChanged += (_, __) =>
         {
@@ -49,14 +49,21 @@ public class OverlaySettingsForm : Form
         };
 
         // --- Checkboxes
-        var dsCheckBox = CreateCheckbox("DS Timer", form.timerManager.dsTimerEnabled);
+        var otrCheckBox = CreateCheckbox("OTR timer", form.timerManager.otrTimerEnabled);
+        otrCheckBox.CheckedChanged += (_, __) =>
+        {
+            form.timerManager.otrTimerEnabled = otrCheckBox.Checked;
+            Properties.Settings.Default.otrTimerEnabled = otrCheckBox.Checked;
+        };
+
+        var dsCheckBox = CreateCheckbox("DS timer", form.timerManager.dsTimerEnabled);
         dsCheckBox.CheckedChanged += (_, __) =>
         {
             form.timerManager.dsTimerEnabled = dsCheckBox.Checked;
             Properties.Settings.Default.dsTimerEnabled = dsCheckBox.Checked;
         };
 
-        var enduranceCheckBox = CreateCheckbox("Endurance Timer", form.timerManager.enduranceTimerEnabled);
+        var enduranceCheckBox = CreateCheckbox("Endurance timer", form.timerManager.enduranceTimerEnabled);
         enduranceCheckBox.CheckedChanged += (_, __) =>
         {
             form.timerManager.enduranceTimerEnabled = enduranceCheckBox.Checked;
@@ -69,6 +76,31 @@ public class OverlaySettingsForm : Form
             form.gameManager.manualMode = manualCheckBox.Checked;
             Settings.Default.manualMode = manualCheckBox.Checked;
         };
+
+        // --- Timer font size
+        var timerFontSizeLabel = new Label
+        {
+            Text = "Timer font size",
+            AutoSize = true,
+            Margin = new Padding(0, 10, 0, 0)
+        };
+
+        var timerFontSizeTextBox = new TextBox
+        {
+            Width = 200,
+            Text = Properties.Settings.Default.timerFontSize.ToString(),
+            BackColor = Color.FromArgb(50, 50, 50),
+            ForeColor = Color.White,
+            BorderStyle = BorderStyle.FixedSingle
+        };
+
+        timerFontSizeTextBox.KeyPress += (sender, e) =>
+         {
+             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+             {
+                 e.Handled = true; // Block non-numeric input
+             }
+         };
 
         // --- Save + restart button
         var saveBtn = new Button
@@ -93,6 +125,17 @@ public class OverlaySettingsForm : Form
             Settings.Default.DropdownHUD = hudBox.SelectedIndex;
             Settings.Default.dsTimerEnabled = dsCheckBox.Checked;
             Settings.Default.enduranceTimerEnabled = enduranceCheckBox.Checked;
+            Settings.Default.otrTimerEnabled = otrCheckBox.Checked;
+
+            if (int.TryParse(timerFontSizeTextBox.Text, out int intValue))
+            {
+                Settings.Default.timerFontSize = intValue;
+            }
+            else
+            {
+                MessageBox.Show("Please enter a valid number.");
+                return;
+            }
 
             Settings.Default.Save();
 
@@ -113,8 +156,10 @@ public class OverlaySettingsForm : Form
         layout.Controls.AddRange(new Control[] {
             uiLabel, uiBox,
             hudLabel, hudBox,
+            otrCheckBox,
             dsCheckBox,
             enduranceCheckBox,
+            timerFontSizeLabel, timerFontSizeTextBox,
             manualCheckBox,
             saveBtn
         });
@@ -152,6 +197,7 @@ public class OverlaySettingsForm : Form
 
     protected override void OnDeactivate(EventArgs e)
     {
+        form.hotkeyManager.ResumeHotkeys();
         form.hotkeyActions.UnpauseApp();
         base.OnDeactivate(e);
         this.Close();

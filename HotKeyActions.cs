@@ -12,6 +12,7 @@ public class HotKeyActions
 
     public void ShowSettings()
     {
+        form.hotkeyManager.PauseHotkeys();
         PauseApp();
         form.EnableInput(true);
 
