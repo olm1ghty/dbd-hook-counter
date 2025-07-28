@@ -28,7 +28,7 @@
 
         public override void Update()
         {
-            //if (form.screenChecker.UIenabled())
+            if (form.screenChecker.UIenabled())
             {
                 GameStateBase nextState;
 

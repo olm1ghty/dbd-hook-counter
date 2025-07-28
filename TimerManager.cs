@@ -110,43 +110,11 @@
                 timerList.Clear();
             }
         }
-
-        //public void ArrangeTimers()
-        //{
-        //    for (int i = 0; i < timers.Length; i++)
-        //    {
-        //        foreach (var timer in timers[i])
-        //        {
-        //            int x = (int)(form.overlayRenderer.hookStageCounterStartX - timerStartXoffset);
-        //            int y = (int)(form.overlayRenderer.hookStageCounterStartY + (form.overlayRenderer.hookStageCounterOffset * i) - timerStartYoffset);
-
-        //            if (i == -1)
-        //            {
-        //                i = 0;
-        //            }
-
-        //            if (timers[i].Count > 1)
-        //            {
-        //                if (timers[i][0] == timer)
-        //                {
-        //                    y -= timerDistanceYoffset;
-        //                }
-        //                else if (timers[i][1] == timer)
-        //                {
-        //                    y += timerDistanceYoffset;
-        //                }
-        //            }
-
-        //            timer.Position = new Point(x, y);
-        //        }
-        //    }
-        //}
-
         public void ArrangeTimers()
         {
             int clusterCenterX = (int)(form.overlayRenderer.hookStageCounterStartX + timerStartXoffset);
             int clusterCenterY = (int)(form.overlayRenderer.hookStageCounterStartY + timerStartYoffset);
-            float timerSpacing = timerSpacingOffset; // must be float for precise spacing
+            float timerSpacing = timerSpacingOffset;
 
             for (int i = 0; i < timers.Length; i++)
             {
@@ -155,7 +123,6 @@
 
                 for (int j = 0; j < count; j++)
                 {
-                    // Keep offsetFromCenter as float
                     float offsetFromCenter = j - (count - 1) / 2.0f;
 
                     int x = clusterCenterX;

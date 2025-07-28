@@ -26,7 +26,7 @@
             {
                 stateManager.SwitchState(stateManager.stateLobby);
             }
-            else /*if (form.screenChecker.UIenabled())*/ if (true)
+            else if (form.screenChecker.UIenabled())
             {
                 foreach (var survivor in form.survivorManager.survivors)
                 {
