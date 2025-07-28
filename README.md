@@ -76,15 +76,15 @@ You will know that it's set up correctly by seeing empty hook counters on the UI
 If it doesn't work, try Shift + R to restart the app or make sure that you configured your UI/HUD scales correctly in the settings menu.
 
 ## Controls
-- Shift + H - Hot keys.
-- Shift + M - Settings.
-- Shift + K - Exit the app.
-- Shift + R - Restart the app.
-- Shift + P - Pause/Unpause the app (if playing survivor, for example)
-- 1/2/3/4 - Manually add a hook stage. If the hook counter is at 2, set it to 0.
-- 5 - Clear all hook stages.
-- Shift + 1/2/3/4 - Manually trigger unhook timers.
-- Shift + 5 - Clear all timers.
+- *Shift + H* - Hot keys.
+- *Shift* + M - Settings.
+- *Shift* + K - Exit the app.
+- *Shift* + R - Restart the app.
+- *Shift* + P - Pause/Unpause the app (if playing survivor, for example)
+- *1/2/3/4* - Manually add a hook stage. If the hook counter is at 2, set it to 0.
+- *5* - Clear all hook stages.
+- *Shift + 1/2/3/4* - Manually trigger unhook timers.
+- *Shift + 5* - Clear all timers.
 
 ## Antivirus
 The app is unsigned, so your antivirus might view it as a threat.
