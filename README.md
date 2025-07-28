@@ -2,7 +2,7 @@
 
 <div align="center">
 
-### [Download](https://github.com/olm1ghty/dbd-hook-counter/releases/download/1.2/DBD.Hook.Counter.zip)
+### [Download](https://github.com/olm1ghty/dbd-hook-counter/releases/download/1.3/DBD.Hook.Counter.zip)
 **SHA256**: `EEF9D4E2642553C585D7784F7A8AFF4448BFE75DB112E25A37592038241163A8`
 
 
