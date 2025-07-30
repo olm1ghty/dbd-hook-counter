@@ -10,7 +10,7 @@ namespace DBD_Hook_Counter
         Rectangle searchArea = new();
 
         float hookedThreshold = 0.6f;
-        float moriedThreshold = 0.55f;
+        float moriedThreshold = 0.6f;
 
         public SurvivorStateUnhooked(int index, Rectangle searchArea, TransparentOverlayForm form)
         {
