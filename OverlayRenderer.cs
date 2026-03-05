@@ -59,53 +59,53 @@ namespace DBD_Hook_Counter
             graphics.Clear(Color.Transparent);
 
             // --- draw hook stages ---
-            for (int i = 0; i < form.survivorManager.survivors.Length; i++)
-            {
-                hookCounterSVG.Fill = new SvgColourServer(Color.Transparent);
+            //for (int i = 0; i < form.survivorManager.survivors.Length; i++)
+            //{
+            //    hookCounterSVG.Fill = new SvgColourServer(Color.Transparent);
 
-                SvgElement leftHook = hookCounterSVG.GetElementById("leftHook");
-                leftHook.Fill = new SvgColourServer(Color.Transparent);
+            //    SvgElement leftHook = hookCounterSVG.GetElementById("leftHook");
+            //    leftHook.Fill = new SvgColourServer(Color.Transparent);
 
-                SvgElement rightHook = hookCounterSVG.GetElementById("rightHook");
-                rightHook.Fill = new SvgColourServer(Color.Transparent);
+            //    SvgElement rightHook = hookCounterSVG.GetElementById("rightHook");
+            //    rightHook.Fill = new SvgColourServer(Color.Transparent);
 
-                switch (form.survivorManager.survivors[i].hookStages)
-                {
-                    case 0:
-                        leftHook.Fill = new SvgColourServer(Color.Black);
-                        rightHook.Fill = new SvgColourServer(Color.Black);
-                        break;
+            //    switch (form.survivorManager.survivors[i].hookStages)
+            //    {
+            //        case 0:
+            //            leftHook.Fill = new SvgColourServer(Color.Black);
+            //            rightHook.Fill = new SvgColourServer(Color.Black);
+            //            break;
 
-                    case 1:
-                        leftHook.Fill = new SvgColourServer(Color.White);
-                        rightHook.Fill = new SvgColourServer(Color.Black);
-                        break;
+            //        case 1:
+            //            leftHook.Fill = new SvgColourServer(Color.White);
+            //            rightHook.Fill = new SvgColourServer(Color.Black);
+            //            break;
 
-                    case 2:
-                        leftHook.Fill = new SvgColourServer(Color.White);
-                        rightHook.Fill = new SvgColourServer(Color.White);
-                        break;
-                }
+            //        case 2:
+            //            leftHook.Fill = new SvgColourServer(Color.White);
+            //            rightHook.Fill = new SvgColourServer(Color.White);
+            //            break;
+            //    }
 
-                var svgBounds = hookCounterSVG.Bounds;
+            //    var svgBounds = hookCounterSVG.Bounds;
 
-                // Anchor to center
-                float anchorX = svgBounds.Width / 2f;
-                float anchorY = svgBounds.Height / 2f;
+            //    // Anchor to center
+            //    float anchorX = svgBounds.Width / 2f;
+            //    float anchorY = svgBounds.Height / 2f;
 
-                var state = graphics.Save();
-                graphics.TranslateTransform(
-                    hookStageCounterStartX,
-                    hookStageCounterStartY + (i * hookStageCounterOffset)
-                );
-                graphics.ScaleTransform(hookSVGscaleX, hookSVGscaleY);
+            //    var state = graphics.Save();
+            //    graphics.TranslateTransform(
+            //        hookStageCounterStartX,
+            //        hookStageCounterStartY + (i * hookStageCounterOffset)
+            //    );
+            //    graphics.ScaleTransform(hookSVGscaleX, hookSVGscaleY);
 
-                // Shift origin back to center of the SVG
-                graphics.TranslateTransform(-anchorX, -anchorY);
+            //    // Shift origin back to center of the SVG
+            //    graphics.TranslateTransform(-anchorX, -anchorY);
 
-                hookCounterSVG.Draw(graphics);
-                graphics.Restore(state);
-            }
+            //    hookCounterSVG.Draw(graphics);
+            //    graphics.Restore(state);
+            //}
 
             form.timerManager.RemoveExpiredTimers();
 

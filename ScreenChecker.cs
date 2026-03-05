@@ -126,7 +126,6 @@ namespace DBD_Hook_Counter
             return match;
         }
 
-
         Mat CaptureScreenMat()
         {
             Rectangle roi = form.screen.Bounds;

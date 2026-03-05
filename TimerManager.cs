@@ -6,9 +6,9 @@
 
         public List<TimerData>[] timers = new List<TimerData>[4];
 
-        private int unhookEndurance = 11;
+        private int unhookEndurance = 16;
         private int ds = 61;
-        private int otr = 81;
+        private int otr = 41;`
 
         public int timerStartXoffset = -215;
         public int timerStartYoffset = -10;
